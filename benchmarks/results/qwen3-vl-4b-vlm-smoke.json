@@ -1,0 +1,25 @@
+{
+  "model_id": "qwen3-vl-4b",
+  "platform": "apple-silicon-local",
+  "quantization": "Q4_K_M+mmproj-F16",
+  "artifact_sha256": "66358cb18bb6b3b1b6675aa412c7a88ef01d228f481184d13668e5201c730a0a",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": 32.8,
+  "final_decode_tps": 32.8,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 3333.5,
+  "metadata": {
+    "mmproj": "artifacts/qwen3-vl-4b-q4/mmproj-Qwen3VL-4B-Instruct-F16.gguf",
+    "context_size": 8192,
+    "input": "합성 사탕 이미지",
+    "response": "손에 콜라보 캐릭터가 그려진 콜라보 캔디들이 들어져 있어요.",
+    "measured_output": "[ Prompt: 141.2 t/s | Generation: 32.8 t/s ]",
+    "limitation": "single VLM smoke; not a 20-minute vision thermal run"
+  }
+}

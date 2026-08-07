@@ -1,0 +1,79 @@
+[2026-08-07 15:04:49] INFO auto_config.py:67: [92mFound[0m model configuration: /tmp/qwen35-9b-mlc-config/mlc-chat-config.json
+[2026-08-07 15:04:49] INFO auto_config.py:151: [92mFound[0m model type: [1mqwen3_5[0m. Use `--model-type` to override.
+[2026-08-07 15:04:49] INFO compile.py:244: Active vocab size from input config: 248077
+[2026-08-07 15:04:49] INFO compile.py:133: TOP LEVEL MODEL CONFIG BEFORE OVERRIDES: Qwen35Config(hidden_size=4096, intermediate_size=12288, num_attention_heads=16, num_hidden_layers=32, num_key_value_heads=4, rms_norm_eps=1e-06, vocab_size=248320, rope_theta=10000000, head_dim=256, hidden_act='silu', attention_bias=False, tie_word_embeddings=False, linear_key_head_dim=128, linear_value_head_dim=128, linear_num_key_heads=16, linear_num_value_heads=32, linear_conv_kernel_dim=4, full_attention_interval=4, partial_rotary_factor=0.25, context_window_size=262144, prefill_chunk_size=2048, tensor_parallel_shards=1, dtype='bfloat16', max_batch_size=128, kwargs={'active_vocab_size': 248077})
+[2026-08-07 15:04:49] INFO compile.py:144: Creating model from: Qwen35Config(hidden_size=4096, intermediate_size=12288, num_attention_heads=16, num_hidden_layers=32, num_key_value_heads=4, rms_norm_eps=1e-06, vocab_size=248320, rope_theta=10000000, head_dim=256, hidden_act='silu', attention_bias=False, tie_word_embeddings=False, linear_key_head_dim=128, linear_value_head_dim=128, linear_num_key_heads=16, linear_num_value_heads=32, linear_conv_kernel_dim=4, full_attention_interval=4, partial_rotary_factor=0.25, context_window_size=262144, prefill_chunk_size=2048, tensor_parallel_shards=1, dtype='bfloat16', max_batch_size=128, kwargs={})
+[2026-08-07 15:04:49] INFO compile.py:162: Exporting the model to TVM compiler
+[2026-08-07 15:04:54] INFO compile.py:168: Running optimizations using TVM
+[2026-08-07 15:04:54] INFO compile.py:197: Registering metadata: {'model_type': 'qwen3_5', 'quantization': 'q4f16_1', 'context_window_size': 262144, 'sliding_window_size': -1, 'attention_sink_size': -1, 'prefill_chunk_size': 2048, 'tensor_parallel_shards': 1, 'pipeline_parallel_stages': 1, 'disaggregation': False, 'kv_state_kind': 'hybrid', 'max_batch_size': 128, 'active_vocab_size': 248077, 'model_task': 'chat'}
+[2026-08-07 15:04:54] WARNING auto_target.py:149: [1m--system-lib-prefix[0m is not specified when building a static library
+[2026-08-07 15:04:56] INFO pipeline.py:57: Running TVM Relax graph-level optimizations
+[2026-08-07 15:04:57] INFO pipeline.py:57: Lowering to TVM TIR kernels
+[15:04:58] /private/tmp/mlc-llm-6474/3rdparty/tvm/include/tvm/topi/transform.h:1258: Warning: Fast mode segfaults when there are out-of-bounds indices. Make sure input indices are in bound
+[15:04:59] /private/tmp/mlc-llm-6474/3rdparty/tvm/include/tvm/topi/transform.h:1258: Warning: Fast mode segfaults when there are out-of-bounds indices. Make sure input indices are in bound
+[2026-08-07 15:05:00] INFO pipeline.py:57: Running TVM TIR-level optimizations
+[2026-08-07 15:05:05] INFO pipeline.py:57: Running TVM Dlight low-level optimizations
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:05] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:06] WARNING common_analysis.py:387: Target webgpu missing 'max_shared_memory_per_block'; using 16384 bytes.
+[2026-08-07 15:05:07] INFO pipeline.py:57: Lowering to VM bytecode
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `alloc_embedding_tensor`: 16.00 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `argsort_probs`: 0.00 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `batch_decode`: 658.29 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `batch_prefill`: 411.92 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `batch_verify`: 2230.67 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `create_rnn_state`: 0.00 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `create_tir_paged_kv_cache`: 0.00 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `embed`: 16.00 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `sample_with_top_p`: 0.00 MB
+[2026-08-07 15:05:09] INFO estimate_memory_usage.py:58: [Memory usage] Function `softmax_with_temperature`: 0.00 MB
+[2026-08-07 15:05:09] INFO pipeline.py:57: Compiling external modules
+[2026-08-07 15:05:09] INFO pipeline.py:57: Compilation complete! Exporting to disk
+[15:05:14] /private/tmp/mlc-llm-6474/3rdparty/tvm/src/target/llvm/llvm_instance.cc:963: Warning: Set native vector bits to be 128 for `wasm32`, use -vector-width=XXX to override.
+[2026-08-07 15:06:04] INFO model_metadata.py:91: [92mTotal memory usage without KV cache[0m: 7035.32 MB (Parameters: 4804.65 MB. Temporary buffer: 2230.67 MB)
+[2026-08-07 15:06:04] INFO model_metadata.py:125: [92mKV cache size[0m: 0.12 MB per token in the context window
+[2026-08-07 15:06:04] INFO model_metadata.py:130: [92mTotal memory usage with a 4K KV cache[0m: 7547.32 MB
+[2026-08-07 15:06:04] INFO model_metadata.py:136: To reduce memory usage, tweak `prefill_chunk_size`, `context_window_size` and `sliding_window_size`
+[2026-08-07 15:06:04] INFO compile.py:225: Generated: [1m/Users/m1ns2o128/Documents/project/llm-service/artifacts/compat-runtime/qwen35-9b-webgpu/Qwen3.5-9B-q4f16_1-MLC-webgpu.wasm[0m
+[1mCompiling with arguments:[0m
+  [1m--config[0m          Qwen35Config(hidden_size=4096, intermediate_size=12288, num_attention_heads=16, num_hidden_layers=32, num_key_value_heads=4, rms_norm_eps=1e-06, vocab_size=248320, rope_theta=10000000, head_dim=256, hidden_act='silu', attention_bias=False, tie_word_embeddings=False, linear_key_head_dim=128, linear_value_head_dim=128, linear_num_key_heads=16, linear_num_value_heads=32, linear_conv_kernel_dim=4, full_attention_interval=4, partial_rotary_factor=0.25, context_window_size=262144, prefill_chunk_size=2048, tensor_parallel_shards=1, dtype='bfloat16', max_batch_size=128, kwargs={'active_vocab_size': 248077})
+  [1m--quantization[0m    GroupQuantize(name='q4f16_1', kind='group-quant', group_size=32, quantize_dtype='int4', storage_dtype='uint32', model_dtype='float16', linear_weight_layout='NK', quantize_embedding=True, quantize_final_fc=True, num_elem_per_storage=8, num_storage_per_group=4, max_int_value=7, tensor_parallel_shards=0)
+  [1m--model-type[0m      qwen3_5
+  [1m--target[0m          {"kind": "webgpu", "tag": "", "keys": ("webgpu", "gpu"), "host": {"kind": "llvm", "tag": "", "keys": ("cpu",), "mtriple": "wasm32-unknown-unknown-wasm"}, "thread_warp_size": 1, "supports_subgroups": False, "max_num_threads": 256}
+  [1m--opt[0m             flashinfer=0;cublas_gemm=0;faster_transformer=0;cudagraph=0;cutlass=0;ipc_allreduce_strategy=NONE
+  [1m--system-lib-prefix[0m ""
+  [1m--output[0m          /Users/m1ns2o128/Documents/project/llm-service/artifacts/compat-runtime/qwen35-9b-webgpu/Qwen3.5-9B-q4f16_1-MLC-webgpu.wasm
+  [1m--overrides[0m       context_window_size=None;sliding_window_size=None;prefill_chunk_size=None;attention_sink_size=None;max_batch_size=None;tensor_parallel_shards=None;pipeline_parallel_stages=None;disaggregation=None

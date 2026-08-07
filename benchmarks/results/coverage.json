@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-08-07",
+  "scope": "requested S/L/P/X combinations",
+  "status_legend": {
+    "measured": "the named model or handoff was executed with a real local runtime",
+    "component_only": "both components were executed, but this exact handoff was not",
+    "not_run": "a compatible artifact/runtime was not available in this run"
+  },
+  "combinations": {
+    "S1": {"status": "measured", "evidence": ["qwen35-4b-vlm-smoke.json"]},
+    "S2": {"status": "measured", "evidence": ["S2-ax-vl-light-transformers.json"], "note": "Official 4-shard Transformers checkpoint loaded and produced text plus image responses; CPU BF16 smoke only"},
+    "S3": {"status": "measured", "evidence": ["qwen3-vl-8b-vlm-smoke.json"]},
+    "S4": {"status": "measured", "evidence": ["gemma4-e4b-vlm-smoke.json"]},
+    "L1": {"status": "measured", "evidence": ["qwen35-4b-apple-v2.json"]},
+    "L2": {"status": "measured", "evidence": ["ax-light-7b-apple.json"]},
+    "L3": {"status": "measured", "evidence": ["qwen3-8b-apple.json"]},
+    "L4": {"status": "measured", "evidence": ["kanana-15-8b-apple.json"]},
+    "L5": {"status": "measured", "evidence": ["exaone-35-78b-apple.json"]},
+    "L6": {"status": "measured", "evidence": ["ternary-bonsai-8b-apple.json"]},
+    "L7": {"status": "measured", "evidence": ["ternary-bonsai-4b-apple.json"]},
+    "L8": {"status": "measured", "evidence": ["exaone-deep-78b-apple.json"]},
+    "P1": {"status": "measured", "evidence": ["P1-ax-qwen3vl-apple.json"]},
+    "P2": {"status": "measured", "evidence": ["P2-ax-axvl-apple.json"], "note": "Official A.X VL output handed off to A.X 4.0 Light GGUF; one fixed image fixture"},
+    "P3": {"status": "measured", "evidence": ["P3-qwen3-qwen3vl-apple.json"]},
+    "P4": {"status": "measured", "evidence": ["P4-kanana-qwen3vl-apple.json"]},
+    "P5": {"status": "measured", "evidence": ["P5-exaone35-qwen3vl-apple.json"]},
+    "P6": {"status": "measured", "evidence": ["P6-ternary-qwen3vl-apple.json"]},
+    "P7": {"status": "measured", "evidence": ["P7-ternary4b-qwen3vl-apple.json"]},
+    "P8": {"status": "measured", "evidence": ["P8-qwen3-axvl-apple.json"], "note": "Official A.X VL output handed off to Qwen3-8B GGUF; one fixed image fixture"},
+    "X1": {"status": "measured", "evidence": ["X1-ax-exaone-deep-apple.json"]},
+    "X2": {"status": "measured", "evidence": ["X2-kanana-exaone-deep-apple.json"]},
+    "X3": {"status": "measured", "evidence": ["X3-ternary-exaone-deep-apple.json"]}
+  },
+  "gate_note": "Results intentionally remain incomplete until three cold loads, twenty-minute thermal run, and required latency fields are collected for each target.",
+  "verification_audit": {
+    "audited_at": "2026-08-07",
+    "requested_combinations": 23,
+    "local_execution_evidence_present": 23,
+    "local_execution_evidence_missing": 0,
+    "evidence_json_valid": true,
+    "combination_status_measured": 23,
+    "combination_status_not_run": 0,
+    "standard_gate_pass": 0,
+    "standard_gate_incomplete": 23,
+    "browser_webgpu_direct": ["Qwen3.5-4B cold/warm smoke", "Qwen3-8B cold/warm smoke", "Qwen3.5-9B parameter download; compile blocked"],
+    "browser_webgpu_result_files": ["qwen35-4b-browser-webgpu.json", "qwen3-8b-browser-webgpu.json", "qwen35-9b-browser-webgpu.json", "qwen36-14b-a3b-browser-webgpu-port.json"],
+    "browser_webgpu_experimental": ["Qwen3.6-14B-A3B wllama runtime smoke passed; 14B weights runtime_blocked until verified GGUF shards are published"],
+    "android_emulator_smoke": ["Qwen3.5-4B", "Ternary Bonsai 8B", "EXAONE Deep 7.8B"],
+    "scope_note": "All 23 S/L/P/X combinations were executed at least once in the retained local evidence. This audit does not claim that every combination runs in Android or browser WebGPU; platform compatibility is model/runtime-specific."
+  }
+}

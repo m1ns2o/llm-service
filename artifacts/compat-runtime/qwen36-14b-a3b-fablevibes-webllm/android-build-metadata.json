@@ -1,0 +1,20 @@
+{
+  "status": "built",
+  "runtime": "llama.cpp",
+  "target": "android-arm64-v8a",
+  "android_api_link_target": 29,
+  "llama_cpp_commit": "fc3f10b3895ebb0ddfe1fcb7fd5950f2c1719339",
+  "elf_load_alignment_bytes": 16384,
+  "backends": {
+    "vulkan": "built",
+    "cpu-arm64": "built",
+    "opencl": "blocked: Android OpenCL ICD and headers are device-vendor supplied"
+  },
+  "artifacts": [
+    {"path":"build/llama-cpp/android/bin/libggml-vulkan.so","bytes":85642896,"sha256":"f2cef3f84d62d2630db7b2961f1c9033aea62994e84e91495560d8db6769febc"},
+    {"path":"build/llama-cpp/android/bin/libggml-cpu.so","bytes":4786480,"sha256":"6b65b1ecbc7d9d6b36277fee2a24d484ce8b7e123bb801599c0d43653a66e9db"},
+    {"path":"build/llama-cpp/android/bin/libggml.so","bytes":579248,"sha256":"b15b006a848d1692fd2c7de4e5a74c30c4f1d6a21030b186f363f3206c7f667a"},
+    {"path":"build/llama-cpp/android/bin/libllama.so","bytes":40310496,"sha256":"b666faca7e1fc52bfd71152b74d5bfd1481419499456666b84842a1c10058fa8"}
+  ],
+  "note": "The Android APK still uses the existing JNI smoke stub; these libraries are not yet wired into the JNI boundary."
+}

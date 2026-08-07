@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qwen3.6-14B llama.cpp WebGPU</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 980px; margin: 0 auto; padding: 24px; line-height: 1.5; }
+    .card { border: 1px solid #8885; border-radius: 12px; padding: 16px; margin: 14px 0; }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 8px 0; }
+    .muted { opacity: .75; font-size: .92rem; }
+    button, input, select { border-radius: 8px; padding: 9px 12px; }
+    button { border: 0; cursor: pointer; }
+    button:disabled { opacity: .5; cursor: wait; }
+    #run { background: #2674e8; color: #fff; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #0002; padding: 12px; border-radius: 8px; }
+    progress { width: 100%; height: 14px; }
+    .bad { color: #d95858; }
+    .ok { color: #2aa66f; }
+    #remote-url { flex: 1 1 560px; }
+  </style>
+</head>
+<body>
+  <h1>Qwen3.6-14B-A3B · llama.cpp WebGPU</h1>
+  <p>기존 <a href="llm-webgpu-test.html">WebLLM/MLC 기준선</a>과 분리된 Q4_K_M GGUF 실행 경로입니다. 런타임은 로컬 빌드한 wllama/llama.cpp WASM이며 가중치는 번들하지 않습니다.</p>
+  <p class="muted">8.46GB 단일 GGUF는 브라우저에서 직접 받지 않습니다. 512MB 이하의 GGUF shard URL 또는 로컬 shard 파일을 사용합니다. RAM 여유량으로 사전 차단하지 않고, 브라우저가 보고하는 총 메모리는 정보로만 기록합니다.</p>
+
+  <div class="card">
+    <h2>모델·실행 설정</h2>
+    <div class="row">
+      <label>backend
+        <select id="backend">
+          <option value="auto">자동(WebGPU 우선)</option>
+          <option value="webgpu">WebGPU 강제</option>
+          <option value="wasm-cpu">WASM CPU</option>
+        </select>
+      </label>
+      <label>context <input id="context-size" type="number" min="256" max="8192" step="256" value="1024"></label>
+      <label>출력 토큰 <input id="token-limit" type="number" min="8" max="512" step="8" value="64"></label>
+    </div>
+    <div class="row">
+      <label for="remote-url">첫 shard URL</label>
+      <input id="remote-url" type="url" placeholder="...-00001-of-000NN.gguf">
+    </div>
+    <div class="row">
+      <label for="model-files">또는 로컬 GGUF shards</label>
+      <input id="model-files" type="file" accept=".gguf" multiple>
+    </div>
+    <p id="model-note" class="muted"></p>
+    <div class="row">
+      <button id="detect">환경 검사</button>
+      <button id="smoke">WASM/WebGPU smoke</button>
+      <button id="run">14B 로드 후 생성</button>
+      <button id="unload">모델 해제</button>
+      <button id="save">결과 JSON 저장</button>
+    </div>
+    <progress id="progress" value="0" max="1"></progress>
+    <div id="status">대기 중</div>
+  </div>
+
+  <div class="card"><h2>어댑터·사전 검사·지표</h2><pre id="metrics">아직 측정하지 않았습니다.</pre></div>
+  <div class="card"><h2>스트리밍 답변</h2><pre id="answer">아직 실행하지 않았습니다.</pre></div>
+  <div class="card"><h2>실행 로그</h2><pre id="log"></pre></div>
+
+  <script type="module" src="llama-webgpu-experimental.js"></script>
+</body>
+</html>

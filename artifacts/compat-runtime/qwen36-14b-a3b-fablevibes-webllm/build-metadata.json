@@ -1,0 +1,33 @@
+{
+  "status": "compile_blocked",
+  "model_id": "qwen36-14b-a3b-fablevibes-q4km",
+  "model_architecture": "Qwen3_5MoeForCausalLM",
+  "model_type_from_config": "qwen3_5_moe_text",
+  "mlc_llm_source": {
+    "repository": "https://github.com/mlc-ai/mlc-llm",
+    "commit": "2f78caa4db0f90730a11ee3bb5cbd5f23bf67f9f",
+    "reference_pr": "https://github.com/mlc-ai/mlc-llm/pull/3449"
+  },
+  "weights": {
+    "mlc_source_format": "Hugging Face safetensors",
+    "source_size_bytes": 27520354416,
+    "source_url": "https://huggingface.co/tvall43/Qwen3.6-14B-A3B-FableVibes/resolve/main/model.safetensors",
+    "gguf_q4_k_m_bytes": 8465553920,
+    "gguf_q4_k_m_sha256": "21aa4b0b28090469e8a319c889451df2f1ea6aad27ac3818c8c8a86f86d5bc9e"
+  },
+  "failure": {
+    "stage": "gen_config",
+    "error": "Unknown model type: qwen3_5_moe_text",
+    "log": "gen-config.log",
+    "speed_metrics_valid": false
+  },
+  "alternative_runtime": {
+    "runtime": "llama.cpp",
+    "target": "android-arm64-v8a",
+    "commit": "fc3f10b3895ebb0ddfe1fcb7fd5950f2c1719339",
+    "status": "built",
+    "backends": ["vulkan", "cpu-arm64"],
+    "opencl_status": "blocked_no_android_opencl_icd_or_headers"
+  },
+  "note": "Do not use a dense qwen3_5 MLC library for this MoE checkpoint; it would be an architecture mismatch."
+}

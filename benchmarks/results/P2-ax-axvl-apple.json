@@ -1,0 +1,34 @@
+{
+  "model_id": "P2-ax-light-plus-ax-vl-light",
+  "platform": "apple-silicon-local",
+  "quantization": "A.X-IQ1_M + A.X-VL-BF16",
+  "artifact_sha256": "dad7de7d410fc0353c3a7d70b31025736fdf9ad3b8bab1c05445c2db512c881a",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 2.955,
+  "initial_decode_tps": 0.0463,
+  "final_decode_tps": 24.2,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 17705.6,
+  "metadata": {
+    "vlm_model": "artifacts/ax4vl_original",
+    "llm_model": "artifacts/ax-light-7b-iq1/A.X-4.0-Light-iq1_m.gguf",
+    "fixture": "benchmarks/fixtures/candy.png",
+    "visual_facts": "파란색, 주황색, 초록색으로 이루어진 네모",
+    "handoff": "다음은 VLM이 이미지에서 추출한 시각 정보다: 파란색, 주황색, 초록색으로 이루어진 네모. 이 정보를 바탕으로 학생에게 이미지의 색상과 패턴을 한국어로 한 문장 설명해줘.",
+    "vlm_generation_tps": 0.0463,
+    "vlm_generation_seconds": 172.7547,
+    "llm": {
+      "returncode": 0,
+      "wall_seconds": 4.517,
+      "prompt_tps": 130.0,
+      "generation_tps": 24.2,
+      "response_excerpt": "\n\nLoading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n▄▄ ▄▄\n██ ██\n██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄\n██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██\n██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀\n                                    ██    ██\n                                    ▀▀    ▀▀\n\nbuild      : b9960-a935fbffe\nmodel      : artifacts/ax-light-7b-iq1/A.X-4.0-Light-iq1_m.gguf\nftype      : IQ1_M - 1.75 bpw\nmodalities : text\n\navailable commands:\n  /exit or Ctrl+C     stop or exit\n  /regen              regenerate the last response\n  /clear              clear the chat history\n  /read <file>        add a text file\n  /glob <pattern>     add text files using globbing pattern\n\n\n\n> 다음은 VLM이 이미지에서 추출한 시각 정보다: 파란색, 주황색, 초록색으로 이루어진 네모. 이 정보를 바탕으로 학생에게 이미지의 색상과 패턴을 한국어로 한 문장 설명해줘.\n주어진 시각 정보에서 파란색, 주황색, 초록색으로 이루어진 네모 패턴이 이미지에서 발견되었습니다. 이 이미지는 다양한 색상의 사각형 패턴이 존재하는 시각적 요소를 포함하고 있습니다.\n\n[ Prompt: 130.0 t/s | Generation: 24.2 t/s ]\n\n\nExiting...\n"
+    },
+    "llm_artifact_sha256": "a9f4ff73645ff3cde99bc4f12de9d25ecc371e6f59a077d87bb49dd639d60de3"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "model_id": "P7-ternary-bonsai-4b-plus-qwen3-vl-4b",
+  "platform": "apple-silicon-local",
+  "quantization": "Ternary-4B-Q2_0-prism + Qwen3-VL-Q4_K_M",
+  "artifact_sha256": "4e0bf8b737b0431552f8c2c97695ab7c0cb214c94bcdeb4f5f267e67ddf28b8b",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": null,
+  "final_decode_tps": null,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 4408.5,
+  "metadata": {
+    "vlm_model": "artifacts/qwen3-vl-4b-q4/Qwen3VL-4B-Instruct-Q4_K_M.gguf",
+    "vlm_mmproj": "artifacts/qwen3-vl-4b-q4/mmproj-Qwen3VL-4B-Instruct-F16.gguf",
+    "llm_model": "artifacts/ternary-bonsai-4b-q2/Ternary-Bonsai-4B-Q2_0.gguf",
+    "fixture": "benchmarks/fixtures/candy.png",
+    "handoff": "Qwen3-VL visual_facts -> Prism Ternary 4B Korean response",
+    "visual_facts": "파란색, 주황색, 녹색, 흰색, 검은색 등 다양한 색상의 직선과 사각형으로 구성된 기하학적 패턴",
+    "vlm_generation_tps": 40.4,
+    "llm_generation_tps": 50.9,
+    "final_response": "이 이미지는 다양한 색상의 기하학적 패턴을 구성하고 있습니다.",
+    "limitation": "one fixed fixture and one handoff; not a sustained thermal run"
+  }
+}

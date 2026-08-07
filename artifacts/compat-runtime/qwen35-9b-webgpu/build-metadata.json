@@ -1,0 +1,37 @@
+{
+  "status": "compiled",
+  "model_id": "qwen35-9b",
+  "model_artifact": "Qwen3.5-9B-q4f16_1-MLC-webgpu.wasm",
+  "target": "webgpu",
+  "model_type": "qwen3_5",
+  "quantization": "q4f16_1",
+  "source": {
+    "mlc_llm_commit": "6474f7db",
+    "tvm_commit": "06db68d4b26c70aade1e0092e24e6d33f25b2214",
+    "tvm_ffi_commit": "84ee1a07f85645886d2eebc9ddd0ddf9488fd38a"
+  },
+  "toolchain": {
+    "emscripten": "3.1.56",
+    "llvm": "20.1.8",
+    "binaryen": "117",
+    "binaryen_compatibility": "filtered removed --enable-bulk-memory-opt and --enable-call-indirect-overlong flags only"
+  },
+  "model_config": {
+    "context_window_size": 262144,
+    "prefill_chunk_size": 2048,
+    "max_batch_size": 128,
+    "active_vocab_size": 248077
+  },
+  "artifact": {
+    "bytes": 6601284,
+    "sha256": "c2a2faa8a13634c2818bdb858b1c1f4636d187903a0bb1829b34d51f6c250fb9"
+  },
+  "compile_log": "compile-mlc6474-success2.log",
+  "memory_estimate_mb": {
+    "parameters": 4804.65,
+    "temporary_buffer": 2230.67,
+    "without_kv_cache": 7035.32,
+    "with_4k_kv_cache": 7547.32
+  },
+  "note": "Model library compilation succeeded without downloading model parameter shards. Browser inference still requires the matching WebLLM/MLC runtime and the approximately 4.8 GB q4f16_1 parameter artifact."
+}

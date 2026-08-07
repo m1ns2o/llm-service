@@ -1,0 +1,38 @@
+{
+  "check_type": "artifact_and_runtime_availability",
+  "checked_at": "2026-08-06",
+  "model_id": "A.X-4.0-VL-Light",
+  "repositories_checked": [
+    {
+      "repo": "skt/A.X-4.0-VL-Light",
+      "url": "https://huggingface.co/skt/A.X-4.0-VL-Light",
+      "format": "Transformers custom AX4VLForConditionalGeneration",
+      "files": [
+        {"name": "model-00001-of-00004.safetensors", "bytes": 4915685072},
+        {"name": "model-00002-of-00004.safetensors", "bytes": 4932752832},
+        {"name": "model-00003-of-00004.safetensors", "bytes": 4796984024},
+        {"name": "model-00004-of-00004.safetensors", "bytes": 734003344}
+      ],
+      "weights_bytes": 15379425272,
+      "runtime_notes": "README quickstart requires Transformers >=4.49, trust_remote_code, and CUDA bfloat16"
+    },
+    {
+      "repo": "OpenLLM-Korea/A.X-4.0-VL-Light",
+      "url": "https://huggingface.co/OpenLLM-Korea/A.X-4.0-VL-Light",
+      "format": "same four-shard Transformers checkpoint",
+      "weights_bytes": 15379425272
+    }
+  ],
+  "quantized_search": {
+    "query": "A.X 4.0 VL GGUF",
+    "compatible_repositories_found": [],
+    "checked_against": ["GGUF", "MLC", "AWQ", "GPTQ", "mlx"]
+  },
+  "host": {
+    "hardware": "MacBook Pro M1 Pro, 16 GB RAM",
+    "free_disk_bytes": 10093191168,
+    "compatible_local_artifact": false
+  },
+  "decision": "superseded_by_direct_download_and_transformers_run",
+  "reason": "The initial quantized-artifact search found no GGUF/MLC/mobile conversion. A later run staged the official 4-shard checkpoint and verified S2 text/image generation plus P2/P8 handoffs on CPU BF16; this file preserves the earlier availability finding."
+}

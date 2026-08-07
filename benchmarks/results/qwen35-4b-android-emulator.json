@@ -1,0 +1,29 @@
+{
+  "model_id": "qwen35-4b",
+  "platform": "android-emulator-api35",
+  "quantization": "UD-IQ2_XXS",
+  "artifact_sha256": "4c1ba794e8d6098f4fb6482b4db6e880c80b5ee0b4c64d8668afaf9541163677",
+  "download_verified": true,
+  "download_mb": 1520.2,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": 5.5,
+  "final_decode_tps": 5.5,
+  "text_ttft_p50_seconds": null,
+  "model_size_mb": 1520.2,
+  "metadata": {
+    "device": "Pixel_9_API_35",
+    "android_api": 35,
+    "abi": "arm64-v8a",
+    "runtime": "Prism llama.cpp Android build",
+    "context_size": 512,
+    "prompt": "2 더하기 2는 얼마인가?",
+    "response": "2 더하기 2는 4",
+    "measured_output": "[ Prompt: 8.7 t/s | Generation: 5.5 t/s ]",
+    "host_artifact": "artifacts/qwen35-4b-iq2/Qwen3.5-4B-UD-IQ2_XXS.gguf",
+    "limitation": "CLI/runtime smoke only; no Android UI APK or sustained thermal run yet"
+  }
+}

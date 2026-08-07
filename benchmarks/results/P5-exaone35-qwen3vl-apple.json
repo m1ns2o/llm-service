@@ -1,0 +1,29 @@
+{
+  "model_id": "P5-exaone-35-78b-plus-qwen3-vl-4b",
+  "platform": "apple-silicon-local",
+  "quantization": "EXAONE-3.5-Q2_K + Qwen3-VL-Q4_K_M",
+  "artifact_sha256": "7ddf9822b6bfcc004a8fd726ac22b188e0f9bd08e4e64d4a977db71719aa0e62",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": null,
+  "final_decode_tps": null,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 6387.4,
+  "metadata": {
+    "vlm_model": "artifacts/qwen3-vl-4b-q4/Qwen3VL-4B-Instruct-Q4_K_M.gguf",
+    "vlm_mmproj": "artifacts/qwen3-vl-4b-q4/mmproj-Qwen3VL-4B-Instruct-F16.gguf",
+    "llm_model": "artifacts/exaone-35-78b-q2/EXAONE-3.5-7.8B-Instruct-Q2_K.gguf",
+    "fixture": "benchmarks/fixtures/candy.png",
+    "handoff": "Qwen3-VL visual_facts -> EXAONE 3.5 Korean response",
+    "visual_facts": "파란색, 주황색, 녹색, 흰색, 검은색 등 다양한 색상의 직선과 사각형으로 구성된 기하학적 패턴",
+    "vlm_generation_tps": 40.4,
+    "llm_generation_tps": 27.1,
+    "final_response": "이 이미지는 주로 기하학적인 형태와 다양한 색상의 조합으로 특징지어져 있습니다.",
+    "limitation": "one fixed fixture and one handoff; EXAONE non-commercial license applies"
+  }
+}

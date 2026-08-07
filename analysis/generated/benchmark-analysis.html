@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>로컬 LLM/VLM 벤치마크 분석</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:0 auto;padding:32px;color:#172033;background:#f8fafc}h1{margin-bottom:4px}.meta{color:#64748b}section{background:white;border:1px solid #e2e8f0;border-radius:14px;padding:22px;margin:20px 0;box-shadow:0 4px 14px #0f172a0d}figure{margin:22px 0}figure img{width:100%;height:auto;border:1px solid #e2e8f0;border-radius:10px;background:white}figcaption{color:#64748b;font-size:13px;margin-top:6px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:8px;border-bottom:1px solid #e2e8f0;text-align:left}th{background:#f1f5f9;position:sticky;top:0}.scroll{overflow:auto;max-height:620px}.warn{border-left:4px solid #f59e0b;padding-left:12px}</style></head>
+<body><h1>로컬 LLM/VLM 검증 결과 분석</h1><p class="meta">2026-08-07 · 23개 조합 measured · 속도·용량 중심</p>
+<section><h2>핵심 수치</h2><ul><li>단일 LLM 최고 속도: <b>L7 Ternary Bonsai 4B 50.67 tok/s</b></li><li>단일 모델 최소 용량: <b>L7 Ternary Bonsai 4B 1075.0 MB</b></li><li>통합 VLM 최고 생성 속도: <b>S1 Qwen3.5-4B 32.00 tok/s</b></li><li>A.X VL Light CPU BF16: <b>0.0463 tok/s</b></li><li>브라우저 WebGPU 직접: <b>cold 16.51 tok/s · warm 21.35 tok/s · cold load 238.433초</b></li></ul><p class="warn">모든 행은 최소 1회 실행 증거입니다. 3 cold load·20 requests·20분 thermal gate는 별도 판정이며 현재 완료된 행이 아닙니다.</p></section>
+<section><h2>전체 조합 검증 감사</h2><ul><li>요청 조합 <b>23개</b> 중 로컬 실행 증거 <b>23개</b>, 누락 <b>0개</b></li><li>표준 배포 게이트: pass <b>0개</b>, incomplete <b>23개</b></li><li>브라우저 WebGPU 직접: Qwen3.5-4B·Qwen3-8B cold/warm smoke; Qwen3.5-9B는 다운로드 후 컴파일 중단. Android: Qwen3.5-4B·Ternary Bonsai 8B·EXAONE Deep 7.8B 에뮬레이터 smoke.</li></ul><p class="warn">모든 조합이 Android 또는 브라우저 WebGPU에서 동작한다는 의미는 아닙니다. 플랫폼별 런타임·모델 아티팩트 가용성을 별도로 검증해야 합니다.</p></section>
+<section><h2>속도 그래프</h2><figure><img src="single-throughput.svg" alt="LLM 단독 최종 생성 속도"><figcaption>LLM 단독 최종 생성 속도</figcaption></figure><figure><img src="single-size-speed.svg" alt="LLM 단독 용량과 속도"><figcaption>LLM 단독 용량과 속도</figcaption></figure><figure><img src="vlm-throughput.svg" alt="통합 VLM 이미지 생성 속도"><figcaption>통합 VLM 이미지 생성 속도</figcaption></figure><figure><img src="pair-throughput.svg" alt="분리형 P 조합 VLM과 메인 LLM 속도"><figcaption>분리형 P 조합 VLM과 메인 LLM 속도</figcaption></figure><figure><img src="transition-throughput.svg" alt="특화 전환 X 조합 일반과 전문 모델 속도"><figcaption>특화 전환 X 조합 일반과 전문 모델 속도</figcaption></figure><figure><img src="platform-throughput.svg" alt="Android·브라우저 smoke 속도"><figcaption>Android·브라우저 smoke 속도</figcaption></figure></section>
+<section><h2>정규화 원자료</h2><div class="scroll"><table><thead><tr><th>ID</th><th>모델/조합</th><th>구분</th><th>주 속도 tok/s</th><th>보조 속도 tok/s</th><th>용량 MB</th><th>Gate</th></tr></thead><tbody><tr><td>L1</td><td>Qwen3.5-4B</td><td>LLM 단독</td><td>31.49</td><td>—</td><td>2740.9</td><td>incomplete</td></tr>
+<tr><td>L2</td><td>A.X 4.0 Light</td><td>LLM 단독</td><td>22.24</td><td>—</td><td>2326.1</td><td>incomplete</td></tr>
+<tr><td>L3</td><td>Qwen3-8B</td><td>LLM 단독</td><td>23.15</td><td>—</td><td>5027.8</td><td>incomplete</td></tr>
+<tr><td>L4</td><td>Kanana 1.5 8B</td><td>LLM 단독</td><td>25.02</td><td>—</td><td>3179.2</td><td>incomplete</td></tr>
+<tr><td>L5</td><td>EXAONE 3.5 7.8B</td><td>LLM 단독</td><td>25.63</td><td>—</td><td>3053.9</td><td>incomplete</td></tr>
+<tr><td>L6</td><td>Ternary Bonsai 8B</td><td>LLM 단독</td><td>30.76</td><td>—</td><td>2182.2</td><td>incomplete</td></tr>
+<tr><td>L7</td><td>Ternary Bonsai 4B</td><td>LLM 단독</td><td>50.67</td><td>—</td><td>1075.0</td><td>incomplete</td></tr>
+<tr><td>L8</td><td>EXAONE Deep 7.8B</td><td>LLM 단독</td><td>25.83</td><td>—</td><td>3053.9</td><td>incomplete</td></tr>
+<tr><td>S1</td><td>Qwen3.5-4B</td><td>통합 VLM</td><td>32.00</td><td>—</td><td>3413.4</td><td>incomplete</td></tr>
+<tr><td>S2</td><td>A.X 4.0 VL Light</td><td>통합 VLM</td><td>0.05</td><td>—</td><td>14667.0</td><td>incomplete</td></tr>
+<tr><td>S3</td><td>Qwen3-VL-8B</td><td>통합 VLM</td><td>24.90</td><td>—</td><td>6186.8</td><td>incomplete</td></tr>
+<tr><td>S4</td><td>Gemma 4 E4B</td><td>통합 VLM</td><td>31.10</td><td>—</td><td>5704.4</td><td>incomplete</td></tr>
+<tr><td>P1</td><td>A.X Light + Qwen3-VL-4B</td><td>분리형 P 조합</td><td>23.80</td><td>40.40</td><td>5659.6</td><td>incomplete</td></tr>
+<tr><td>P2</td><td>A.X Light + A.X VL Light</td><td>분리형 P 조합</td><td>24.20</td><td>0.05</td><td>17705.6</td><td>incomplete</td></tr>
+<tr><td>P3</td><td>Qwen3-8B + Qwen3-VL-4B</td><td>분리형 P 조합</td><td>21.80</td><td>40.40</td><td>8361.3</td><td>incomplete</td></tr>
+<tr><td>P4</td><td>Kanana + Qwen3-VL-4B</td><td>분리형 P 조합</td><td>25.40</td><td>40.40</td><td>6512.7</td><td>incomplete</td></tr>
+<tr><td>P5</td><td>EXAONE 3.5 + Qwen3-VL-4B</td><td>분리형 P 조합</td><td>27.10</td><td>40.40</td><td>6387.4</td><td>incomplete</td></tr>
+<tr><td>P6</td><td>Ternary 8B + Qwen3-VL-4B</td><td>분리형 P 조합</td><td>29.10</td><td>40.40</td><td>5515.7</td><td>incomplete</td></tr>
+<tr><td>P7</td><td>Ternary 4B + Qwen3-VL-4B</td><td>분리형 P 조합</td><td>50.90</td><td>40.40</td><td>4408.5</td><td>incomplete</td></tr>
+<tr><td>P8</td><td>Qwen3-8B + A.X VL Light</td><td>분리형 P 조합</td><td>10.57</td><td>0.05</td><td>20407.2</td><td>incomplete</td></tr>
+<tr><td>X1</td><td>A.X Light → EXAONE Deep</td><td>특화 전환 X 조합</td><td>27.60</td><td>23.80</td><td>5380.0</td><td>incomplete</td></tr>
+<tr><td>X2</td><td>Kanana → EXAONE Deep</td><td>특화 전환 X 조합</td><td>27.60</td><td>27.10</td><td>6233.0</td><td>incomplete</td></tr>
+<tr><td>X3</td><td>Ternary 8B → EXAONE Deep</td><td>특화 전환 X 조합</td><td>25.90</td><td>23.10</td><td>5236.1</td><td>incomplete</td></tr>
+<tr><td>Android-Q35</td><td>Qwen3.5-4B</td><td>Android 에뮬레이터</td><td>5.50</td><td>—</td><td>1520.2</td><td>incomplete</td></tr>
+<tr><td>Android-T8</td><td>Ternary Bonsai 8B</td><td>Android 에뮬레이터</td><td>0.20</td><td>—</td><td>2182.2</td><td>incomplete</td></tr>
+<tr><td>Browser-Q35</td><td>Qwen3.5-4B</td><td>로컬 브라우저</td><td>31.04</td><td>—</td><td>2740.9</td><td>incomplete</td></tr>
+<tr><td>Browser-WebGPU-Q35</td><td>Qwen3.5-4B</td><td>브라우저 WebGPU 직접</td><td>16.51</td><td>—</td><td>—</td><td>incomplete</td></tr>
+<tr><td>Browser-WebGPU-Q35-9B</td><td>Qwen3.5-9B</td><td>브라우저 WebGPU 직접</td><td>—</td><td>—</td><td>—</td><td>incomplete</td></tr>
+<tr><td>Browser-WebGPU-Qwen3</td><td>Qwen3-8B</td><td>브라우저 WebGPU 직접</td><td>12.65</td><td>—</td><td>—</td><td>incomplete</td></tr></tbody></table></div></section>
+<section><h2>주의사항</h2><p>tok/s는 생성 속도이며 품질 점수가 아닙니다. P 조합은 VLM 단계를 먼저 수행하는 handoff 구조라 VLM 생성 시간이 전체 지연을 지배할 수 있습니다. Android는 에뮬레이터 CLI smoke입니다. 브라우저는 localhost server 경로와 WebGPU 직접 경로를 구분해 기록했습니다. 기존 브라우저 속도 측정은 max_tokens=96으로 실행했으며, 이는 모델 제한이 아니라 테스트 설정입니다. 현재 테스트 페이지 기본값은 256입니다. WebGPU 결과는 cold/warm 각 1회만 측정했으므로 학생 기기 배포 전 반복·열 안정성 시험이 필요합니다. 품질·안전·한국어 자연스러움은 task catalog 기반 별도 채점이 필요합니다.</p><p><a href="benchmark-analysis.md">Markdown 보고서</a> · <a href="normalized_metrics.csv">CSV 원자료</a> · <a href="../../benchmarks/results/coverage.json">coverage 원본</a></p></section>
+</body></html>

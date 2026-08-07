@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "student-local-llm-bench"
+version = "0.1.0"
+description = "온디바이스 학생용 LLM/VLM 모델 조합 타당성 벤치마크"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+llm-bench = "llm_bench.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

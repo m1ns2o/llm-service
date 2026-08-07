@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 334" role="img" aria-label="플랫폼 smoke: 생성 속도">
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#172033} .muted{fill:#64748b;font-size:14px}</style>
+<text x="24" y="32" font-size="22" font-weight="600">플랫폼 smoke: 생성 속도</text>
+<text x="246" y="100" text-anchor="end" font-size="15">Android-Q35  Qwen3.5-4B</text>
+<rect x="260" y="83" width="121.0" height="24" rx="5" fill="#7c3aed" opacity="0.88"/>
+<text x="391.0" y="100" font-size="15">5.50 tok/s</text>
+<text x="246" y="138" text-anchor="end" font-size="15">Android-T8  Ternary Bonsai 8B</text>
+<rect x="260" y="121" width="4.4" height="24" rx="5" fill="#7c3aed" opacity="0.88"/>
+<text x="274.4" y="138" font-size="15">0.20 tok/s</text>
+<text x="246" y="176" text-anchor="end" font-size="15">Browser-Q35  Qwen3.5-4B</text>
+<rect x="260" y="159" width="682.9" height="24" rx="5" fill="#7c3aed" opacity="0.88"/>
+<text x="952.9" y="176" font-size="15">31.04 tok/s</text>
+<text x="246" y="214" text-anchor="end" font-size="15">Browser-WebGPU-Q35  Qwen3.5-4B</text>
+<rect x="260" y="197" width="363.2" height="24" rx="5" fill="#7c3aed" opacity="0.88"/>
+<text x="633.2" y="214" font-size="15">16.51 tok/s</text>
+<text x="246" y="252" text-anchor="end" font-size="15">Browser-WebGPU-Qwen3  Qwen3-8B</text>
+<rect x="260" y="235" width="278.3" height="24" rx="5" fill="#7c3aed" opacity="0.88"/>
+<text x="548.3" y="252" font-size="15">12.65 tok/s</text>
+<line x1="260" x2="1030" y1="279" y2="279" stroke="#cbd5e1"/>
+<text x="260" y="316" class="muted">0</text><text x="1030" y="316" text-anchor="end" class="muted">35.0 tok/s</text>
+</svg>

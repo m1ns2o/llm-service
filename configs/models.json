@@ -1,0 +1,67 @@
+{
+  "version": 2,
+  "platforms": {
+    "browser-windows": {"os": "Windows", "browser": "Chrome/Edge stable", "ram_gb": 8, "runtime": "WebLLM/MLC"},
+    "android": {"os": "Android 12+", "abi": "arm64-v8a", "ram_gb": 8, "runtime": "llama.cpp JNI or LiteRT-LM"}
+  },
+  "models": [
+    {"id":"qwen35-4b","name":"Qwen3.5-4B","kind":"vlm","upstream":"Qwen/Qwen3.5-4B","license":"Apache-2.0","artifact":"safetensors; platform quantization required","runtimes":["Transformers","MLC experimental","llama.cpp experimental"],"platform_status":{"browser-windows":"conditional","android":"conditional"},"notes":"Unified vision-language model. Browser image path requires a separately reproducible MLC build.","source_url":"https://huggingface.co/Qwen/Qwen3.5-4B"},
+    {"id":"qwen35-9b","name":"Qwen3.5-9B","kind":"vlm","upstream":"Qwen/Qwen3.5-9B","license":"Apache-2.0","artifact":"MLC q4f16_1 browser artifact; mobile conversion pending","runtimes":["Transformers","WebLLM/MLC","vLLM","SGLang"],"platform_status":{"browser-windows":"candidate","android":"not_tested"},"notes":"Additional latest-generation unified vision-language candidate. WebGPU test uses the official WebLLM registry artifact; Android artifact is not yet available in this run.","source_url":"https://huggingface.co/Qwen/Qwen3.5-9B"},
+    {"id":"ax-light-7b","name":"A.X 4.0 Light 7B","kind":"llm","upstream":"skt/A.X-4.0-Light","license":"Apache-2.0","artifact":"safetensors; GGUF/community quantization must be verified","runtimes":["Transformers","vLLM","MLC custom"],"platform_status":{"browser-windows":"conditional","android":"conditional"},"notes":"Korean text baseline; no official browser artifact assumed.","source_url":"https://huggingface.co/skt/A.X-4.0-Light"},
+    {"id":"ax-vl-light-8b","name":"A.X 4.0 VL Light 8B","kind":"vlm","upstream":"skt/A.X-4.0-VL-Light","license":"Apache-2.0","artifact":"safetensors; VLM conversion required","runtimes":["Transformers","vLLM","Android experimental"],"platform_status":{"browser-windows":"experimental","android":"conditional"},"notes":"Korean document and image benchmark candidate.","source_url":"https://huggingface.co/skt/A.X-4.0-VL-Light"},
+    {"id":"qwen3-8b","name":"Qwen3-8B","kind":"llm","upstream":"Qwen/Qwen3-8B","license":"Apache-2.0","artifact":"GGUF Q4_K_M or MLC q4f16_1","runtimes":["WebLLM","llama.cpp","MLC","Transformers"],"platform_status":{"browser-windows":"candidate","android":"candidate"},"notes":"Text reasoning reference; 8GB devices require measured memory headroom.","source_url":"https://huggingface.co/Qwen/Qwen3-8B"},
+    {"id":"kanana-15-8b","name":"Kanana 1.5 8B Instruct","kind":"llm","upstream":"kakaocorp/kanana-1.5-8b-instruct-2505","license":"Apache-2.0","artifact":"safetensors; GGUF conversion required","runtimes":["Transformers","llama.cpp custom"],"platform_status":{"browser-windows":"experimental","android":"conditional"},"notes":"Use instruct checkpoint, never the base checkpoint for chat quality comparison.","source_url":"https://huggingface.co/kakaocorp/kanana-1.5-8b-instruct-2505"},
+    {"id":"exaone-35-78b","name":"EXAONE 3.5 7.8B","kind":"llm","upstream":"LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct","license":"EXAONE AI Model License 1.1 - NC","artifact":"safetensors; conversion and license review required","runtimes":["Transformers","custom"],"platform_status":{"browser-windows":"experimental","android":"experimental"},"notes":"Research-only/non-commercial candidate; do not treat as deployable product license.","source_url":"https://huggingface.co/LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct"},
+    {"id":"ternary-bonsai-8b","name":"Ternary Bonsai 8B","kind":"llm","upstream":"prism-ml/Ternary-Bonsai-8B-gguf","license":"Apache-2.0","artifact":"GGUF Q2_0; Prism llama.cpp fork","runtimes":["Prism llama.cpp"],"platform_status":{"browser-windows":"unsupported","android":"experimental"},"notes":"Compare with Qwen3-8B Q4; Q2_0 is not assumed compatible with upstream llama.cpp.","source_url":"https://huggingface.co/prism-ml/Ternary-Bonsai-8B-gguf"},
+    {"id":"ternary-bonsai-4b","name":"Ternary Bonsai 4B","kind":"llm","upstream":"prism-ml/Ternary-Bonsai-4B-gguf","license":"Apache-2.0","artifact":"GGUF Q2_0; Prism llama.cpp fork","runtimes":["Prism llama.cpp"],"platform_status":{"browser-windows":"unsupported","android":"experimental"},"notes":"Minimum-storage lower-bound candidate.","source_url":"https://huggingface.co/prism-ml/Ternary-Bonsai-4B-gguf"},
+    {"id":"exaone-deep-78b","name":"EXAONE Deep 7.8B","kind":"llm","upstream":"LGAI-EXAONE/EXAONE-Deep-7.8B","license":"EXAONE AI Model License 1.1 - NC","artifact":"safetensors; conversion and license review required","runtimes":["Transformers","custom"],"platform_status":{"browser-windows":"experimental","android":"experimental"},"notes":"Specialized math/science/coding candidate; research-only/non-commercial.","source_url":"https://huggingface.co/LGAI-EXAONE/EXAONE-Deep-7.8B"},
+    {"id":"qwen3-vl-4b","name":"Qwen3-VL-4B Instruct","kind":"vlm","upstream":"Qwen/Qwen3-VL-4B-Instruct","license":"Apache-2.0","artifact":"VLM GGUF/MLC artifact must be verified","runtimes":["Transformers","llama.cpp mtmd","MLC experimental"],"platform_status":{"browser-windows":"experimental","android":"conditional"},"notes":"Primary split-combination VLM.","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct"},
+    {"id":"qwen3-vl-8b","name":"Qwen3-VL-8B Instruct","kind":"vlm","upstream":"Qwen/Qwen3-VL-8B-Instruct","license":"Apache-2.0","artifact":"VLM GGUF/MLC artifact must be verified","runtimes":["Transformers","llama.cpp experimental"],"platform_status":{"browser-windows":"unsupported","android":"experimental"},"notes":"Integrated VLM high-quality reference; 8GB gate is strict.","source_url":"https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct"},
+    {"id":"gemma4-e4b","name":"Gemma 4 E4B","kind":"vlm","upstream":"google/gemma-4-E4B-it","license":"Apache-2.0","artifact":"LiteRT-LM .litertlm preferred; source model retained","runtimes":["LiteRT-LM","Transformers"],"platform_status":{"browser-windows":"experimental","android":"candidate"},"notes":"Mobile-oriented integrated multimodal comparison group.","source_url":"https://huggingface.co/google/gemma-4-E4B"},
+    {
+      "id":"qwen36-14b-a3b-fablevibes-q4km",
+      "name":"Qwen3.6-14B-A3B FableVibes",
+      "kind":"llm",
+      "upstream":"tvall43/Qwen3.6-14B-A3B-FableVibes-GGUF",
+      "license":"Apache-2.0 inherited from Qwen3.6; FableVibes derivative model",
+      "artifact":"GGUF Q4_K_M",
+      "runtimes":["llama.cpp","llama.cpp WebGPU/WASM experimental"],
+      "platform_status":{"browser-windows":"experimental","android":"candidate"},
+      "notes":"14B total / 3B active MoE. Browser execution is an experiment and is not an operational guarantee.",
+      "source_url":"https://huggingface.co/tvall43/Qwen3.6-14B-A3B-FableVibes-GGUF",
+      "artifacts":[{"filename":"Qwen3.6-14B-A3B-FableVibes-Q4_K_M.gguf","url":"https://huggingface.co/tvall43/Qwen3.6-14B-A3B-FableVibes-GGUF/resolve/main/Qwen3.6-14B-A3B-FableVibes-Q4_K_M.gguf","quantization":"Q4_K_M","size_bytes":8465553920,"sha256":"21aa4b0b28090469e8a319c889451df2f1ea6aad27ac3818c8c8a86f86d5bc9e"}],
+      "minimum_ram_gb":10.5,
+      "minimum_storage_gb":10,
+      "supported_platforms":["android","browser-windows"],
+      "backends":["vulkan","opencl-experimental","cpu-arm64","webgpu-wllama","wasm-cpu-size-blocked"],
+      "browser_artifact_manifest":"browser/model-shards/qwen36-14b-a3b-fablevibes-q4km.json",
+      "validation_status":"experimental",
+      "derivation":{"base":"Qwen3.6-14B-A3B","method":"FableVibes fine-tune; community GGUF conversion","upstream_url":"https://huggingface.co/tvall43/Qwen3.6-14B-A3B-FableVibes"}
+    },
+    {
+      "id":"qwen36-28b-a3b-reap20-iq3xxs",
+      "name":"Qwen3.5-28B-A3B REAP20",
+      "kind":"llm",
+      "upstream":"barozp/Qwen-3.5-28B-A3B-REAP-GGUF",
+      "license":"Apache-2.0 inherited from Qwen3.5; REAP expert-pruned derivative",
+      "artifact":"GGUF IQ3_XXS",
+      "runtimes":["llama.cpp"],
+      "platform_status":{"browser-windows":"blocked","android":"experimental"},
+      "notes":"28B total / 3B active MoE. Browser is intentionally excluded because the planned browser path does not target this size.",
+      "source_url":"https://huggingface.co/barozp/Qwen-3.5-28B-A3B-REAP-GGUF",
+      "artifacts":[{"filename":"Qwen3.5-28B-A3B-REAP-IQ3_XXS.gguf","url":"https://huggingface.co/barozp/Qwen-3.5-28B-A3B-REAP-GGUF/resolve/main/Qwen3.5-28B-A3B-REAP-IQ3_XXS.gguf","quantization":"IQ3_XXS","size_bytes":11150430720,"sha256":"e590cf29646c41ae0060c2a3edbb7858b363dac6b2cfc206d0bb340c182f12ab"}],
+      "minimum_ram_gb":13,
+      "minimum_storage_gb":13,
+      "supported_platforms":["android"],
+      "backends":["vulkan","opencl-experimental","cpu-arm64"],
+      "validation_status":"experimental",
+      "derivation":{"base":"Qwen3.5-35B-A3B","method":"REAP expert pruning and community GGUF IQ3_XXS quantization","upstream_url":"https://huggingface.co/0xSero/Qwen3.5-28B"}
+    }
+  ],
+  "combinations": [
+    {"id":"S1","kind":"single","model":"qwen35-4b"},{"id":"S2","kind":"single","model":"ax-vl-light-8b"},{"id":"S3","kind":"single","model":"qwen3-vl-8b"},{"id":"S4","kind":"single","model":"gemma4-e4b"},
+    {"id":"L1","kind":"single","model":"qwen35-4b"},{"id":"L2","kind":"single","model":"ax-light-7b"},{"id":"L3","kind":"single","model":"qwen3-8b"},{"id":"L4","kind":"single","model":"kanana-15-8b"},{"id":"L5","kind":"single","model":"exaone-35-78b"},{"id":"L6","kind":"single","model":"ternary-bonsai-8b"},{"id":"L7","kind":"single","model":"ternary-bonsai-4b"},{"id":"L8","kind":"single","model":"exaone-deep-78b"},
+    {"id":"P1","kind":"pair","main_llm":"ax-light-7b","vlm":"qwen3-vl-4b"},{"id":"P2","kind":"pair","main_llm":"ax-light-7b","vlm":"ax-vl-light-8b"},{"id":"P3","kind":"pair","main_llm":"qwen3-8b","vlm":"qwen3-vl-4b"},{"id":"P4","kind":"pair","main_llm":"kanana-15-8b","vlm":"qwen3-vl-4b"},{"id":"P5","kind":"pair","main_llm":"exaone-35-78b","vlm":"qwen3-vl-4b"},{"id":"P6","kind":"pair","main_llm":"ternary-bonsai-8b","vlm":"qwen3-vl-4b"},{"id":"P7","kind":"pair","main_llm":"ternary-bonsai-4b","vlm":"qwen3-vl-4b"},{"id":"P8","kind":"pair","main_llm":"qwen3-8b","vlm":"ax-vl-light-8b"},
+    {"id":"X1","kind":"pair","general":"ax-light-7b","specialized":"exaone-deep-78b"},{"id":"X2","kind":"pair","general":"kanana-15-8b","specialized":"exaone-deep-78b"},{"id":"X3","kind":"pair","general":"ternary-bonsai-8b","specialized":"exaone-deep-78b"}
+  ]
+}

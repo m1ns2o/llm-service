@@ -1,0 +1,42 @@
+{
+  "model_id": "qwen3-8b",
+  "platform": "browser-webgpu-direct",
+  "quantization": "q4f16_1-MLC",
+  "model_source_url": "https://huggingface.co/mlc-ai/Qwen3-8B-q4f16_1-MLC",
+  "download_verified": false,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 7.49,
+  "initial_decode_tps": 12.6498,
+  "final_decode_tps": 12.6498,
+  "text_ttft_p50_seconds": 3.0003,
+  "model_size_mb": null,
+  "load_seconds": 439.337,
+  "inference_seconds": 10.532,
+  "warm_cache_loads": 1,
+  "warm_load_seconds": 11.712,
+  "warm_inference_seconds": 8.189,
+  "warm_decode_tps": 14.5569,
+  "warm_text_ttft_seconds": 1.6395,
+  "completion_tokens": 95,
+  "prompt_tokens": 45,
+  "max_tokens": 96,
+  "webgpu": {
+    "navigator_gpu": true,
+    "adapter_available": true,
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "max_buffer_size": 4294967292,
+    "max_storage_buffer_binding_size": 4294967292
+  },
+  "metadata": {
+    "browser": "HeadlessChrome/151.0.0.0",
+    "endpoint": "none; browser-local WebGPU",
+    "cache": "IndexedDB/CacheStorage",
+    "prompt": "중학교 2학년 학생에게 일차함수의 기울기를 한 문단으로 설명해줘.",
+    "response_excerpt": "<think> Okay, I need to explain the concept of the slope of a linear function to a 7th grader...",
+    "limitation": "Apple WebGPU headless browser에서 cold/warm 각 1회와 생성 각 1회만 측정; WebLLM registry 파일 개별 SHA-256과 장시간 열 안정성은 미검증"
+  }
+}

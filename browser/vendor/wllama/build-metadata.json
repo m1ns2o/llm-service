@@ -1,0 +1,31 @@
+{
+  "status": "built",
+  "built_at": "2026-08-07T09:00:50Z",
+  "wllama_version": "3.5.1",
+  "wllama_commit": "766d28e03eeac044fe055327d06b83d3f9b84544",
+  "llama_cpp_commit": "dd4623a74f0c85e6b1dd9ee99a92b9c67cac3708",
+  "emscripten": "4.0.20",
+  "dawn_tag": "v20260317.182325",
+  "features": ["qwen35moe", "webgpu", "memory64", "jspi", "wasm-simd", "pthreads", "opfs"],
+  "artifacts": [
+    {
+      "path": "index.js",
+      "size_bytes": 253753,
+      "sha256": "5cf48092b59a1fd7369e4198f65a098be4a46a6cbc9eb190f54ad6876fb1a307"
+    },
+    {
+      "path": "wasm/wllama.wasm",
+      "size_bytes": 7656521,
+      "sha256": "194e454efde8ab9783fa1190c89a1ebbaebbef742cad3813420d676dfb1fed98"
+    }
+  ],
+  "validation": {
+    "binaryen_parse": "passed",
+    "link_target": "wllama",
+    "first_parallel_build": "oom_exit_137",
+    "successful_parallel_jobs": 2,
+    "chrome_webgpu_runtime_smoke": "passed",
+    "chrome_webgpu_runtime_smoke_result": "benchmarks/results/qwen36-14b-a3b-browser-webgpu-port.json",
+    "qwen36_14b_weight_run": "runtime_blocked:model_shards_not_published"
+  }
+}

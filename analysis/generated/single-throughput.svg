@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 448" role="img" aria-label="LLM 단독: 최종 생성 속도">
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#172033} .muted{fill:#64748b;font-size:14px}</style>
+<text x="24" y="32" font-size="22" font-weight="600">LLM 단독: 최종 생성 속도</text>
+<text x="246" y="100" text-anchor="end" font-size="15">L1  Qwen3.5-4B</text>
+<rect x="260" y="83" width="405.6" height="24" rx="5" fill="#2563eb" opacity="0.88"/>
+<text x="675.6" y="100" font-size="15">31.49 tok/s</text>
+<text x="246" y="138" text-anchor="end" font-size="15">L2  A.X 4.0 Light</text>
+<rect x="260" y="121" width="286.5" height="24" rx="5" fill="#2563eb" opacity="0.88"/>
+<text x="556.5" y="138" font-size="15">22.24 tok/s</text>
+<text x="246" y="176" text-anchor="end" font-size="15">L3  Qwen3-8B</text>
+<rect x="260" y="159" width="298.1" height="24" rx="5" fill="#2563eb" opacity="0.88"/>
+<text x="568.1" y="176" font-size="15">23.15 tok/s</text>
+<text x="246" y="214" text-anchor="end" font-size="15">L4  Kanana 1.5 8B</text>
+<rect x="260" y="197" width="322.2" height="24" rx="5" fill="#2563eb" opacity="0.88"/>
+<text x="592.2" y="214" font-size="15">25.02 tok/s</text>
+<text x="246" y="252" text-anchor="end" font-size="15">L5  EXAONE 3.5 7.8B</text>
+<rect x="260" y="235" width="330.1" height="24" rx="5" fill="#2563eb" opacity="0.88"/>
+<text x="600.1" y="252" font-size="15">25.63 tok/s</text>
+<text x="246" y="290" text-anchor="end" font-size="15">L6  Ternary Bonsai 8B</text>
+<rect x="260" y="273" width="396.1" height="24" rx="5" fill="#2563eb" opacity="0.88"/>
+<text x="666.1" y="290" font-size="15">30.76 tok/s</text>
+<text x="246" y="328" text-anchor="end" font-size="15">L7  Ternary Bonsai 4B</text>
+<rect x="260" y="311" width="652.5" height="24" rx="5" fill="#2563eb" opacity="0.88"/>
+<text x="922.5" y="328" font-size="15">50.67 tok/s</text>
+<text x="246" y="366" text-anchor="end" font-size="15">L8  EXAONE Deep 7.8B</text>
+<rect x="260" y="349" width="332.7" height="24" rx="5" fill="#2563eb" opacity="0.88"/>
+<text x="602.7" y="366" font-size="15">25.83 tok/s</text>
+<line x1="260" x2="1030" y1="393" y2="393" stroke="#cbd5e1"/>
+<text x="260" y="430" class="muted">0</text><text x="1030" y="430" text-anchor="end" class="muted">59.8 tok/s</text>
+</svg>

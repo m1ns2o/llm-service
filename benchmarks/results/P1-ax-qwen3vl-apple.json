@@ -1,0 +1,29 @@
+{
+  "model_id": "P1-ax-light-plus-qwen3-vl-4b",
+  "platform": "apple-silicon-local",
+  "quantization": "A.X-IQ1_M + Qwen3-VL-Q4_K_M",
+  "artifact_sha256": "a9f4ff73645ff3cde99bc4f12de9d25ecc371e6f59a077d87bb49dd639d60de3",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": null,
+  "final_decode_tps": null,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 5659.6,
+  "metadata": {
+    "vlm_model": "artifacts/qwen3-vl-4b-q4/Qwen3VL-4B-Instruct-Q4_K_M.gguf",
+    "vlm_mmproj": "artifacts/qwen3-vl-4b-q4/mmproj-Qwen3VL-4B-Instruct-F16.gguf",
+    "llm_model": "artifacts/ax-light-7b-iq1/A.X-4.0-Light-iq1_m.gguf",
+    "fixture": "benchmarks/fixtures/candy.png",
+    "handoff": "Qwen3-VL visual_facts -> A.X Korean response",
+    "visual_facts": "파란색, 주황색, 녹색, 흰색, 검은색 등 다양한 색상의 직선과 사각형으로 구성된 기하학적 패턴",
+    "vlm_generation_tps": 40.4,
+    "llm_generation_tps": 23.8,
+    "final_response": "이 이미지는 다채로운 색상의 기하학적 패턴으로 가득 차 있습니다.",
+    "limitation": "one fixed fixture and one handoff; low-bit A.X quality is not a full-quality checkpoint comparison"
+  }
+}

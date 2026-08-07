@@ -1,0 +1,25 @@
+{
+  "model_id": "qwen35-4b",
+  "platform": "apple-silicon-local",
+  "quantization": "Q4_K_M+mmproj-F16",
+  "artifact_sha256": "00fe7986ff5f6b463e62455821146049db6f9313603938a70800d1fb69ef11a4",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": 32.0,
+  "final_decode_tps": 32.0,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 3413.4,
+  "metadata": {
+    "mmproj": "artifacts/qwen35-4b-q4/mmproj-F16.gguf",
+    "context_size": 8192,
+    "input": "합성 사탕 이미지",
+    "response": "손에 파란색, 주황색, 초록색의 M&M 사탕들이 몇 개 들어있어.",
+    "measured_output": "[ Prompt: 148.3 t/s | Generation: 32.0 t/s ]",
+    "limitation": "single VLM smoke; not a 20-minute vision thermal run"
+  }
+}

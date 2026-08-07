@@ -1,0 +1,34 @@
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+dist/
+build/
+*.egg-info/
+results/
+
+# Model weights and generated runtime trees are intentionally not versioned.
+artifacts/*
+!artifacts/compat-runtime/
+!artifacts/compat-runtime/**
+artifacts/compat-runtime/**/*.log
+!artifacts/compat-runtime/qwen35-9b-webgpu/compile-mlc6474-success2.log
+!artifacts/compat-runtime/qwen36-14b-a3b-fablevibes-webllm/gen-config.log
+*.gguf
+*.safetensors
+*.safetensors.index.json
+*.partial
+*.part
+/EXAONE-Deep-Q2_K
+
+# Benchmark evidence is small and is part of the reproducibility record.
+!benchmarks/results/
+!benchmarks/results/**
+
+android/.gradle/
+android/app/.cxx/
+android/app/build/
+android/local.properties
+android/**/local.properties
+*.jks
+*.keystore

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 488" role="img" aria-label="특화 전환 X 조합: 일반 → 전문 모델 생성 속도">
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#172033}.muted{fill:#64748b;font-size:13px}</style>
+<text x="24" y="32" font-size="22" font-weight="600">특화 전환 X 조합: 일반 → 전문 모델 생성 속도</text>
+<rect x="870" y="17" width="13" height="13" rx="3" fill="#64748b"/><text x="890" y="29" font-size="13">일반 모델</text>
+<rect x="1015" y="17" width="13" height="13" rx="3" fill="#dc2626"/><text x="1035" y="29" font-size="13">전문 모델</text>
+<text x="208" y="120" text-anchor="end" font-size="14">X1</text>
+<rect x="220" y="94" width="653.9" height="20" rx="4" fill="#64748b" opacity="0.88"/>
+<text x="881.9" y="109" font-size="13">23.80</text>
+<rect x="220" y="125" width="758.3" height="20" rx="4" fill="#dc2626" opacity="0.88"/>
+<text x="986.3" y="140" font-size="13">27.60</text>
+<text x="208" y="232" text-anchor="end" font-size="14">X2</text>
+<rect x="220" y="206" width="744.6" height="20" rx="4" fill="#64748b" opacity="0.88"/>
+<text x="972.6" y="221" font-size="13">27.10</text>
+<rect x="220" y="237" width="758.3" height="20" rx="4" fill="#dc2626" opacity="0.88"/>
+<text x="986.3" y="252" font-size="13">27.60</text>
+<text x="208" y="344" text-anchor="end" font-size="14">X3</text>
+<rect x="220" y="318" width="634.7" height="20" rx="4" fill="#64748b" opacity="0.88"/>
+<text x="862.7" y="333" font-size="13">23.10</text>
+<rect x="220" y="349" width="711.6" height="20" rx="4" fill="#dc2626" opacity="0.88"/>
+<text x="939.6" y="364" font-size="13">25.90</text>
+<line x1="220" x2="1130" y1="428" y2="428" stroke="#cbd5e1"/>
+<text x="220" y="470" class="muted">0 tok/s</text><text x="1130" y="470" text-anchor="end" class="muted">33.1 tok/s</text>
+</svg>

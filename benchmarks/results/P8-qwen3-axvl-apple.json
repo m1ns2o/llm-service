@@ -1,0 +1,40 @@
+{
+  "model_id": "P8-qwen3-plus-ax-vl-light",
+  "platform": "apple-silicon-local",
+  "quantization": "Qwen3-8B-Q4_K_M + A.X-VL-BF16",
+  "artifact_sha256": "dad7de7d410fc0353c3a7d70b31025736fdf9ad3b8bab1c05445c2db512c881a",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 3.56,
+  "initial_decode_tps": 0.0463,
+  "final_decode_tps": 10.5726,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 20407.2,
+  "metadata": {
+    "vlm_model": "artifacts/ax4vl_original",
+    "llm_model": "artifacts/qwen3-8b-q4/Qwen3-8B-Q4_K_M.gguf",
+    "fixture": "benchmarks/fixtures/candy.png",
+    "visual_facts": "파란색, 주황색, 초록색으로 이루어진 네모",
+    "handoff": "다음은 VLM이 이미지에서 추출한 시각 정보다: 파란색, 주황색, 초록색으로 이루어진 네모. 이 정보를 바탕으로 학생에게 이미지의 색상과 패턴을 한국어로 한 문장 설명해줘.",
+    "vlm_generation_tps": 0.0463,
+    "vlm_generation_seconds": 172.7547,
+    "llm_runtime": "llama-server loopback 127.0.0.1:18099",
+    "llm": {
+      "returncode": 0,
+      "wall_seconds": 3.3478,
+      "server_seconds": 13.9708,
+      "prompt_tps": 132.5829,
+      "generation_tps": 10.5726,
+      "prompt_tokens": 78,
+      "completion_tokens": 25,
+      "prompt_ms": 588.311,
+      "generation_ms": 2364.61,
+      "response": "이미지는 파란색, 주황색, 초록색으로 이루어진 네모 모양입니다."
+    },
+    "llm_artifact_sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785"
+  }
+}

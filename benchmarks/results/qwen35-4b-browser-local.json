@@ -1,0 +1,27 @@
+{
+  "model_id": "qwen35-4b",
+  "platform": "browser-local-headless-chromium",
+  "quantization": "Q4_K_M",
+  "artifact_sha256": "00fe7986ff5f6b463e62455821146049db6f9313603938a70800d1fb69ef11a4",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": 31.04,
+  "final_decode_tps": 31.04,
+  "text_ttft_p50_seconds": 0.29639,
+  "model_size_mb": 2740.9,
+  "metadata": {
+    "endpoint": "http://127.0.0.1:8095",
+    "ui": "llama-ui",
+    "browser": "HeadlessChrome/151.0.0.0",
+    "navigator_gpu": true,
+    "prompt": "중학교 2학년 학생에게 일차함수의 기울기를 한 문단으로 설명해줘.",
+    "response_tokens": 172,
+    "response_seconds": 5.541,
+    "response_excerpt": "일차함수 y=kx+b에서 기울기 k는 ... 그래프의 변화 양상을 ...",
+    "limitation": "Browser UI -> localhost llama-server text path; model ran on Apple Silicon, not WebGPU in-browser inference"
+  }
+}

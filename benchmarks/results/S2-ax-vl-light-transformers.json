@@ -1,0 +1,48 @@
+{
+  "model_id": "ax-vl-light-8b",
+  "platform": "apple-silicon-local",
+  "quantization": "BF16-original-safetensors",
+  "artifact_sha256": "dad7de7d410fc0353c3a7d70b31025736fdf9ad3b8bab1c05445c2db512c881a",
+  "download_verified": true,
+  "download_mb": 14666.9629,
+  "cold_loads": 2,
+  "requests_completed": 2,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 5.4,
+  "initial_decode_tps": 0.0533,
+  "final_decode_tps": 0.0463,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 14666.9629,
+  "metadata": {
+    "upstream": "https://huggingface.co/skt/A.X-4.0-VL-Light",
+    "runtime": "Transformers 4.49.0 custom AX4VLForConditionalGeneration",
+    "hardware": "MacBook Pro M1 Pro, 16GB unified memory",
+    "device": "CPU BF16 (MPS unavailable for this run)",
+    "local_model_path": "artifacts/ax4vl_original",
+    "shard_sha256": {
+      "model-00001-of-00004.safetensors": "df2cb01ffd10ce08ecc0bc65bf7574b9b6307255d08223f1f9bb293be670f354",
+      "model-00002-of-00004.safetensors": "33edd933eba6633abf140bb94f5e2f1b6632cf936a790f58400d07ec2df8b602",
+      "model-00003-of-00004.safetensors": "9d092fc7551ec532351529e9e9f7df911e5748bfbe4083b17114848ddae75194",
+      "model-00004-of-00004.safetensors": "6263e4575c902f940b9c52a36144a748ba46d92ae0cbfca5689d110594184372"
+    },
+    "text_smoke": {
+      "prompt": "2 더하기 2는 얼마인가? 한 문장으로 답해줘.",
+      "generation_tokens": 8,
+      "generation_seconds": 150.0782,
+      "generation_tps": 0.0533,
+      "response": "2 더하기 2는 4"
+    },
+    "image_smoke": {
+      "fixture": "benchmarks/fixtures/candy.png",
+      "processor_inputs": {"input_ids": [1, 185], "pixel_values": [1, 3, 384, 384], "image_sizes": [1, 2]},
+      "prompt": "이미지에 보이는 색상과 패턴을 짧게 설명해줘.",
+      "generation_tokens": 8,
+      "generation_seconds": 172.7547,
+      "generation_tps": 0.0463,
+      "response": "파란색, 주황색, 초록색으로 이루어진 네모"
+    },
+    "limitation": "Two smoke requests only; CPU BF16 throughput is not a student-device recommendation and the standard 3 cold-load/20-request/20-minute gate remains incomplete."
+  }
+}

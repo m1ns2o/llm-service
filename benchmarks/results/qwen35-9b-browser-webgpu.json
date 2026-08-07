@@ -1,0 +1,30 @@
+{
+  "model_id": "qwen35-9b",
+  "platform": "browser-webgpu-direct",
+  "quantization": "q4f16_1-MLC",
+  "model_source_url": "https://huggingface.co/mlc-ai/Qwen3.5-9B-q4f16_1-MLC",
+  "download_verified": false,
+  "download_completed": true,
+  "parameter_files": 127,
+  "parameter_bytes_mb": 4805,
+  "cold_loads": 0,
+  "requests_completed": 0,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0,
+  "initial_decode_tps": null,
+  "final_decode_tps": null,
+  "text_ttft_p50_seconds": null,
+  "model_size_mb": null,
+  "load_seconds": null,
+  "inference_seconds": null,
+  "webgpu": {"navigator_gpu": true, "adapter_available": true, "vendor": "apple", "architecture": "metal-3"},
+  "status": "compile_blocked",
+  "metadata": {
+    "browser": "Chrome extension browser",
+    "endpoint": "none; browser-local WebGPU",
+    "prompt": "중학교 2학년 학생에게 일차함수의 기울기를 한 문단으로 설명해줘.",
+    "download_seconds": 570,
+    "limitation": "127개 파라미터 파일(약 4.8GB) 다운로드는 완료했으나, Qwen3.5-9B WebGPU 커널 컴파일 단계에서 브라우저 renderer가 응답하지 않아 추론 측정값을 얻지 못함. 브라우저 아티팩트 선택·WebGPU adapter 인식은 확인됨."
+  }
+}

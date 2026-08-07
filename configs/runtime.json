@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "fixed_benchmark": {
+    "prompt_id": "math-linear-function-ko-v1",
+    "prompt": "중학교 2학년 학생에게 일차함수 y=2x+3의 기울기와 y절편을 한 문단으로 설명해줘.",
+    "max_tokens": 128,
+    "temperature": 0,
+    "student_input_allowed": false
+  },
+  "android": {
+    "runtime": "llama.cpp JNI",
+    "abi": "arm64-v8a",
+    "backend_priority": ["vulkan", "opencl-experimental", "cpu-arm64"],
+    "forced_backend_values": ["auto", "vulkan", "opencl-experimental", "cpu-arm64"],
+    "minimum_android_api": 26,
+    "gpu_measurement_requires_physical_device": true,
+    "emulator_policy": "cpu-smoke-only",
+    "model_weights_bundled": false,
+    "native_source": "llama.cpp",
+    "native_build_script": "scripts/build_llama_runtime.sh"
+  },
+  "browser": {
+    "baseline_runtime": "WebLLM/MLC",
+    "experimental_runtime": "wllama 3.5.1 / llama.cpp WebGPU",
+    "webgpu_priority": true,
+    "wasm_cpu_fallback": true,
+    "wasm_cpu_fallback_policy": "environment-smoke-only; 14B is memory_blocked without WebGPU",
+    "model_weights_bundled": false,
+    "supported_models": ["qwen35-4b", "qwen35-9b", "qwen3-8b", "qwen36-14b-a3b-fablevibes-q4km"],
+    "excluded_models": [{"id": "qwen36-28b-a3b-reap20-iq3xxs", "reason": "browser_size_excluded"}],
+    "blocked_statuses": ["compile_blocked", "memory_blocked", "runtime_blocked"],
+    "native_build_script": "scripts/build_wllama_webgpu.sh",
+    "model_prepare_script": "scripts/prepare_browser_gguf.py",
+    "isolated_test_server": "scripts/serve_browser.py",
+    "shard_manifest": "browser/model-shards/qwen36-14b-a3b-fablevibes-q4km.json",
+    "wllama_commit": "766d28e03eeac044fe055327d06b83d3f9b84544",
+    "llama_cpp_commit": "dd4623a74f0c85e6b1dd9ee99a92b9c67cac3708",
+    "dawn_tag": "v20260317.182325",
+    "dawn_emdawnwebgpu_required": true,
+    "wasm_simd_required": true,
+    "wasm_memory64_required": true,
+    "wasm_jspi_required": true,
+    "cross_origin_isolation_required": true,
+    "memory_preflight_policy": "record reported total memory; do not gate on free RAM"
+  },
+  "result_schema": {
+    "compatible_with": "llm_bench.schema.RunEvidence",
+    "required_provenance": ["model_id", "quantization", "backend", "runtime", "artifact_sha256", "artifact_url"],
+    "metrics": ["model_load_ms", "ttft_ms", "prompt_tok_per_s", "decode_tok_per_s", "peak_rss_mb", "oom_events", "crashes", "thermal_status", "requests_completed"]
+  }
+}

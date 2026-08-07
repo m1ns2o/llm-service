@@ -1,0 +1,11 @@
+{
+  "model_id": "qwen3-8b",
+  "platform": "browser-windows",
+  "quantization": "q4f16_1-MLC",
+  "artifact_sha256": "REPLACE_WITH_MEASURED_SHA256",
+  "download_verified": false,
+  "cold_loads": 0,
+  "requests_completed": 0,
+  "thermal_minutes": 0,
+  "metadata": {"device": "REPLACE", "browser": "REPLACE"}
+}

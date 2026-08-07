@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "status": "pending_split",
+  "model_id": "qwen36-14b-a3b-fablevibes-q4km",
+  "format": "GGUF split",
+  "quantization": "Q4_K_M",
+  "source": {
+    "filename": "Qwen3.6-14B-A3B-FableVibes-Q4_K_M.gguf",
+    "url": "https://huggingface.co/tvall43/Qwen3.6-14B-A3B-FableVibes-GGUF/resolve/main/Qwen3.6-14B-A3B-FableVibes-Q4_K_M.gguf",
+    "size_bytes": 8465553920,
+    "sha256": "21aa4b0b28090469e8a319c889451df2f1ea6aad27ac3818c8c8a86f86d5bc9e",
+    "verified_before_split": false
+  },
+  "split": {
+    "max_size": "512M",
+    "first_shard_url": null,
+    "total_size_bytes": null,
+    "shard_count": null
+  },
+  "shards": [],
+  "blocked_reason": "upstream_q4km_is_single_file_and_host_storage_is_insufficient_for_source_plus_shards",
+  "upstream_checked_at": "2026-08-07T18:29:00+09:00",
+  "upstream_split_q4km_available": false,
+  "required_peak_host_storage_bytes": 16931107840
+}

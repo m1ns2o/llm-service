@@ -1,0 +1,37 @@
+{
+  "model_id": "X3-ternary-bonsai-8b-to-exaone-deep-78b",
+  "platform": "apple-silicon-local",
+  "quantization": "Ternary-Q2_0-prism -> EXAONE-Deep-Q2_K",
+  "artifact_sha256": "e1df4bc11579c1541c1f99c7ba52c103f776c53f3c414f55930f98fa3e92df37",
+  "download_verified": true,
+  "cold_loads": 2,
+  "requests_completed": 2,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.5506833333333334,
+  "initial_decode_tps": 23.1,
+  "final_decode_tps": 25.9,
+  "text_ttft_p50_seconds": null,
+  "model_size_mb": 5236.1,
+  "metadata": {
+    "general_model": "artifacts/ternary-bonsai-8b-q2/Ternary-Bonsai-8B-Q2_0.gguf",
+    "specialized_model": "artifacts/exaone-deep-78b-q2/EXAONE-Deep-7.8B-Q2_K.gguf",
+    "general_artifact_sha256": "3c8d70470a5d97e5a2b9410ddd899cb740116591462626c60cb2fead6448f60b",
+    "general": {
+      "returncode": 0,
+      "wall_seconds": 18.577,
+      "prompt_tps": 45.4,
+      "generation_tps": 23.1,
+      "response_excerpt": "\nLoading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n▄▄ ▄▄\n██ ██\n██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄\n██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██\n██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀\n                                    ██    ██\n                                    ▀▀    ▀▀\n\nbuild      : b1-9ca265a\nmodel      : Ternary-Bonsai-8B-Q2_0.gguf\nmodalities : text\n\navailable commands:\n  /exit or Ctrl+C     stop or exit\n  /regen              regenerate the last response\n  /clear              clear the chat history\n  /read <file>        add a text file\n  /glob <pattern>     add text files using globbing pattern\n\n\n> 연립방정식 2x+y=7, x-y=1을 풀고 풀이 과정을 중학생에게 설명해줘.\n\n|\b-\b\\\b|\b/\b \b물론입니다! 아래는 **연립방정식**을 풀고, **중학생 수준**에서 이해하기 쉬운 방법으로 설명해 드릴게요.\n\n---\n\n## 📌 연립방정식을 풀기:  \n**2x + y = 7**  \n**x - y = 1**\n\n---\n\n## 🔍 목표:\n두 방정식에서 x와 y의 값을 찾고,\n\n[ Prompt: 45.4 t/s | Generation: 23.1 t/s ]\n\nExiting...\n"
+    },
+    "specialized": {
+      "returncode": 0,
+      "wall_seconds": 14.464,
+      "prompt_tps": 158.8,
+      "generation_tps": 25.9,
+      "response_excerpt": "\n\nLoading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b \b\n\n▄▄ ▄▄\n██ ██\n██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄\n██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██\n██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀\n                                    ██    ██\n                                    ▀▀    ▀▀\n\nbuild      : b9960-a935fbffe\nmodel      : artifacts/exaone-deep-78b-q2/EXAONE-Deep-7.8B-Q2_K.gguf\nftype      : Q2_K - Medium\nmodalities : text\n\navailable commands:\n  /exit or Ctrl+C     stop or exit\n  /regen              regenerate the last response\n  /clear              clear the chat history\n  /read <file>        add a text file\n  /glob <pattern>     add text files using globbing pattern\n\n\n\n> 연립방정식 2x+y=7, x-y=1을 풀고 풀이 과정을 중학생에게 설명해줘.\n\nOkay, so I need to solve these two equations: 2x + y = 7 and x - y = 1. Hmm, let me think. Since there are two variables here, x and y, I probably need to find the values of x and y that satisfy both equations. The problem also mentions explaining the process to a middle school student, so I should keep it simple, maybe using substitution or elimination? Let me see.\n\nFirst, let\n\n[ Prompt: 158.8 t/s | Generation: 25.9 t/s ]\n\n\nExiting...\n"
+    },
+    "handoff": "load general model, unload, then load specialized model",
+    "prompt": "연립방정식 2x+y=7, x-y=1을 풀고 풀이 과정을 중학생에게 설명해줘."
+  }
+}

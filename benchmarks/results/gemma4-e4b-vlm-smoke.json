@@ -1,0 +1,26 @@
+{
+  "model_id": "gemma4-e4b",
+  "platform": "apple-silicon-local",
+  "quantization": "IQ3_M+mmproj-F16",
+  "artifact_sha256": "80290a72584793fb533613468f89b032cd53c94826eb5735a87c698d74d91ea8",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": null,
+  "final_decode_tps": null,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 5704.4,
+  "metadata": {
+    "mmproj": "artifacts/gemma4-e4b-iq3/gemma-4-E4B-it.mmproj-f16.gguf",
+    "mmproj_sha256": "fd29ffa385f51ed8df3e8f48a865c7997ff6d01ed50c11bed2ae90f0d75f104e",
+    "fixture": "benchmarks/fixtures/candy.png",
+    "response": "제공해주신 이미지는 픽셀이나 픽셀의 조각처럼 보이며, 명확하게 인식할 수 있는 물체는 보이지 않습니다.",
+    "prompt_tps": 70.9,
+    "generation_tps": 31.1,
+    "limitation": "single vision smoke; no sustained thermal run"
+  }
+}

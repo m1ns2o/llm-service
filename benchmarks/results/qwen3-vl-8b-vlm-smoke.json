@@ -1,0 +1,26 @@
+{
+  "model_id": "qwen3-vl-8b",
+  "platform": "apple-silicon-local",
+  "quantization": "Q4_K_M+mmproj-F16",
+  "artifact_sha256": "67d1659bfe71b89d50b45a4ad1a9e5b997e5bb16ce5da66a6a6167abd569e9e2",
+  "download_verified": true,
+  "cold_loads": 1,
+  "requests_completed": 1,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "initial_decode_tps": null,
+  "final_decode_tps": null,
+  "text_ttft_p50_seconds": null,
+  "vision_ttft_p50_seconds": null,
+  "model_size_mb": 6186.8,
+  "metadata": {
+    "mmproj": "artifacts/qwen3-vl-8b-q4/mmproj-Qwen3VL-8B-Instruct-F16.gguf",
+    "mmproj_sha256": "ca524100ebf825c9a870db1c580d03879e0da0ab2541697e2458e64891cf9d38",
+    "fixture": "benchmarks/fixtures/candy.png",
+    "response": "이미지는 파란색, 녹색, 주황색으로 이루어진 격자 무늬를 보여주며, 구체적인 물체는 없고 단지 색상 패턴으로 구성된 디자인입니다.",
+    "prompt_tps": 59.4,
+    "generation_tps": 24.9,
+    "limitation": "single vision smoke; no 20-minute vision thermal run"
+  }
+}

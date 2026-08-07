@@ -1,0 +1,37 @@
+{
+  "model_id": "X2-kanana-to-exaone-deep",
+  "platform": "apple-silicon-local",
+  "quantization": "Kanana-Q2_K -> EXAONE-Deep-Q2_K",
+  "artifact_sha256": "e1df4bc11579c1541c1f99c7ba52c103f776c53f3c414f55930f98fa3e92df37",
+  "download_verified": true,
+  "cold_loads": 2,
+  "requests_completed": 2,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.27871666666666667,
+  "initial_decode_tps": 27.1,
+  "final_decode_tps": 27.6,
+  "text_ttft_p50_seconds": null,
+  "model_size_mb": 6233.0,
+  "metadata": {
+    "general_model": "artifacts/kanana-15-8b-q2/kanana-1.5-8b-instruct-2505-Q2_K.gguf",
+    "specialized_model": "artifacts/exaone-deep-78b-q2/EXAONE-Deep-7.8B-Q2_K.gguf",
+    "general_artifact_sha256": "68b85a41f9c1f0637a6ad7f47a1b72812a89854cffef6263d701d62e518e5f6c",
+    "general": {
+      "returncode": 0,
+      "wall_seconds": 7.73,
+      "prompt_tps": 146.2,
+      "generation_tps": 27.1,
+      "response_excerpt": "\n\nLoading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n▄▄ ▄▄\n██ ██\n██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄\n██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██\n██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀\n                                    ██    ██\n                                    ▀▀    ▀▀\n\nbuild      : b9960-a935fbffe\nmodel      : artifacts/kanana-15-8b-q2/kanana-1.5-8b-instruct-2505-Q2_K.gguf\nftype      : Q2_K - Medium\nmodalities : text\n\navailable commands:\n  /exit or Ctrl+C     stop or exit\n  /regen              regenerate the last response\n  /clear              clear the chat history\n  /read <file>        add a text file\n  /glob <pattern>     add text files using globbing pattern\n\n\n\n> 연립방정식 2x+y=7, x-y=1을 풀고 풀이 과정을 중학생에게 설명해줘.\n네! 연립방정식 \\( 2x + y = 7 \\)과 \\( x - y = 1 \\)을 푸는 방법을 중학생이 이해할 수 있도록 차근차근 설명해줄게.\n\n---\n\n### 1. **두 개의 방정식 이해하기**\n\n두 개의 식을 먼저 잘 이해해야 해.\n\n1. \\( 2x + y = 7 \\) : 이 식은 \\( x \\)\n\n[ Prompt: 146.2 t/s | Generation: 27.1 t/s ]\n\n\nExiting...\n"
+    },
+    "specialized": {
+      "returncode": 0,
+      "wall_seconds": 8.993,
+      "prompt_tps": 171.3,
+      "generation_tps": 27.6,
+      "response_excerpt": "\n\nLoading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n▄▄ ▄▄\n██ ██\n██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄\n██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██\n██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀\n                                    ██    ██\n                                    ▀▀    ▀▀\n\nbuild      : b9960-a935fbffe\nmodel      : artifacts/exaone-deep-78b-q2/EXAONE-Deep-7.8B-Q2_K.gguf\nftype      : Q2_K - Medium\nmodalities : text\n\navailable commands:\n  /exit or Ctrl+C     stop or exit\n  /regen              regenerate the last response\n  /clear              clear the chat history\n  /read <file>        add a text file\n  /glob <pattern>     add text files using globbing pattern\n\n\n\n> 연립방정식 2x+y=7, x-y=1을 풀고 풀이 과정을 중학생에게 설명해줘.\n\nOkay, so I need to solve these two equations: 2x + y = 7 and x - y = 1. Hmm, let me think. Since there are two variables here, x and y, I probably need to find the values of x and y that satisfy both equations. The problem also mentions explaining the process to a middle school student, so I should keep it simple, maybe using substitution or elimination? Let me see.\n\nFirst, let\n\n[ Prompt: 171.3 t/s | Generation: 27.6 t/s ]\n\n\nExiting...\n"
+    },
+    "handoff": "load general model, unload, then load specialized model",
+    "prompt": "연립방정식 2x+y=7, x-y=1을 풀고 풀이 과정을 중학생에게 설명해줘."
+  }
+}

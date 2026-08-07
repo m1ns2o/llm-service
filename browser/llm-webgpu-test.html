@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>학생 기기 브라우저 LLM WebGPU 테스트</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, sans-serif; }
+    body { max-width: 920px; margin: 0 auto; padding: 24px; line-height: 1.5; }
+    h1 { margin-top: 0; }
+    .card { border: 1px solid #8885; border-radius: 12px; padding: 16px; margin: 14px 0; }
+    .muted { opacity: .75; font-size: .92rem; }
+    button { border: 0; border-radius: 8px; padding: 10px 14px; margin: 4px 6px 4px 0; cursor: pointer; }
+    button:disabled { opacity: .5; cursor: wait; }
+    #run { background: #2674e8; color: white; }
+    #detect { background: #777; color: white; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #0002; border-radius: 8px; padding: 12px; min-height: 70px; }
+    progress { width: 100%; height: 14px; }
+    .ok { color: #2aa66f; } .bad { color: #d95858; }
+  </style>
+</head>
+<body>
+  <h1>브라우저 직접추론 테스트</h1>
+  <p>이 페이지는 서버의 LLM API를 호출하지 않습니다. WebGPU를 지원하는 학생 기기에서
+    선택한 MLC 모델 파일을 브라우저 캐시(IndexedDB)에 받고, 브라우저 GPU에서 직접 생성합니다.</p>
+  <p class="muted">첫 실행은 모델 다운로드 때문에 수 분과 수 GB의 저장 공간이 필요할 수 있습니다.
+    테스트 중에는 다른 탭을 닫고 전원 연결을 권장합니다.</p>
+
+  <div class="card">
+    <label for="model">브라우저 모델 </label>
+    <select id="model">
+      <option value="qwen35-4b">Qwen3.5-4B (q4f16_1-MLC)</option>
+      <option value="qwen35-9b">Qwen3.5-9B (q4f16_1-MLC)</option>
+      <option value="qwen3-8b">Qwen3-8B (q4f16_1-MLC)</option>
+      <option value="qwen36-14b-a3b-fablevibes">Qwen3.6-14B-A3B FableVibes (MLC compile blocked)</option>
+    </select>
+    <p class="muted" id="model-note"></p>
+    <label for="token-limit">출력 토큰 제한 </label>
+    <input id="token-limit" type="number" min="32" max="1024" step="16" value="256">
+    <span class="muted">(성능 비교 기본값 256)</span>
+    <button id="detect">WebGPU 감지</button>
+    <button id="run">모델 로드 후 추론 실행</button>
+    <div id="status">대기 중</div>
+    <progress id="progress" value="0" max="1"></progress>
+  </div>
+
+  <div class="card">
+    <h2>환경·측정값</h2>
+    <pre id="metrics">아직 측정하지 않았습니다.</pre>
+  </div>
+  <div class="card">
+    <h2>모델 답변</h2>
+    <pre id="answer">아직 실행하지 않았습니다.</pre>
+  </div>
+  <div class="card">
+    <h2>실행 로그</h2>
+    <pre id="log"></pre>
+  </div>
+
+  <script type="module">
+    const $ = (id) => document.getElementById(id);
+    const MODELS = {
+      "qwen35-4b": {
+        id: "Qwen3.5-4B-q4f16_1-MLC",
+        source: "https://huggingface.co/mlc-ai/Qwen3.5-4B-q4f16_1-MLC",
+        vram_required_mb: 3867.82,
+        label: "Qwen3.5-4B"
+      },
+      "qwen35-9b": {
+        id: "Qwen3.5-9B-q4f16_1-MLC",
+        source: "https://huggingface.co/mlc-ai/Qwen3.5-9B-q4f16_1-MLC",
+        vram_required_mb: 6433.01,
+        label: "Qwen3.5-9B"
+      },
+      "qwen3-8b": {
+        id: "Qwen3-8B-q4f16_1-MLC",
+        source: "https://huggingface.co/mlc-ai/Qwen3-8B-q4f16_1-MLC",
+        vram_required_mb: 5695.78,
+        label: "Qwen3-8B"
+      },
+      "qwen36-14b-a3b-fablevibes": {
+        id: "Qwen3.6-14B-A3B-FableVibes-q4f16_1-MLC",
+        source: "https://huggingface.co/tvall43/Qwen3.6-14B-A3B-FableVibes",
+        vram_required_mb: 10500,
+        label: "Qwen3.6-14B-A3B FableVibes",
+        status: "compile_blocked",
+        blocked_reason: "mlc_unknown_model_type_qwen3_5_moe_text"
+      }
+    };
+    const selectedKey = new URLSearchParams(location.search).get("model") || "qwen35-4b";
+    const MODEL = MODELS[selectedKey] || MODELS["qwen35-4b"];
+    $("model").value = selectedKey in MODELS ? selectedKey : "qwen35-4b";
+    $("model-note").textContent = `${MODEL.label} · WebLLM 예상 VRAM ${MODEL.vram_required_mb}MB · ${MODEL.source}`;
+    $("model").addEventListener("change", (event) => {
+      const key = event.target.value;
+      location.href = `${location.pathname}?model=${encodeURIComponent(key)}`;
+    });
+    const MODEL_ID = MODEL.id;
+    const MODEL_SOURCE = MODEL.source;
+    const PROMPT = "중학교 2학년 학생에게 일차함수의 기울기를 한 문단으로 설명해줘.";
+    const state = { model_id: MODEL_ID, model_key: selectedKey in MODELS ? selectedKey : "qwen35-4b", model_label: MODEL.label, platform: "browser-webgpu-direct", model_source_url: MODEL_SOURCE, vram_required_mb: MODEL.vram_required_mb, status: MODEL.status || "pending", blocked_reason: MODEL.blocked_reason || null, speed_metrics_valid: !MODEL.status };
+    let engine = null;
+
+    function log(message) {
+      const stamp = new Date().toLocaleTimeString();
+      $("log").textContent += `[${stamp}] ${message}\n`;
+      $("log").scrollTop = $("log").scrollHeight;
+    }
+    function status(message, bad = false) {
+      $("status").textContent = message;
+      $("status").className = bad ? "bad" : "";
+    }
+    function renderMetrics() {
+      $("metrics").textContent = JSON.stringify(state, null, 2);
+      window.__browserBenchmarkResult = structuredClone(state);
+    }
+    async function detectWebGPU() {
+      const started = performance.now();
+      state.webgpu = { navigator_gpu: !!navigator.gpu, adapter_available: false };
+      if (!navigator.gpu) {
+        state.webgpu.error = "navigator.gpu가 없습니다. WebGPU 미지원 브라우저입니다.";
+        renderMetrics();
+        return false;
+      }
+      const adapter = await navigator.gpu.requestAdapter();
+      if (!adapter) {
+        state.webgpu.error = "GPU adapter를 얻지 못했습니다.";
+        renderMetrics();
+        return false;
+      }
+      state.webgpu.adapter_available = true;
+      state.webgpu.adapter_info = adapter.info ? {
+        vendor: adapter.info.vendor || null,
+        architecture: adapter.info.architecture || null,
+        device: adapter.info.device || null,
+        description: adapter.info.description || null
+      } : null;
+      state.webgpu.limits = {
+        maxBufferSize: Number(adapter.limits.maxBufferSize),
+        maxStorageBufferBindingSize: Number(adapter.limits.maxStorageBufferBindingSize)
+      };
+      state.webgpu.detect_ms = Math.round(performance.now() - started);
+      status("WebGPU 사용 가능", false);
+      log(`WebGPU adapter 확인: ${state.webgpu.adapter_info?.description || "available"}`);
+      renderMetrics();
+      return true;
+    }
+    async function loadAndGenerate() {
+      $("run").disabled = true; $("detect").disabled = true;
+      $("progress").value = 0; $("answer").textContent = "생성 중...";
+      try {
+        if (!(await detectWebGPU())) throw new Error("WebGPU를 사용할 수 없습니다.");
+        if (MODEL.status) {
+          state.status = MODEL.status;
+          state.blocked_reason = MODEL.blocked_reason;
+          state.speed_metrics_valid = false;
+          status(`${MODEL.label}: ${MODEL.status}`, true);
+          log(`WebLLM MLC 컴파일 차단: ${MODEL.blocked_reason}`);
+          renderMetrics();
+          return;
+        }
+        // esm.run은 Node 전용 createRequire가 섞이는 esm.sh 번들과 달리 브라우저 ESM을 제공합니다.
+        const webllm = await import("https://esm.run/@mlc-ai/web-llm@0.2.84");
+        const loadStarted = performance.now();
+        status("모델 로드 중... 첫 실행은 다운로드가 진행됩니다.");
+        log(`WebLLM ${webllm.version || ""} / ${MODEL_ID} 로드 시작`);
+        engine = await webllm.CreateMLCEngine(MODEL_ID, {
+          initProgressCallback: (p) => {
+            const fraction = typeof p?.progress === "number" ? p.progress : 0;
+            $("progress").value = Math.max(0, Math.min(1, fraction));
+            status(p?.text || `모델 로드 ${(fraction * 100).toFixed(1)}%`);
+          }
+        });
+        state.load_ms = Math.round(performance.now() - loadStarted);
+        state.cache_note = "모델은 브라우저 캐시/IndexedDB에 저장되며 서버 추론은 사용하지 않음";
+        log(`모델 로드 완료: ${(state.load_ms / 1000).toFixed(1)}초`);
+        status("추론 중...");
+        const inferStarted = performance.now();
+        const maxTokens = Math.max(32, Math.min(1024, Number($("token-limit").value) || 256));
+        state.max_tokens = maxTokens;
+        const response = await engine.chat.completions.create({
+          messages: [{ role: "user", content: PROMPT }],
+          temperature: 0,
+          max_tokens: maxTokens,
+          stream: false
+        });
+        state.inference_ms = Math.round(performance.now() - inferStarted);
+        state.prompt = PROMPT;
+        state.raw_response = response.choices?.[0]?.message?.content || "";
+        // Qwen 계열의 내부 추론 태그는 학생 화면에 노출하지 않고, 원문은 측정자료에 보존합니다.
+        const visibleResponse = state.raw_response.replace(/<think>[\s\S]*?(<\/think>|$)\s*/g, "").trim();
+        state.response = visibleResponse || (state.raw_response.includes("<think>")
+          ? "모델이 출력 한도 안에 학생용 답변을 완료하지 못했습니다."
+          : state.raw_response.trim());
+        state.usage = response.usage || null;
+        const completionTokens = response.usage?.completion_tokens;
+        state.completion_tokens = Number.isFinite(completionTokens) ? completionTokens : null;
+        const webllmDecodeTps = response.usage?.extra?.decode_tokens_per_s;
+        state.decode_tps = Number.isFinite(webllmDecodeTps) ? webllmDecodeTps : (state.completion_tokens && state.inference_ms > 0
+          ? Math.round(state.completion_tokens / (state.inference_ms / 1000) * 100) / 100 : null);
+        state.completed_at = new Date().toISOString();
+        $("answer").textContent = state.response || "(빈 응답)";
+        status("추론 완료", false);
+        log(`추론 완료: ${state.inference_ms}ms, ${state.completion_tokens ?? "토큰 수 미제공"} tokens, ${state.decode_tps ?? "-"} tok/s`);
+        renderMetrics();
+      } catch (error) {
+        state.error = String(error?.stack || error);
+        status(`실패: ${error?.message || error}`, true);
+        log(state.error);
+        renderMetrics();
+      } finally { $("run").disabled = false; $("detect").disabled = false; }
+    }
+    $("detect").addEventListener("click", () => detectWebGPU().catch((e) => { state.error = String(e); renderMetrics(); status(String(e), true); }));
+    $("run").addEventListener("click", loadAndGenerate);
+    renderMetrics();
+  </script>
+</body>
+</html>

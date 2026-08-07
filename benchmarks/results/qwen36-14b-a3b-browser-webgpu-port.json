@@ -1,0 +1,60 @@
+{
+  "model_id": "qwen36-14b-a3b-fablevibes-q4km",
+  "platform": "browser-wllama-webgpu-experiment",
+  "quantization": "Q4_K_M",
+  "artifact_sha256": "21aa4b0b28090469e8a319c889451df2f1ea6aad27ac3818c8c8a86f86d5bc9e",
+  "download_verified": false,
+  "cold_loads": 0,
+  "requests_completed": 0,
+  "crashes": 0,
+  "oom_events": 0,
+  "thermal_minutes": 0.0,
+  "model_size_mb": 8073.38134765625,
+  "artifact_url": "https://huggingface.co/tvall43/Qwen3.6-14B-A3B-FableVibes-GGUF/resolve/main/Qwen3.6-14B-A3B-FableVibes-Q4_K_M.gguf",
+  "artifact_filename": "Qwen3.6-14B-A3B-FableVibes-Q4_K_M.gguf",
+  "runtime": "wllama 3.5.1 / llama.cpp b1-dd4623a",
+  "backend": "webgpu",
+  "thermal_status": "browser_api_unavailable",
+  "status": "runtime_blocked",
+  "blocked_reason": "model_shards_not_published",
+  "metadata": {
+    "measured_at": "2026-08-07T18:26:00+09:00",
+    "wllama_commit": "766d28e03eeac044fe055327d06b83d3f9b84544",
+    "llama_cpp_commit": "dd4623a74f0c85e6b1dd9ee99a92b9c67cac3708",
+    "runtime_wasm_sha256": "194e454efde8ab9783fa1190c89a1ebbaebbef742cad3813420d676dfb1fed98",
+    "shard_manifest": "browser/model-shards/qwen36-14b-a3b-fablevibes-q4km.json",
+    "shard_manifest_status": "pending_split",
+    "upstream_split_q4km_available": false,
+    "host_free_storage_gib_at_final_check": 5.8,
+    "required_peak_host_storage_bytes_for_source_plus_shards": 16931107840,
+    "speed_metrics_valid": false,
+    "environment": {
+      "secure_context": true,
+      "cross_origin_isolated": true,
+      "wasm_jspi": true,
+      "wasm_memory64": true,
+      "shared_array_buffer": true,
+      "reported_total_memory_gb": 16,
+      "memory_policy": "reported total memory is informational; unused RAM is not a blocking gate",
+      "storage_quota_bytes": 10737418240,
+      "storage_available_bytes": 10737418240
+    },
+    "webgpu": {
+      "adapter_available": true,
+      "vendor": "apple",
+      "architecture": "metal-3",
+      "max_buffer_size": 4294967292,
+      "max_storage_buffer_binding_size": 4294967292
+    },
+    "runtime_smoke": {
+      "status": "passed",
+      "model_url": "https://huggingface.co/ggml-org/models/resolve/main/tinyllamas/stories15M-q4_0.gguf",
+      "elapsed_ms": 20450,
+      "output": ", there was a little girl named L",
+      "webgpu_model_buffer_observed": true,
+      "webgpu_kv_buffer_observed": true,
+      "webgpu_compute_buffer_observed": true
+    },
+    "limitation": "The compiled WebGPU runtime generated tokens with a tiny GGUF. The 14B checkpoint itself was not loaded because the complete source GGUF has not yet been verified and split into browser-safe shards; no 14B speed metric is reported."
+  }
+}
