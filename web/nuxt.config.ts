@@ -15,11 +15,11 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'ko' },
-      title: 'Local AI — 기기 안에서 답하는 AI',
+      title: 'Local Qwen — 기기 안에서 답하는 AI',
       meta: [
         {
           name: 'description',
-          content: 'Qwen3.5-4B와 LFM2.5-8B를 선택할 수 있는 WebGPU 로컬 AI 채팅'
+          content: 'Qwen3.5-2B와 4B를 선택할 수 있는 WebGPU 로컬 AI 채팅'
         }
       ]
     }

@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { QWEN_MODELS, type QwenModelChoice } from '~/composables/useLocalQwen'
+
 type ChatStatus = 'ready' | 'submitted' | 'streaming' | 'error'
-type ModelChoice = 'lfm25-8b' | 'qwen35-4b'
+type ModelChoice = QwenModelChoice
 
 interface TextPart {
   type: 'text'
@@ -11,6 +13,7 @@ interface LocalMessage {
   id: string
   role: 'user' | 'assistant'
   parts: TextPart[]
+  model?: ModelChoice
   reasoning?: string
   createdAt: string
   metrics?: {
@@ -33,7 +36,6 @@ const SYSTEM_PROMPT = '당신은 학생, 교사, 일반 사용자를 돕는 친�
 const MAX_CONTEXT_MESSAGES = 6
 const MAX_CONTEXT_CHARACTERS = 1200
 const QWEN_MAX_OUTPUT_TOKENS = 160
-const LFM_MAX_OUTPUT_TOKENS = 1536
 
 const toast = useToast()
 const colorMode = useColorMode()
@@ -43,66 +45,43 @@ const activeId = ref('')
 const chatStatus = ref<ChatStatus>('ready')
 const lastError = ref<string | null>(null)
 const copiedMessageId = ref<string | null>(null)
-const selectedModel = ref<ModelChoice>('lfm25-8b')
-const lfmReasoningActive = ref(false)
+const selectedModel = ref<ModelChoice>('qwen35-2b')
 const operationElapsedSeconds = ref(0)
 let operationTimer: ReturnType<typeof setInterval> | null = null
 const modelOptions: Array<{ value: ModelChoice, label: string }> = [
-  { value: 'lfm25-8b', label: 'LFM2.5-8B · 품질 우선' },
-  { value: 'qwen35-4b', label: 'Qwen3.5-4B · 크기/속도 우선' }
+  { value: 'qwen35-2b', label: 'Qwen3.5-2B · 빠른 기본' },
+  { value: 'qwen35-4b', label: 'Qwen3.5-4B · 품질 우선' }
 ]
 
 const {
-  modelState: qwenModelState,
-  modelProgress: qwenModelProgress,
-  modelStatusText: qwenModelStatusText,
-  modelError: qwenModelError,
-  webgpuAvailable: qwenWebgpuAvailable,
+  modelState,
+  modelProgress,
+  modelStatusText,
+  modelError,
+  webgpuAvailable,
+  activeModel,
   loadModel: loadQwenModel,
+  unloadModel: unloadQwenModel,
   beginGeneration: beginQwenGeneration,
   wasInterrupted: wasQwenInterrupted,
   stopGeneration: stopQwenGeneration
 } = useLocalQwen()
-
-const {
-  modelState: lfmModelState,
-  modelProgress: lfmModelProgress,
-  modelStatusText: lfmModelStatusText,
-  modelError: lfmModelError,
-  modelFileName,
-  webgpuAvailable: lfmWebgpuAvailable,
-  checkWebGPU: checkLfmWebGPU,
-  selectModelFile,
-  loadModel: loadLfmModel,
-  generate: generateLfm,
-  wasInterrupted: wasLfmInterrupted,
-  stopGeneration: stopLfmGeneration
-} = useLocalLfm()
 
 const activeConversation = computed(() => conversations.value.find(item => item.id === activeId.value))
 const messages = computed(() => activeConversation.value?.messages || [])
 const conversationSummaries = computed(() => [...conversations.value]
   .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
   .map(({ id, title, updatedAt }) => ({ id, title, updatedAt })))
-const modelState = computed(() => selectedModel.value === 'lfm25-8b' ? lfmModelState.value : qwenModelState.value)
-const modelProgress = computed(() => selectedModel.value === 'lfm25-8b' ? lfmModelProgress.value : qwenModelProgress.value)
-const modelStatusText = computed(() => selectedModel.value === 'lfm25-8b' ? lfmModelStatusText.value : qwenModelStatusText.value)
-const modelError = computed(() => selectedModel.value === 'lfm25-8b' ? lfmModelError.value : qwenModelError.value)
-const webgpuAvailable = computed(() => selectedModel.value === 'lfm25-8b' ? lfmWebgpuAvailable.value : qwenWebgpuAvailable.value)
 const isBusy = computed(() => chatStatus.value === 'submitted' || chatStatus.value === 'streaming' || modelState.value === 'loading')
-const modelReady = computed(() => modelState.value === 'ready')
+const modelReady = computed(() => modelState.value === 'ready' && activeModel.value === selectedModel.value)
 const modelPercent = computed(() => Math.round(modelProgress.value * 100))
-const modelLabel = computed(() => selectedModel.value === 'lfm25-8b' ? 'LFM2.5-8B-A1B' : 'Qwen3.5-4B')
-const modelDescription = computed(() => selectedModel.value === 'lfm25-8b'
-  ? '공식 Q4_K_M GGUF가 wllama WebGPU로 기기 안에서 실행됩니다.'
-  : 'Qwen3.5-4B가 WebLLM WebGPU로 기기 안에서 실행됩니다.')
-const modelStorageHint = computed(() => selectedModel.value === 'lfm25-8b'
-  ? '검증된 5.16GB GGUF를 로컬에서 선택합니다. 파일은 서버로 전송되지 않습니다.'
-  : '최초 1회 약 2.3GB를 받고 이후 브라우저 캐시를 사용합니다.')
+const modelDefinition = computed(() => QWEN_MODELS[selectedModel.value])
+const modelLabel = computed(() => modelDefinition.value.label)
+const modelDescription = computed(() => modelDefinition.value.description)
+const modelStorageHint = computed(() => modelDefinition.value.storageHint)
 const operationStatusText = computed(() => {
   if (modelState.value === 'loading') return `모델 로딩·WebGPU 컴파일 중 · ${operationElapsedSeconds.value}초`
   if (chatStatus.value === 'submitted') return `요청 준비 중 · ${operationElapsedSeconds.value}초`
-  if (chatStatus.value === 'streaming' && lfmReasoningActive.value) return `내부 추론 중 · ${operationElapsedSeconds.value}초`
   if (chatStatus.value === 'streaming') return `답변 스트리밍 중 · ${operationElapsedSeconds.value}초`
   return ''
 })
@@ -224,10 +203,9 @@ function recentRequestMessages(conversation: Conversation, excludedId: string) {
 }
 
 async function prepareModel(notify = true) {
-  if (modelState.value !== 'ready') startOperationTimer()
+  if (!modelReady.value) startOperationTimer()
   try {
-    if (selectedModel.value === 'lfm25-8b') await loadLfmModel()
-    else await loadQwenModel()
+    await loadQwenModel(selectedModel.value)
   } catch {
     if (notify) {
       toast.add({ title: '모델 준비 실패', description: modelError.value || '모델을 불러오지 못했습니다.', color: 'error' })
@@ -239,34 +217,9 @@ async function prepareModel(notify = true) {
 
 async function handleModelChange() {
   lastError.value = null
-  lfmReasoningActive.value = false
   chatStatus.value = 'ready'
   persist()
-
-  if (selectedModel.value === 'qwen35-4b') await prepareModel(false)
-  else await checkLfmWebGPU()
-}
-
-async function handleLfmFile(event: Event) {
-  const input = event.target as HTMLInputElement
-  const file = input.files?.[0] || null
-  try {
-    selectModelFile(file)
-    if (file) {
-      startOperationTimer()
-      await loadLfmModel()
-    }
-  } catch (error: unknown) {
-    selectModelFile(null)
-    toast.add({
-      title: 'LFM 파일을 사용할 수 없습니다',
-      description: error instanceof Error ? error.message : String(error),
-      color: 'error'
-    })
-    input.value = ''
-  } finally {
-    stopOperationTimer()
-  }
+  await prepareModel(false)
 }
 
 async function submitPrompt(value = prompt.value) {
@@ -293,6 +246,7 @@ async function submitPrompt(value = prompt.value) {
     id: makeId(),
     role: 'assistant',
     parts: [{ type: 'text', text: '' }],
+    model: selectedModel.value,
     reasoning: '',
     createdAt: new Date().toISOString()
   }
@@ -310,69 +264,44 @@ async function submitPrompt(value = prompt.value) {
       ...recentRequestMessages(conversation, assistant.id)
     ]
 
-    if (selectedModel.value === 'lfm25-8b') {
-      await loadLfmModel()
-      chatStatus.value = 'streaming'
-      lfmReasoningActive.value = false
-      const metrics = await generateLfm(
-        requestMessages,
-        LFM_MAX_OUTPUT_TOKENS,
-        async (answer) => {
-          lfmReasoningActive.value = false
-          replaceAssistant({ reasoning: '', parts: [{ type: 'text', text: answer }] })
-          await allowBrowserPaint()
-        },
-        () => {
-          lfmReasoningActive.value = true
-        }
-      )
+    const engine = await loadQwenModel(selectedModel.value)
+    chatStatus.value = 'streaming'
+    beginQwenGeneration()
+
+    const chunks = await engine.chat.completions.create({
+      messages: requestMessages,
+      temperature: 0.2,
+      max_tokens: QWEN_MAX_OUTPUT_TOKENS,
+      extra_body: { enable_thinking: false },
+      stream: true,
+      stream_options: { include_usage: true }
+    })
+
+    let raw = ''
+    let usageExtra: { decode_tokens_per_s?: number, time_to_first_token_s?: number } | undefined
+    for await (const chunk of chunks) {
+      if (wasQwenInterrupted()) break
+      const delta = chunk.choices[0]?.delta.content || ''
+      raw += delta
+      const parsed = parseOutput(raw)
       replaceAssistant({
-        metrics: {
-          decodeTokensPerSecond: metrics.decodeTokensPerSecond,
-          timeToFirstTokenSeconds: metrics.timeToFirstTokenSeconds,
-          timeToFirstVisibleTokenSeconds: metrics.timeToFirstVisibleTokenSeconds
-        }
+        reasoning: parsed.reasoning,
+        parts: [{ type: 'text', text: parsed.answer }]
       })
-    } else {
-      const engine = await loadQwenModel()
-      chatStatus.value = 'streaming'
-      beginQwenGeneration()
-
-      const chunks = await engine.chat.completions.create({
-        messages: requestMessages,
-        temperature: 0.2,
-        max_tokens: QWEN_MAX_OUTPUT_TOKENS,
-        extra_body: { enable_thinking: false },
-        stream: true,
-        stream_options: { include_usage: true }
-      })
-
-      let raw = ''
-      let usageExtra: { decode_tokens_per_s?: number, time_to_first_token_s?: number } | undefined
-      for await (const chunk of chunks) {
-        if (wasQwenInterrupted()) break
-        const delta = chunk.choices[0]?.delta.content || ''
-        raw += delta
-        const parsed = parseOutput(raw)
-        replaceAssistant({
-          reasoning: parsed.reasoning,
-          parts: [{ type: 'text', text: parsed.answer }]
-        })
-        if (chunk.usage?.extra) usageExtra = chunk.usage.extra
-        if (delta) await allowBrowserPaint()
-      }
-
-      if (usageExtra) {
-        replaceAssistant({
-          metrics: {
-            decodeTokensPerSecond: usageExtra.decode_tokens_per_s,
-            timeToFirstTokenSeconds: usageExtra.time_to_first_token_s
-          }
-        })
-      }
+      if (chunk.usage?.extra) usageExtra = chunk.usage.extra
+      if (delta) await allowBrowserPaint()
     }
 
-    const interrupted = selectedModel.value === 'lfm25-8b' ? wasLfmInterrupted() : wasQwenInterrupted()
+    if (usageExtra) {
+      replaceAssistant({
+        metrics: {
+          decodeTokensPerSecond: usageExtra.decode_tokens_per_s,
+          timeToFirstTokenSeconds: usageExtra.time_to_first_token_s
+        }
+      })
+    }
+
+    const interrupted = wasQwenInterrupted()
     if (!textOf(assistant).trim() && !interrupted) {
       replaceAssistant({ parts: [{ type: 'text', text: '답변을 완성하기 전에 출력 한도에 도달했습니다. 질문을 더 짧게 나누어 다시 시도해 주세요.' }] })
     }
@@ -382,7 +311,6 @@ async function submitPrompt(value = prompt.value) {
     replaceAssistant({ parts: [{ type: 'text', text: '응답을 생성하지 못했습니다. 모델 상태를 확인한 뒤 다시 시도해 주세요.' }] })
     chatStatus.value = 'error'
   } finally {
-    lfmReasoningActive.value = false
     stopOperationTimer()
     conversation.updatedAt = new Date().toISOString()
     persist()
@@ -390,8 +318,7 @@ async function submitPrompt(value = prompt.value) {
 }
 
 async function stop() {
-  if (selectedModel.value === 'lfm25-8b') await stopLfmGeneration()
-  else await stopQwenGeneration()
+  await stopQwenGeneration()
   stopOperationTimer()
   chatStatus.value = 'ready'
   persist()
@@ -416,6 +343,11 @@ function textPartsById(id: string) {
 function textById(id: string) {
   const message = messageById(id)
   return message ? textOf(message) : ''
+}
+
+function modelLabelByMessageId(id: string) {
+  const model = messageById(id)?.model
+  return model && model in QWEN_MODELS ? QWEN_MODELS[model].label : ''
 }
 
 async function copyMessageById(id: string) {
@@ -452,11 +384,13 @@ onMounted(() => {
     newConversation()
   }
 
-  if (selectedModel.value === 'qwen35-4b') void prepareModel(false)
-  else void checkLfmWebGPU()
+  void prepareModel(false)
 })
 
-onBeforeUnmount(stopOperationTimer)
+onBeforeUnmount(() => {
+  stopOperationTimer()
+  void unloadQwenModel()
+})
 </script>
 
 <template>
@@ -527,7 +461,7 @@ onBeforeUnmount(stopOperationTimer)
               무엇을 도와드릴까요?
             </h2>
             <p class="text-muted">
-              {{ modelDescription }} 대화 내용과 로컬 파일은 서버로 전송되지 않습니다.
+              {{ modelDescription }} 대화와 추론은 기기 안에서 처리됩니다.
             </p>
           </div>
 
@@ -542,24 +476,6 @@ onBeforeUnmount(stopOperationTimer)
               </div>
 
               <UProgress v-if="modelState !== 'error'" :model-value="modelPercent" />
-
-              <div v-if="selectedModel === 'lfm25-8b'" class="space-y-2 rounded-lg border border-default p-3">
-                <label class="block text-sm font-medium text-highlighted" for="lfm-model-file">
-                  LFM2.5 공식 Q4_K_M GGUF
-                </label>
-                <input
-                  id="lfm-model-file"
-                  data-testid="lfm-model-file"
-                  type="file"
-                  accept=".gguf"
-                  :disabled="modelState === 'loading' || modelReady"
-                  class="block w-full text-sm text-muted file:mr-3 file:rounded-md file:border-0 file:bg-elevated file:px-3 file:py-2 file:text-highlighted"
-                  @change="handleLfmFile"
-                >
-                <p class="text-xs text-muted">
-                  {{ modelFileName || 'LFM2.5-8B-A1B-Q4_K_M.gguf · 5,155,564,768 bytes' }}
-                </p>
-              </div>
 
               <UAlert
                 v-if="modelState === 'error'"
@@ -632,7 +548,11 @@ onBeforeUnmount(stopOperationTimer)
               >
                 {{ part.text }}
               </p>
-              <div v-if="messageById(message.id)?.metrics" class="flex flex-wrap gap-2 text-xs text-muted">
+              <div
+                v-if="messageById(message.id)?.model || messageById(message.id)?.metrics"
+                class="flex flex-wrap gap-2 text-xs text-muted"
+              >
+                <span v-if="modelLabelByMessageId(message.id)">{{ modelLabelByMessageId(message.id) }}</span>
                 <span v-if="messageById(message.id)?.metrics?.decodeTokensPerSecond">{{ messageById(message.id)!.metrics!.decodeTokensPerSecond!.toFixed(1) }} tok/s</span>
                 <span v-if="messageById(message.id)?.metrics?.timeToFirstVisibleTokenSeconds">연산 시작 {{ messageById(message.id)!.metrics!.timeToFirstTokenSeconds?.toFixed(1) }}초</span>
                 <span v-if="messageById(message.id)?.metrics?.timeToFirstVisibleTokenSeconds">답변 시작 {{ messageById(message.id)!.metrics!.timeToFirstVisibleTokenSeconds!.toFixed(1) }}초</span>
