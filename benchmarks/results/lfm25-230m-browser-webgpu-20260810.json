@@ -1,0 +1,48 @@
+{
+  "run_id": "lfm25-230m-browser-webgpu-20260810",
+  "completed_at": "2026-08-10T21:16:00+09:00",
+  "platform": "Chrome WebGPU via Transformers.js worker",
+  "runtime": "@huggingface/transformers@4.2.0",
+  "host": {
+    "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+    "ram_gb": 31.4,
+    "gpu": "Intel(R) Arc(TM) Graphics"
+  },
+  "model": {
+    "model_id": "LiquidAI/LFM2.5-230M-ONNX",
+    "parameters": 230000000,
+    "dtype": "q4",
+    "expected_download_mb": 200,
+    "device": "webgpu",
+    "source": "https://huggingface.co/LiquidAI/LFM2.5-230M-ONNX"
+  },
+  "prompt": "중학교 2학년 학생에게 일차함수의 기울기를 두 문장으로 설명해줘.",
+  "max_new_tokens": 64,
+  "cold_after_partial_cache": {
+    "load_seconds": 4.07,
+    "time_to_first_token_seconds": 3.34,
+    "tokens_per_second": 10.6,
+    "generated_tokens": 64
+  },
+  "warm": {
+    "load_seconds": 0.0,
+    "time_to_first_token_seconds": 0.15,
+    "tokens_per_second": 30.4,
+    "generated_tokens": 64
+  },
+  "quality": {
+    "status": "failed_factuality",
+    "note": "기울기를 '점-평점의 곱셈값'이라고 잘못 설명했고 64토큰에서 문장이 끝나지 않았다. 교육용 범용 채팅의 Qwen3.5-4B 대체 모델로는 부적합하다."
+  },
+  "compatibility": {
+    "webllm_prebuilt_registry": false,
+    "official_transformers_js_webgpu": true,
+    "chat_template_issue": "Transformers.js 4.2.0 tokenizer parser raised 'Unknown statement type: generation'.",
+    "workaround": "Liquid AI 공식 ChatML 형식을 직접 구성해 tokenizer chat template parser를 우회했다."
+  },
+  "limitations": [
+    "첫 성공 실행 전에 호환성 실패가 발생해 일부 파일이 브라우저 캐시에 저장됐으므로 완전한 최초 다운로드 시간은 측정하지 못했다.",
+    "각 조건을 한 번만 실행했으며 장시간 열 안정성은 측정하지 않았다.",
+    "생성 토큰 수가 64로 짧아 장문 품질과 지속 처리량을 대표하지 않는다."
+  ]
+}

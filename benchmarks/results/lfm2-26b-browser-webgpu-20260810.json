@@ -1,0 +1,61 @@
+{
+  "run_id": "lfm2-26b-browser-webgpu-20260810",
+  "completed_at": "2026-08-10T21:30:14+09:00",
+  "platform": "Chrome WebGPU via Transformers.js worker",
+  "runtime": "@huggingface/transformers@4.2.0",
+  "host": {
+    "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+    "ram_gb": 31.4,
+    "gpu": "Intel(R) Arc(TM) Graphics"
+  },
+  "model": {
+    "model_id": "onnx-community/LFM2-2.6B-ONNX",
+    "parameters": 2569272320,
+    "dtype": "q4",
+    "device": "webgpu",
+    "source": "https://huggingface.co/onnx-community/LFM2-2.6B-ONNX"
+  },
+  "prompt": "중학교 2학년 학생에게 일차함수의 기울기를 두 문장으로 설명해줘.",
+  "max_new_tokens": 48,
+  "cold_download": {
+    "load_seconds": 216.428,
+    "time_to_first_token_seconds": 4.049,
+    "generation_seconds": 8.604,
+    "tokens_per_second": 5.579,
+    "generated_tokens": 48
+  },
+  "cached_new_worker": {
+    "load_seconds": 9.148,
+    "time_to_first_token_seconds": 1.595,
+    "generation_seconds": 5.39,
+    "tokens_per_second": 8.906,
+    "generated_tokens": 48
+  },
+  "warm_same_worker": {
+    "load_seconds": 0.0,
+    "time_to_first_token_seconds": 1.416,
+    "generation_seconds": 5.35,
+    "tokens_per_second": 8.972,
+    "generated_tokens": 48
+  },
+  "response": "일차함수의 기울기는 그래프 위의 한 점에서의 변화율을 나타내며, x값이 1단위 증가할 때 y값이 얼마나 변하는지를 보여",
+  "quality": {
+    "status": "conceptually_correct_but_truncated",
+    "note": "기울기의 핵심 개념은 올바르게 설명했으나 안전한 단기 측정을 위해 48토큰에서 잘라 문장이 완결되지 않았다."
+  },
+  "comparison_to_same_host_qwen35_4b": {
+    "qwen_result_file": "browser-webgpu-windows-intel-arc-20260810.json",
+    "lfm_warm_tokens_per_second": 8.972,
+    "qwen_warm_tokens_per_second": 6.326,
+    "throughput_ratio": 1.418,
+    "lfm_warm_ttft_seconds": 1.416,
+    "qwen_warm_ttft_seconds": 1.68,
+    "caveat": "런타임과 생성 토큰 수가 달라 직접적인 모델 품질 또는 완전한 성능 우열로 해석할 수 없다."
+  },
+  "limitations": [
+    "각 조건을 한 번만 실행했다.",
+    "생성 길이를 48토큰으로 제한해 장문 품질과 열 안정성을 측정하지 않았다.",
+    "브라우저 캐시 다운로드 크기를 별도로 계측하지 않았다.",
+    "Qwen 비교는 같은 하드웨어지만 WebLLM 런타임과 95토큰 생성 결과여서 참고치다."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "scanned_at": "2026-08-10",
+  "framework": "Nuxt 4.5.2 / Vue 3 / Nuxt UI 4.10.0",
+  "font_stack": "Inter, Pretendard, Noto Sans KR, system-ui",
+  "palette": "Existing hex/rgba emerald-neutral tokens in app/assets/css/main.css",
+  "motion": "motion-cut; no dedicated motion library",
+  "spacing": "Ad-hoc pixel values; no locked 4pt token scale",
+  "design_system": null,
+  "preserve": [
+    "Nuxt UI component architecture",
+    "Qwen3.5-4B WebLLM runtime",
+    "local conversation persistence"
+  ],
+  "replace": [
+    "visual palette",
+    "typography system",
+    "spacing tokens",
+    "page macrostructure",
+    "interaction styling"
+  ]
+}
