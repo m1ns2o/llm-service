@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LFM2.5-VL · Qwen3.5 브라우저 멀티모달 비교</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, Pretendard, system-ui, sans-serif; background: #08111d; color: #edf4ff; }
+    * { box-sizing: border-box; }
+    body { max-width: 1180px; margin: auto; padding: 24px; line-height: 1.5; }
+    h1 { margin: 0 0 4px; font-size: clamp(1.7rem, 4vw, 2.45rem); }
+    h2 { margin: 0 0 12px; font-size: 1.05rem; }
+    p { margin: 7px 0; }
+    .muted { color: #9babc3; }
+    .warning { color: #ffd27a; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, .8fr); gap: 16px; }
+    .card { background: #101c2d; border: 1px solid #263a58; border-radius: 16px; padding: 16px; margin: 14px 0; box-shadow: 0 16px 50px rgba(0,0,0,.12); }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .file { display: grid; gap: 5px; margin: 10px 0; }
+    input, select, button { font: inherit; color: inherit; background: #091321; border: 1px solid #385176; border-radius: 9px; padding: 10px 12px; }
+    input[type=file] { width: 100%; }
+    button { cursor: pointer; background: #24538d; font-weight: 700; }
+    button.primary { background: #2770df; }
+    button:disabled { opacity: .48; cursor: wait; }
+    progress { width: 100%; height: 16px; margin-top: 12px; }
+    .status { border-left: 4px solid #47c98c; padding: 10px 12px; margin-top: 10px; background: #0d2923; border-radius: 6px; }
+    .status.bad { border-color: #ef6b7b; background: #2c141b; }
+    .metric { color: #91d8ff; min-height: 1.5em; }
+    .task { display: grid; grid-template-columns: 180px 1fr; gap: 14px; padding: 12px 0; border-top: 1px solid #263a58; }
+    .task:first-of-type { border-top: 0; }
+    canvas { width: 180px; height: 112px; object-fit: contain; background: #fff; border-radius: 9px; }
+    .answer { white-space: pre-wrap; overflow-wrap: anywhere; color: #dce9ff; margin-top: 6px; }
+    .pass { color: #58d59a; } .fail { color: #ff8290; }
+    pre { max-height: 500px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; background: #07101b; padding: 12px; border-radius: 10px; }
+    @media (max-width: 840px) { .grid { grid-template-columns: 1fr; } body { padding: 14px; } }
+    @media (max-width: 520px) { .task { grid-template-columns: 1fr; } canvas { width: 100%; height: auto; } }
+  </style>
+</head>
+<body>
+  <h1>브라우저 멀티모달 비교</h1>
+  <p class="muted">LFM2.5-VL-1.6B와 Qwen3.5-4B를 동일한 Chrome, wllama WebGPU, Q4_K_M 언어 모델, Q8_0 비전 프로젝터 조건으로 실행합니다. 비전 토큰은 각 모델의 정상 품질 권장값을 사용합니다.</p>
+  <p class="warning">가중치는 저장소에 포함하지 않습니다. 고정 revision에서 받은 두 GGUF 파일을 선택하면 합성 이미지 4개를 로컬에서만 평가합니다.</p>
+
+  <div class="grid">
+    <main>
+      <section class="card">
+        <h2>1. 모델과 비전 프로젝터</h2>
+        <div class="row">
+          <label>모델
+            <select id="model">
+              <option value="lfm25-vl16b">LFM2.5-VL-1.6B</option>
+              <option value="qwen35-4b">Qwen3.5-4B</option>
+            </select>
+          </label>
+          <button id="detect">WebGPU 검사</button>
+          <button id="run" class="primary">전체 벤치마크 실행</button>
+          <button id="export">결과 JSON 저장</button>
+        </div>
+        <label class="file">GGUF 두 개 선택 (모델 + mmproj)
+          <input id="model-files" type="file" accept=".gguf" multiple>
+        </label>
+        <progress id="progress" max="9" value="0"></progress>
+        <div id="status" class="status">대기 중</div>
+        <div id="live" class="metric"></div>
+        <div id="environment" class="muted"></div>
+      </section>
+
+      <section class="card">
+        <h2>2. 동일 이미지·프롬프트 결과</h2>
+        <div id="tasks"></div>
+      </section>
+    </main>
+
+    <aside>
+      <section class="card"><h2>요약</h2><pre id="summary">아직 결과가 없습니다.</pre></section>
+      <section class="card"><h2>실행 로그</h2><pre id="log"></pre></section>
+    </aside>
+  </div>
+  <script type="module" src="vlm-browser-compare.js"></script>
+</body>
+</html>
