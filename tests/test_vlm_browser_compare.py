@@ -8,11 +8,12 @@ ROOT = Path(__file__).parents[1]
 
 
 class VlmBrowserCompareTests(unittest.TestCase):
-    def test_page_exposes_two_model_multimodal_harness(self):
+    def test_page_exposes_three_model_multimodal_harness(self):
         page = (ROOT / "browser/vlm-browser-compare.html").read_text(encoding="utf-8")
         client = (ROOT / "browser/vlm-browser-compare.js").read_text(encoding="utf-8")
 
         self.assertIn('value="lfm25-vl16b"', page)
+        self.assertIn('value="qwen35-2b"', page)
         self.assertIn('value="qwen35-4b"', page)
         self.assertIn('id="model-files"', page)
         self.assertIn('type: "image", data: image', client)
@@ -29,8 +30,8 @@ class VlmBrowserCompareTests(unittest.TestCase):
     def test_comparison_uses_matching_quantization_and_runtime_settings(self):
         client = (ROOT / "browser/vlm-browser-compare.js").read_text(encoding="utf-8")
 
-        self.assertEqual(client.count("Q4_K_M.gguf"), 2)
-        self.assertEqual(client.count("Q8_0.gguf"), 2)
+        self.assertEqual(client.count("Q4_K_M.gguf"), 3)
+        self.assertEqual(client.count("Q8_0.gguf"), 3)
         self.assertIn("n_gpu_layers: 99999", client)
         self.assertIn("temperature: 0", client)
         self.assertIn("top_k: 1", client)
@@ -47,6 +48,7 @@ class VlmBrowserCompareTests(unittest.TestCase):
 
         self.assertIn("verify_artifact", source)
         self.assertIn("51eafbc127f35598c8f1d2ec58b2520d6126c7d1195c4eca26832e63a2939d39", source)
+        self.assertIn("d772079a853f3494be962e1bde20b4dbf1454c89d1da4c686cf701de19fc73f1", source)
         self.assertIn("aefc3c97c9eb30d9c0dd6af4c38250f5f5106b57c8cf92de7914c7d0a9c94da2", source)
         self.assertIn("window.__vlmBrowserBenchmarkResult", source)
 
@@ -54,17 +56,25 @@ class VlmBrowserCompareTests(unittest.TestCase):
         result = json.loads(
             (
                 ROOT
-                / "benchmarks/results/lfm25-vl16b-vs-qwen35-4b-browser-webgpu.json"
+                / "benchmarks/results/lfm25-vl16b-vs-qwen35-2b-4b-browser-webgpu.json"
             ).read_text(encoding="utf-8")
         )
 
         self.assertEqual(result["benchmark"], "browser-vlm-synthetic-v1")
         self.assertEqual(result["models"]["lfm25-vl16b"]["tasks_total"], 8)
+        self.assertEqual(result["models"]["qwen35-2b"]["tasks_total"], 8)
         self.assertEqual(result["models"]["qwen35-4b"]["tasks_total"], 8)
-        self.assertGreater(result["ratios"]["decode_lfm_over_qwen"], 2.0)
         self.assertGreater(
-            result["models"]["qwen35-4b"]["quality_percent"],
+            result["models"]["qwen35-2b"]["median_decode_tok_per_s"],
+            result["models"]["qwen35-4b"]["median_decode_tok_per_s"],
+        )
+        self.assertGreater(
+            result["models"]["qwen35-2b"]["quality_percent"],
             result["models"]["lfm25-vl16b"]["quality_percent"],
+        )
+        self.assertGreaterEqual(
+            result["models"]["qwen35-4b"]["quality_percent"],
+            result["models"]["qwen35-2b"]["quality_percent"],
         )
         self.assertEqual(
             result["decision"]["speed_and_footprint_winner"], "lfm25-vl16b"
@@ -72,6 +82,7 @@ class VlmBrowserCompareTests(unittest.TestCase):
         self.assertEqual(
             result["decision"]["multimodal_quality_winner"], "qwen35-4b"
         )
+        self.assertEqual(result["decision"]["balanced_candidate"], "qwen35-2b")
 
 
 if __name__ == "__main__":

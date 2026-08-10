@@ -27,6 +27,18 @@ $files = @(
         Name = "Qwen3.5-4B.mmproj-Q8_0.gguf"
         Size = 366894656
         Sha256 = "40a4f07d7bbdbb43011d6cf35ef751e4b1829ff47ee8aa4964c6296f571725ad"
+    },
+    @{
+        Url = "https://huggingface.co/mradermacher/Qwen3.5-2B-GGUF/resolve/33cc6944e40cb93e38332cd46b2a6e3c6acf081e/Qwen3.5-2B.Q4_K_M.gguf"
+        Name = "Qwen3.5-2B.Q4_K_M.gguf"
+        Size = 1270808896
+        Sha256 = "d772079a853f3494be962e1bde20b4dbf1454c89d1da4c686cf701de19fc73f1"
+    },
+    @{
+        Url = "https://huggingface.co/mradermacher/Qwen3.5-2B-GGUF/resolve/33cc6944e40cb93e38332cd46b2a6e3c6acf081e/Qwen3.5-2B.mmproj-Q8_0.gguf"
+        Name = "Qwen3.5-2B.mmproj-Q8_0.gguf"
+        Size = 364664384
+        Sha256 = "526dbf85f350baf3a5107b1f14e629e94571c7cbab4277476fbdaaa8c4a31a64"
     }
 )
 

@@ -1,0 +1,456 @@
+{
+  "schema_version": 1,
+  "benchmark": "browser-vlm-synthetic-v1",
+  "status": "complete",
+  "status_message": "Qwen3.5-2B 벤치마크 완료",
+  "runtime": "wllama 3.5.1 / llama.cpp WebGPU",
+  "generation_settings": {
+    "temperature": 0,
+    "top_k": 1,
+    "max_tokens": 96,
+    "n_ctx": 4096,
+    "image_min_tokens": 1024,
+    "image_max_tokens": 1024
+  },
+  "requests": [
+    {
+      "answer": "2026년 8월 17일 오후 3시에 별빛도서관 2층에서 회의가 열립니다.",
+      "reasoning_chars": 0,
+      "first_token_ms": 6959,
+      "first_visible_token_ms": 6959,
+      "total_ms": 8723,
+      "completion_tokens": 31,
+      "prompt_tokens": 1120,
+      "prompt_tok_per_s": 167.2825002639927,
+      "decode_tok_per_s": 17.573247847985737,
+      "id": "ko_ocr_schedule",
+      "prompt": "이미지에서 회의 날짜, 시간, 장소를 읽어 한 문장으로만 답하세요.",
+      "quality": {
+        "checks": [
+          {
+            "id": "date",
+            "passed": true
+          },
+          {
+            "id": "time",
+            "passed": true
+          },
+          {
+            "id": "place",
+            "passed": true
+          },
+          {
+            "id": "floor",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "score": 1
+      }
+    },
+    {
+      "answer": "The total is $40. The most expensive item is the Lamp at $25.",
+      "reasoning_chars": 0,
+      "first_token_ms": 7041,
+      "first_visible_token_ms": 7041,
+      "total_ms": 8149,
+      "completion_tokens": 20,
+      "prompt_tokens": 1118,
+      "prompt_tok_per_s": 163.36622089217244,
+      "decode_tok_per_s": 18.061136948570915,
+      "id": "en_ocr_receipt",
+      "prompt": "Read the receipt. Reply with only the total and the most expensive item.",
+      "quality": {
+        "checks": [
+          {
+            "id": "total",
+            "passed": true
+          },
+          {
+            "id": "item",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "score": 1
+      }
+    },
+    {
+      "answer": "75 - 42 = 33",
+      "reasoning_chars": 0,
+      "first_token_ms": 6912,
+      "first_visible_token_ms": 6912,
+      "total_ms": 7495,
+      "completion_tokens": 11,
+      "prompt_tokens": 1126,
+      "prompt_tok_per_s": 167.81549238049107,
+      "decode_tok_per_s": 18.892715140793666,
+      "id": "ko_chart_reasoning",
+      "prompt": "막대그래프에서 값이 가장 큰 항목과 Atlas보다 얼마나 큰지 한국어로 짧게 답하세요.",
+      "quality": {
+        "checks": [
+          {
+            "id": "highest",
+            "passed": false
+          },
+          {
+            "id": "difference",
+            "passed": true
+          }
+        ],
+        "passed": false,
+        "score": 0.5
+      }
+    },
+    {
+      "answer": "There are three shapes shown: a red square, a yellow triangle, and a blue circle. The blue circle is located on the right side of the image, and the center shape is the yellow triangle.",
+      "reasoning_chars": 0,
+      "first_token_ms": 6982,
+      "first_visible_token_ms": 6982,
+      "total_ms": 9394,
+      "completion_tokens": 42,
+      "prompt_tokens": 1129,
+      "prompt_tok_per_s": 166.7223884687767,
+      "decode_tok_per_s": 17.41492085540433,
+      "id": "en_spatial",
+      "prompt": "How many shapes are shown, where is the blue circle, and what color is the center shape? Answer in one short sentence.",
+      "quality": {
+        "checks": [
+          {
+            "id": "count",
+            "passed": true
+          },
+          {
+            "id": "position",
+            "passed": false
+          },
+          {
+            "id": "center",
+            "passed": true
+          }
+        ],
+        "passed": false,
+        "score": 0.6666666666666666
+      }
+    },
+    {
+      "answer": "소나무가 가장 많고, 소나무는 물결보다 12개 더 많습니다.",
+      "reasoning_chars": 0,
+      "first_token_ms": 6981,
+      "first_visible_token_ms": 6981,
+      "total_ms": 8205,
+      "completion_tokens": 21,
+      "prompt_tokens": 1125,
+      "prompt_tok_per_s": 166.0466362272433,
+      "decode_tok_per_s": 17.145040511281437,
+      "id": "ko_table_reasoning",
+      "prompt": "표에서 재고가 가장 많은 항목과 물결보다 몇 개 많은지 한국어로 짧게 답하세요.",
+      "quality": {
+        "checks": [
+          {
+            "id": "highest",
+            "passed": true
+          },
+          {
+            "id": "difference",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "score": 1
+      }
+    },
+    {
+      "answer": "AX204 C7 18:40",
+      "reasoning_chars": 0,
+      "first_token_ms": 6981,
+      "first_visible_token_ms": 6981,
+      "total_ms": 7676,
+      "completion_tokens": 13,
+      "prompt_tokens": 1119,
+      "prompt_tok_per_s": 165.47134935304993,
+      "decode_tok_per_s": 18.701295712080608,
+      "id": "en_boarding_pass",
+      "prompt": "Read the card. Reply with only the flight, gate, and boarding time.",
+      "quality": {
+        "checks": [
+          {
+            "id": "flight",
+            "passed": true
+          },
+          {
+            "id": "gate",
+            "passed": true
+          },
+          {
+            "id": "time",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "score": 1
+      }
+    },
+    {
+      "answer": "빨간 사각형은 5개, 파란 원은 2개입니다.",
+      "reasoning_chars": 0,
+      "first_token_ms": 7042,
+      "first_visible_token_ms": 7042,
+      "total_ms": 8155,
+      "completion_tokens": 20,
+      "prompt_tokens": 1125,
+      "prompt_tok_per_s": 165.05126712425235,
+      "decode_tok_per_s": 17.972584619421536,
+      "id": "ko_shape_count",
+      "prompt": "빨간 사각형과 파란 원은 각각 몇 개인지 한국어로 한 문장으로 답하세요.",
+      "quality": {
+        "checks": [
+          {
+            "id": "red_squares",
+            "passed": true
+          },
+          {
+            "id": "blue_circles",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "score": 1
+      }
+    },
+    {
+      "answer": "18",
+      "reasoning_chars": 0,
+      "first_token_ms": 6986,
+      "first_visible_token_ms": 6986,
+      "total_ms": 7107,
+      "completion_tokens": 3,
+      "prompt_tokens": 1117,
+      "prompt_tok_per_s": 165.51505038577454,
+      "decode_tok_per_s": 24.838549428713364,
+      "id": "en_number_grid",
+      "prompt": "What number should replace the question mark? Reply with only the number.",
+      "quality": {
+        "checks": [
+          {
+            "id": "next_number",
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "score": 1
+      }
+    }
+  ],
+  "logs": [
+    "2026-08-10T15:30:13.981Z ggml_webgpu: adapter_info: vendor_id: 0 | vendor: amd | architecture: rdna-3 | device_id: 0 | name:  | device_desc: ",
+    "2026-08-10T15:30:18.022Z warning: llama_context: n_ctx_seq (4096) < n_ctx_train (262144) -- the full capacity of the model will not be utilized",
+    "2026-08-10T15:30:18.060Z --- vision hparams ---",
+    "2026-08-10T15:30:19.802Z warning: srv    load_model: speculative decoding will use checkpoints",
+    "2026-08-10T15:30:19.803Z warning: common_speculative_init: no implementations specified for speculative decoding",
+    "2026-08-10T15:30:24.158Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:24.159Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:24.159Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:24.159Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:24.173Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:25.268Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:26.381Z warning: find_slot: non-consecutive token position 77 after 26 for sequence 0 with 11 new tokens",
+    "2026-08-10T15:30:26.381Z warning: find_slot: non-consecutive token position 77 after 26 for sequence 0 with 11 new tokens",
+    "2026-08-10T15:30:27.196Z warning: srv   prompt_save:  - saving prompt with length 1108, total state size = 32.272 MiB (draft: 0.000 MiB)",
+    "2026-08-10T15:30:27.417Z warning: slot update_slots: id  0 | task 6 | erased invalidated context checkpoint (pos_min = 77, pos_max = 77, n_tokens = 1103, n_swa = 0, pos_next = 0, size = 19.266 MiB)",
+    "2026-08-10T15:30:31.177Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:31.178Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:31.178Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:31.178Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:31.186Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:32.292Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:33.481Z warning: find_slot: non-consecutive token position 90 after 26 for sequence 0 with 24 new tokens",
+    "2026-08-10T15:30:33.482Z warning: find_slot: non-consecutive token position 90 after 26 for sequence 0 with 24 new tokens",
+    "2026-08-10T15:30:35.913Z warning: srv   prompt_save:  - saving prompt with length 1150, total state size = 32.765 MiB (draft: 0.000 MiB)",
+    "2026-08-10T15:30:36.078Z warning: slot update_slots: id  0 | task 41 | erased invalidated context checkpoint (pos_min = 90, pos_max = 90, n_tokens = 1116, n_swa = 0, pos_next = 0, size = 19.266 MiB)",
+    "2026-08-10T15:30:40.002Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:40.002Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:40.002Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:40.003Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:40.012Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:41.113Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:42.229Z warning: find_slot: non-consecutive token position 88 after 26 for sequence 0 with 22 new tokens",
+    "2026-08-10T15:30:42.230Z warning: find_slot: non-consecutive token position 88 after 26 for sequence 0 with 22 new tokens",
+    "2026-08-10T15:30:44.068Z warning: srv   prompt_save:  - saving prompt with length 1137, total state size = 32.612 MiB (draft: 0.000 MiB)",
+    "2026-08-10T15:30:44.234Z warning: slot update_slots: id  0 | task 65 | erased invalidated context checkpoint (pos_min = 88, pos_max = 88, n_tokens = 1114, n_swa = 0, pos_next = 0, size = 19.266 MiB)",
+    "2026-08-10T15:30:48.076Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:48.077Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:48.077Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:48.077Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:48.085Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:49.189Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:50.309Z warning: find_slot: non-consecutive token position 96 after 26 for sequence 0 with 30 new tokens",
+    "2026-08-10T15:30:50.310Z warning: find_slot: non-consecutive token position 96 after 26 for sequence 0 with 30 new tokens",
+    "2026-08-10T15:30:51.572Z warning: srv   prompt_save:  - saving prompt with length 1136, total state size = 32.600 MiB (draft: 0.000 MiB)",
+    "2026-08-10T15:30:51.740Z warning: slot update_slots: id  0 | task 80 | erased invalidated context checkpoint (pos_min = 96, pos_max = 96, n_tokens = 1122, n_swa = 0, pos_next = 0, size = 19.266 MiB)",
+    "2026-08-10T15:30:55.595Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:55.596Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:55.596Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:55.597Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:55.605Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:30:56.698Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:30:57.812Z warning: find_slot: non-consecutive token position 99 after 26 for sequence 0 with 33 new tokens",
+    "2026-08-10T15:30:57.814Z warning: find_slot: non-consecutive token position 99 after 26 for sequence 0 with 33 new tokens",
+    "2026-08-10T15:31:00.964Z warning: srv   prompt_save:  - saving prompt with length 1170, total state size = 32.999 MiB (draft: 0.000 MiB)",
+    "2026-08-10T15:31:01.132Z warning: slot update_slots: id  0 | task 126 | erased invalidated context checkpoint (pos_min = 99, pos_max = 99, n_tokens = 1125, n_swa = 0, pos_next = 0, size = 19.266 MiB)",
+    "2026-08-10T15:31:05.059Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:05.061Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:05.061Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:31:05.062Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:05.071Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:06.156Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:31:07.268Z warning: find_slot: non-consecutive token position 95 after 26 for sequence 0 with 29 new tokens",
+    "2026-08-10T15:31:07.270Z warning: find_slot: non-consecutive token position 95 after 26 for sequence 0 with 29 new tokens",
+    "2026-08-10T15:31:09.175Z warning: srv   prompt_save:  - saving prompt with length 1145, total state size = 32.706 MiB (draft: 0.000 MiB)",
+    "2026-08-10T15:31:09.354Z warning: slot update_slots: id  0 | task 151 | erased invalidated context checkpoint (pos_min = 95, pos_max = 95, n_tokens = 1121, n_swa = 0, pos_next = 0, size = 19.266 MiB)",
+    "2026-08-10T15:31:13.248Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:13.250Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:13.250Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:31:13.251Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:13.260Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:14.375Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:31:15.488Z warning: find_slot: non-consecutive token position 89 after 26 for sequence 0 with 23 new tokens",
+    "2026-08-10T15:31:15.489Z warning: find_slot: non-consecutive token position 89 after 26 for sequence 0 with 23 new tokens",
+    "2026-08-10T15:31:16.866Z warning: srv   prompt_save:  - saving prompt with length 1131, total state size = 32.542 MiB (draft: 0.000 MiB)",
+    "2026-08-10T15:31:17.043Z warning: slot update_slots: id  0 | task 168 | erased invalidated context checkpoint (pos_min = 89, pos_max = 89, n_tokens = 1115, n_swa = 0, pos_next = 0, size = 19.266 MiB)",
+    "2026-08-10T15:31:20.919Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:20.920Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:20.920Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:31:20.921Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:20.930Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:22.028Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:31:23.136Z warning: find_slot: non-consecutive token position 95 after 26 for sequence 0 with 29 new tokens",
+    "2026-08-10T15:31:23.137Z warning: find_slot: non-consecutive token position 95 after 26 for sequence 0 with 29 new tokens",
+    "2026-08-10T15:31:25.012Z warning: srv   prompt_save:  - saving prompt with length 1144, total state size = 32.694 MiB (draft: 0.000 MiB)",
+    "2026-08-10T15:31:25.212Z warning: slot update_slots: id  0 | task 192 | erased invalidated context checkpoint (pos_min = 95, pos_max = 95, n_tokens = 1121, n_swa = 0, pos_next = 0, size = 19.266 MiB)",
+    "2026-08-10T15:31:29.100Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:29.102Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:29.102Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:31:29.103Z warning: find_slot: non-consecutive token position 26 after 25 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:29.111Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 512 new tokens",
+    "2026-08-10T15:31:30.206Z warning: find_slot: non-consecutive token position 26 after 26 for sequence 0 with 42 new tokens",
+    "2026-08-10T15:31:31.329Z warning: find_slot: non-consecutive token position 87 after 26 for sequence 0 with 21 new tokens",
+    "2026-08-10T15:31:31.330Z warning: find_slot: non-consecutive token position 87 after 26 for sequence 0 with 21 new tokens"
+  ],
+  "model": {
+    "id": "qwen35-2b",
+    "label": "Qwen3.5-2B",
+    "upstream": "mradermacher/Qwen3.5-2B-GGUF",
+    "sourceModel": "Qwen/Qwen3.5-2B",
+    "revision": "33cc6944e40cb93e38332cd46b2a6e3c6acf081e",
+    "modelFile": "Qwen3.5-2B.Q4_K_M.gguf",
+    "modelBytes": 1270808896,
+    "mmprojFile": "Qwen3.5-2B.mmproj-Q8_0.gguf",
+    "mmprojBytes": 364664384,
+    "parameters": "2B LM + vision encoder",
+    "imageMinTokens": 1024,
+    "imageMaxTokens": 1024
+  },
+  "started_at": "2026-08-10T15:30:13.836Z",
+  "task_count": 8,
+  "cross_origin_isolated": true,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+  "webgpu": {
+    "vendor": "amd",
+    "architecture": "rdna-3",
+    "device": null
+  },
+  "model_load_ms": 5955,
+  "model_metadata": {
+    "hparams": {
+      "nVocab": 248320,
+      "nCtxTrain": 262144,
+      "nEmbd": 2048,
+      "nLayer": 24
+    },
+    "meta": {
+      "mradermacher.convert_type": "hf",
+      "general.source.url": "https://huggingface.co/Qwen/Qwen3.5-2B",
+      "mradermacher.quantized_on": "nico1",
+      "mradermacher.quantize_version": "2",
+      "general.url": "https://huggingface.co/mradermacher/Qwen3.5-2B-GGUF",
+      "general.file_type": "15",
+      "tokenizer.ggml.add_bos_token": "false",
+      "tokenizer.ggml.pre": "qwen35",
+      "tokenizer.ggml.model": "gpt2",
+      "qwen35.full_attention_interval": "4",
+      "qwen35.rope.dimension_count": "64",
+      "qwen35.ssm.inner_size": "2048",
+      "qwen35.ssm.group_count": "16",
+      "general.basename": "Qwen3.5",
+      "qwen35.ssm.conv_kernel": "4",
+      "qwen35.attention.value_length": "256",
+      "mradermacher.quantized_at": "2026-03-03T10:52:49+01:00",
+      "qwen35.rope.freq_base": "10000000.000000",
+      "qwen35.attention.head_count_kv": "2",
+      "qwen35.attention.key_length": "256",
+      "tokenizer.chat_template": "{%- set image_count = namespace(value=0) %}\n{%- set video_count = namespace(value=0) %}\n{%- macro render_content(content, do_vision_count, is_system_content=false) %}\n    {%- if content is string %}\n        {{- content }}\n    {%- elif content is iterable and content is not mapping %}\n        {%- for item in content %}\n            {%- if 'image' in item or 'image_url' in item or item.type == 'image' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain images.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set image_count.value = image_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Picture ' ~ image_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|image_pad|><|vision_end|>' }}\n            {%- elif 'video' in item or item.type == 'video' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain videos.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set video_count.value = video_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Video ' ~ video_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|video_pad|><|vision_end|>' }}\n            {%- elif 'text' in item %}\n                {{- item.text }}\n            {%- else %}\n                {{- raise_exception('Unexpected item type in content.') }}\n            {%- endif %}\n        {%- endfor %}\n    {%- elif content is none or content is undefined %}\n        {{- '' }}\n    {%- else %}\n        {{- raise_exception('Unexpected content type.') }}\n    {%- endif %}\n{%- endmacro %}\n{%- if not messages %}\n    {{- raise_exception('No messages provided.') }}\n{%- endif %}\n{%- if tools and tools is iterable and tools is not mapping %}\n    {{- '<|im_start|>system\\n' }}\n    {{- \"# Tools\\n\\nYou have access to the following functions:\\n\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\" }}\n    {{- '\\n\\nIf you choose to call a function ONLY reply in the following format with NO suffix:\\n\\n<tool_call>\\n<function=example_function_name>\\n<parameter=example_parameter_1>\\nvalue_1\\n</parameter>\\n<parameter=example_parameter_2>\\nThis is the value for the second parameter\\nthat can span\\nmultiple lines\\n</parameter>\\n</function>\\n</tool_call>\\n\\n<IMPORTANT>\\nReminder:\\n- Function calls MUST follow the specified format: an inner <function=...></function> block must be nested within <tool_call></tool_call> XML tags\\n- Required parameters MUST be specified\\n- You may provide optional reasoning for your function call in natural language BEFORE the function call, but NOT after\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\n</IMPORTANT>' }}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {%- if content %}\n            {{- '\\n\\n' + content }}\n        {%- endif %}\n    {%- endif %}\n    {{- '<|im_end|>\\n' }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {{- '<|im_start|>system\\n' + content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" %}\n        {%- set content = render_content(message.content, false)|trim %}\n        {%- if not(content.startswith('<tool_response>') and content.endswith('</tool_response>')) %}\n            {%- set ns.multi_step_tool = false %}\n            {%- set ns.last_query_index = index %}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if ns.multi_step_tool %}\n    {{- raise_exception('No user query found in messages.') }}\n{%- endif %}\n{%- for message in messages %}\n    {%- set content = render_content(message.content, true)|trim %}\n    {%- if message.role == \"system\" %}\n        {%- if not loop.first %}\n            {{- raise_exception('System message must be at the beginning.') }}\n        {%- endif %}\n    {%- elif message.role == \"user\" %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in content %}\n                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- set reasoning_content = reasoning_content|trim %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content + '\\n</think>\\n\\n' + content }}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls and message.tool_calls is iterable and message.tool_calls is not mapping %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if tool_call.function is defined %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {%- if loop.first %}\n                    {%- if content|trim %}\n                        {{- '\\n\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- else %}\n                        {{- '<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- endif %}\n                {%- else %}\n                    {{- '\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                {%- endif %}\n                {%- if tool_call.arguments is defined %}\n                    {%- for args_name, args_value in tool_call.arguments|items %}\n                        {{- '<parameter=' + args_name + '>\\n' }}\n                        {%- set args_value = args_value | tojson | safe if args_value is mapping or (args_value is sequence and args_value is not string) else args_value | string %}\n                        {{- args_value }}\n                        {{- '\\n</parameter>\\n' }}\n                    {%- endfor %}\n                {%- endif %}\n                {{- '</function>\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.previtem and loop.previtem.role != \"tool\" %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if not loop.last and loop.nextitem.role != \"tool\" %}\n            {{- '<|im_end|>\\n' }}\n        {%- elif loop.last %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- else %}\n        {{- raise_exception('Unexpected message role.') }}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is true %}\n        {{- '<think>\\n' }}\n    {%- else %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}",
+      "qwen35.ssm.time_step_rank": "16",
+      "qwen35.feed_forward_length": "6144",
+      "qwen35.attention.layer_norm_rms_epsilon": "0.000001",
+      "tokenizer.ggml.eos_token_id": "248046",
+      "qwen35.context_length": "262144",
+      "general.type": "model",
+      "qwen35.attention.head_count": "8",
+      "tokenizer.ggml.padding_token_id": "248044",
+      "qwen35.block_count": "24",
+      "general.base_model.0.organization": "Qwen",
+      "general.base_model.count": "1",
+      "general.quantization_version": "2",
+      "general.base_model.0.repo_url": "https://huggingface.co/Qwen/Qwen3.5-2B-Base",
+      "general.license": "apache-2.0",
+      "mradermacher.quantized_by": "mradermacher",
+      "general.architecture": "qwen35",
+      "general.base_model.0.name": "Qwen3.5 2B Base",
+      "qwen35.ssm.state_size": "128",
+      "general.size_label": "2B",
+      "qwen35.embedding_length": "2048",
+      "general.license.link": "https://huggingface.co/Qwen/Qwen3.5-2B/blob/main/LICENSE",
+      "general.name": "Qwen3.5 2B"
+    }
+  },
+  "image_input_supported": true,
+  "artifacts": [
+    {
+      "name": "Qwen3.5-2B.Q4_K_M.gguf",
+      "size_bytes": 1270808896
+    },
+    {
+      "name": "Qwen3.5-2B.mmproj-Q8_0.gguf",
+      "size_bytes": 364664384
+    }
+  ],
+  "warmup": {
+    "answer": "OK",
+    "reasoning_chars": 0,
+    "first_token_ms": 7141,
+    "first_visible_token_ms": 7141,
+    "total_ms": 7290,
+    "completion_tokens": 2,
+    "prompt_tokens": 1107,
+    "prompt_tok_per_s": 156.51877362804296,
+    "decode_tok_per_s": 13.561068883449394
+  },
+  "finished_at": "2026-08-10T15:31:32.082Z",
+  "host_artifacts": [
+    {
+      "name": "Qwen3.5-2B.Q4_K_M.gguf",
+      "size_bytes": 1270808896,
+      "sha256": "d772079a853f3494be962e1bde20b4dbf1454c89d1da4c686cf701de19fc73f1",
+      "verified": true
+    },
+    {
+      "name": "Qwen3.5-2B.mmproj-Q8_0.gguf",
+      "size_bytes": 364664384,
+      "sha256": "526dbf85f350baf3a5107b1f14e629e94571c7cbab4277476fbdaaa8c4a31a64",
+      "verified": true
+    }
+  ],
+  "download_verified": true,
+  "automation": "agent-browser/Chrome debug pipe"
+}

@@ -33,6 +33,14 @@ ARTIFACTS = {
         "mmproj_size": 366_894_656,
         "mmproj_sha256": "40a4f07d7bbdbb43011d6cf35ef751e4b1829ff47ee8aa4964c6296f571725ad",
     },
+    "qwen35-2b": {
+        "model_name": "Qwen3.5-2B.Q4_K_M.gguf",
+        "model_size": 1_270_808_896,
+        "model_sha256": "d772079a853f3494be962e1bde20b4dbf1454c89d1da4c686cf701de19fc73f1",
+        "mmproj_name": "Qwen3.5-2B.mmproj-Q8_0.gguf",
+        "mmproj_size": 364_664_384,
+        "mmproj_sha256": "526dbf85f350baf3a5107b1f14e629e94571c7cbab4277476fbdaaa8c4a31a64",
+    },
 }
 
 

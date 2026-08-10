@@ -27,6 +27,19 @@ const MODELS = {
     imageMinTokens: 1024,
     imageMaxTokens: 1024,
   },
+  "qwen35-2b": {
+    label: "Qwen3.5-2B",
+    upstream: "mradermacher/Qwen3.5-2B-GGUF",
+    sourceModel: "Qwen/Qwen3.5-2B",
+    revision: "33cc6944e40cb93e38332cd46b2a6e3c6acf081e",
+    modelFile: "Qwen3.5-2B.Q4_K_M.gguf",
+    modelBytes: 1270808896,
+    mmprojFile: "Qwen3.5-2B.mmproj-Q8_0.gguf",
+    mmprojBytes: 364664384,
+    parameters: "2B LM + vision encoder",
+    imageMinTokens: 1024,
+    imageMaxTokens: 1024,
+  },
 };
 
 const $ = (id) => document.getElementById(id);
