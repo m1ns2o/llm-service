@@ -7,19 +7,75 @@ ROOT = Path(__file__).parents[1]
 
 
 class QwenWebServiceTests(unittest.TestCase):
-    def test_service_offers_qwen_2b_default_and_4b_quality_mode(self):
+    def test_service_offers_adaptive_qwen_tiers_and_optional_lfm(self):
         page = (ROOT / "web/app/pages/index.vue").read_text(encoding="utf-8")
         runtime = (ROOT / "web/app/composables/useLocalQwen.ts").read_text(
             encoding="utf-8"
         )
+        catalog = (ROOT / "web/app/composables/localModelCatalog.ts").read_text(
+            encoding="utf-8"
+        )
 
         self.assertIn("ref<ModelChoice>('qwen35-2b')", page)
-        self.assertIn("Qwen3.5-2B · 빠른 기본", page)
-        self.assertIn("Qwen3.5-4B · 품질 우선", page)
+        self.assertIn("Qwen3.5-0.8B-q4f16_1-MLC", catalog)
         self.assertIn("Qwen3.5-2B-q4f16_1-MLC", runtime)
         self.assertIn("Qwen3.5-4B-q4f16_1-MLC", runtime)
+        self.assertIn("Qwen3.5-9B-q4f16_1-MLC", catalog)
+        self.assertIn("LiquidAI/LFM2-8B-A1B-ONNX", catalog)
+        self.assertIn("autoEligible: false", catalog)
+        self.assertIn("LOCAL_MODEL_CHOICES.map", page)
         self.assertIn("QWEN_CONTEXT_WINDOW_SIZE = 4096", runtime)
-        self.assertEqual(runtime.count("quantization: 'q4f16_1'"), 3)
+        self.assertEqual(runtime.count("quantization: 'q4f16_1'"), 5)
+
+    def test_hardware_profile_uses_conservative_browser_signals(self):
+        profile = (ROOT / "web/app/composables/useHardwareProfile.ts").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("navigator.hardwareConcurrency", profile)
+        self.assertIn("deviceMemory", profile)
+        self.assertIn("adapter.limits.maxBufferSize", profile)
+        self.assertIn("maxStorageBufferBindingSize", profile)
+        self.assertIn("adapter?.features.has('shader-f16')", profile)
+        self.assertIn("model: 'qwen35-08b'", profile)
+        self.assertIn("model: 'qwen35-2b'", profile)
+        self.assertIn("model: 'qwen35-4b'", profile)
+        self.assertNotIn("model: 'qwen35-9b'", profile)
+        self.assertNotIn("model: 'lfm2-8b'", profile)
+
+    def test_model_manager_reuses_and_deletes_browser_cache(self):
+        page = (ROOT / "web/app/pages/index.vue").read_text(encoding="utf-8")
+        qwen = (ROOT / "web/app/composables/useLocalQwen.ts").read_text(
+            encoding="utf-8"
+        )
+        lfm = (ROOT / "web/app/composables/useLocalLfmWebGpu.ts").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("hasModelInCache", qwen)
+        self.assertIn("deleteModelAllInfoInCache", qwen)
+        self.assertIn("for (const cacheName of await caches.keys())", lfm)
+        self.assertIn("lfmCacheKeyMatches", lfm)
+        self.assertIn("다운로드하고 실행", page)
+        self.assertIn("캐시에서 실행", page)
+        self.assertIn("removeCachedModel", page)
+
+    def test_lfm_speed_mode_is_pinned_and_streamed_in_webgpu_worker(self):
+        worker = (ROOT / "web/app/workers/lfm.worker.ts").read_text(
+            encoding="utf-8"
+        )
+        package = json.loads((ROOT / "web/package.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(
+            package["dependencies"]["@huggingface/transformers"],
+            "4.0.0-next.9",
+        )
+        self.assertIn("LiquidAI/LFM2-8B-A1B-ONNX", worker)
+        self.assertIn("ae708d11dfe46fc80a99d3396f65d890a35061d0", worker)
+        self.assertIn("dtype: 'q4f16'", worker)
+        self.assertIn("device: 'webgpu'", worker)
+        self.assertIn("TextStreamer", worker)
+        self.assertIn("post('token'", worker)
 
     def test_model_switch_releases_previous_gpu_runtime(self):
         runtime = (ROOT / "web/app/composables/useLocalQwen.ts").read_text(
@@ -47,7 +103,7 @@ class QwenWebServiceTests(unittest.TestCase):
         self.assertIn("performance.now() - lastRenderedAt", page)
         self.assertNotIn("await allowBrowserPaint()", page)
         self.assertIn("webgpuAdapterLabel", page)
-        self.assertIn("MLC ${modelDefinition.value.quantization}", page)
+        self.assertIn("modelDefinition.value.runtime", page)
         self.assertIn("model: selectedModel.value", page)
         self.assertIn("modelLabelByMessageId", page)
         self.assertNotIn("selectedModel.value === 'lfm25-8b'", page)

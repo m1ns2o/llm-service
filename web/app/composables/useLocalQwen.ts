@@ -1,6 +1,7 @@
 import type { MLCEngineInterface } from '@mlc-ai/web-llm'
+import { LOCAL_MODELS, type LocalModelChoice } from './localModelCatalog'
 
-export type QwenModelChoice = 'qwen35-2b' | 'qwen35-4b'
+export type QwenModelChoice = Exclude<LocalModelChoice, 'lfm2-8b'>
 
 export interface QwenModelDefinition {
   id: string
@@ -13,6 +14,15 @@ export interface QwenModelDefinition {
 }
 
 export const QWEN_MODELS: Record<QwenModelChoice, QwenModelDefinition> = {
+  'qwen35-08b': {
+    id: LOCAL_MODELS['qwen35-08b'].id,
+    label: LOCAL_MODELS['qwen35-08b'].label,
+    source: LOCAL_MODELS['qwen35-08b'].source,
+    description: LOCAL_MODELS['qwen35-08b'].description,
+    storageHint: LOCAL_MODELS['qwen35-08b'].storageHint,
+    estimatedVramMb: LOCAL_MODELS['qwen35-08b'].estimatedVramMb,
+    quantization: 'q4f16_1'
+  },
   'qwen35-2b': {
     id: 'Qwen3.5-2B-q4f16_1-MLC',
     label: 'Qwen3.5-2B',
@@ -29,6 +39,15 @@ export const QWEN_MODELS: Record<QwenModelChoice, QwenModelDefinition> = {
     description: '품질 우선 모델입니다. 약 3.87GB VRAM으로 WebGPU에서 실행됩니다.',
     storageHint: '최초 1회 모델을 받은 뒤 브라우저 캐시에서 다시 사용합니다.',
     estimatedVramMb: 3867.82,
+    quantization: 'q4f16_1'
+  },
+  'qwen35-9b': {
+    id: LOCAL_MODELS['qwen35-9b'].id,
+    label: LOCAL_MODELS['qwen35-9b'].label,
+    source: LOCAL_MODELS['qwen35-9b'].source,
+    description: LOCAL_MODELS['qwen35-9b'].description,
+    storageHint: LOCAL_MODELS['qwen35-9b'].storageHint,
+    estimatedVramMb: LOCAL_MODELS['qwen35-9b'].estimatedVramMb,
     quantization: 'q4f16_1'
   }
 }
@@ -185,6 +204,19 @@ export function useLocalQwen() {
     await engine?.interruptGenerate()
   }
 
+  async function isModelCached(model: QwenModelChoice) {
+    if (!import.meta.client) return false
+    const { hasModelInCache } = await import('@mlc-ai/web-llm')
+    return hasModelInCache(QWEN_MODELS[model].id)
+  }
+
+  async function deleteCachedModel(model: QwenModelChoice) {
+    if (!import.meta.client) return
+    if (loadedModel === model) await unloadModel()
+    const { deleteModelAllInfoInCache } = await import('@mlc-ai/web-llm')
+    await deleteModelAllInfoInCache(QWEN_MODELS[model].id)
+  }
+
   return {
     modelState,
     modelProgress,
@@ -199,6 +231,8 @@ export function useLocalQwen() {
     getEngine: () => engine,
     beginGeneration,
     wasInterrupted,
-    stopGeneration
+    stopGeneration,
+    isModelCached,
+    deleteCachedModel
   }
 }

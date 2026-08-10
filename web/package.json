@@ -10,6 +10,7 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@huggingface/transformers": "4.0.0-next.9",
     "@iconify-json/lucide": "^1.2.121",
     "@mlc-ai/web-llm": "0.2.84",
     "@nuxt/ui": "4.10.0",
