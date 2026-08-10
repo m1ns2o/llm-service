@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-10",
+  "environment": {
+    "browser": "Chrome 151.0.0.0",
+    "gpu_vendor": "amd",
+    "gpu_architecture": "rdna-3",
+    "platform": "browser-webgpu-direct"
+  },
+  "source": {
+    "onnx_model": "LiquidAI/LFM2.5-8B-A1B-ONNX",
+    "onnx_revision": "9151c307c5fb0e70fbddec06b77609db4fdd58ff",
+    "gguf_model": "LiquidAI/LFM2.5-8B-A1B-GGUF",
+    "gguf_revision": "dfd5fdcad7a1c0d31473fb4ca443b8befbacddf0",
+    "gguf_sha256": "4923ec14f06b968b74d663e5949867d2d9c3bf13a20b8be1a9f9af39989b2bb0"
+  },
+  "candidates": [
+    {
+      "id": "lfm25-official-onnx-q4f16",
+      "runtime": "Transformers.js 4.2.0 / ONNX Runtime WebGPU",
+      "artifact_size_bytes": 5045499372,
+      "status": "runtime_blocked",
+      "reason": "zero_points for QMoE are not yet supported on WebGPU",
+      "evidence": "lfm25-8b-browser-transformersjs-v4.2.0.json"
+    },
+    {
+      "id": "lfm25-symmetric-q4f16-best-mse",
+      "runtime": "Transformers.js 4.2.0 / ONNX Runtime WebGPU",
+      "artifact_size_bytes": 4924174336,
+      "load_ms": 5624,
+      "median_decode_tok_per_s": 61.03,
+      "relative_qmoe_rmse": 0.06560959520347545,
+      "status": "quality_failed",
+      "reason": "linear battery question was answered as exponential decay and Korean language compliance regressed",
+      "evidence": "lfm25-8b-browser-transformersjs-symmetric-v2-quality.json"
+    },
+    {
+      "id": "lfm25-symmetric-q4f16-shift-only",
+      "runtime": "Transformers.js 4.2.0 / ONNX Runtime WebGPU",
+      "artifact_size_bytes": 4924174336,
+      "load_ms": 5569,
+      "median_decode_tok_per_s": 60.97,
+      "relative_qmoe_rmse": 0.07672916631474423,
+      "status": "quality_failed_experimental",
+      "reason": "the 4.25-hour calculation recovered, but Korean language compliance and script purity regressed",
+      "evidence": "lfm25-8b-browser-transformersjs-symmetric-shift-quality.json"
+    },
+    {
+      "id": "lfm25-official-gguf-q4-k-m",
+      "runtime": "wllama 3.5.1 / llama.cpp WebGPU",
+      "artifact_size_bytes": 5155564768,
+      "context_tokens": 4096,
+      "load_ms": 16340,
+      "median_ttft_ms": 1968,
+      "median_decode_tok_per_s": 19.83,
+      "quality_smoke_passed": 4,
+      "quality_smoke_total": 4,
+      "status": "recommended_browser_candidate",
+      "evidence": "lfm25-8b-browser-webgpu-gguf-context4096.json"
+    }
+  ],
+  "baselines": [
+    {
+      "id": "lfm2-8b-official-onnx-q4f16",
+      "artifact_size_bytes": 4784501794,
+      "load_ms": 5182,
+      "median_ttft_ms": 282,
+      "median_decode_tok_per_s": 65.96,
+      "status": "runtime_regression_passed",
+      "evidence": "lfm2-8b-browser-transformersjs-v4.2.0-regression.json"
+    },
+    {
+      "id": "qwen35-4b-q4f16-mlc",
+      "artifact_size_bytes": 1543535108,
+      "load_ms": 6156,
+      "median_ttft_ms": 354.5,
+      "median_decode_tok_per_s": 38.115,
+      "status": "baseline",
+      "evidence": "qwen35-4b-browser-webgpu-cached.json"
+    }
+  ],
+  "decision": {
+    "quality_first": "lfm25-official-gguf-q4-k-m",
+    "size_and_latency_first": "qwen35-4b-q4f16-mlc",
+    "experimental_only": "lfm25-symmetric-q4f16-shift-only",
+    "note": "The four-prompt smoke is a regression gate, not a broad quality benchmark."
+  }
+}

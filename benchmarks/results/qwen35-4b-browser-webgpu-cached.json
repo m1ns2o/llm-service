@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-10T07:13:39.364Z",
+  "model": {
+    "key": "qwen35-4b",
+    "label": "Qwen3.5-4B",
+    "upstream": "mlc-ai/Qwen3.5-4B-q4f16_1-MLC",
+    "model_id": "Qwen3.5-4B-q4f16_1-MLC",
+    "revision": "44b42469f9e192814bfd90440e3b377d89ba7a13",
+    "quantization": "q4f16_1",
+    "artifact_size_bytes": 1543535108,
+    "runtime": "WebLLM 0.2.84",
+    "backend": "webllm-webgpu"
+  },
+  "platform": "browser-webgpu-direct",
+  "status": "ready",
+  "download_verified": false,
+  "requests": [
+    {
+      "language": "ko",
+      "prompt": "오프라인 모바일 AI 비서를 만들 때 개인정보 보호, 응답 속도, 배터리를 함께 개선하는 3단계 계획을 작성해줘. 각 단계에 장점과 한계를 하나씩 포함해.",
+      "answer": "오프라인 모바일 AI 비서를 개발할 때 개인정보 보호, 응답 속도, 배터리 효율을 동시에 최적화하는 것은 매우 중요한 과제입니다. 다음 3 단계 계획은 이 세 가지 요소를 균형 있게 해결하기 위해 설계되었습니다.\n\n### 단계 1: 데이터 처리 및 저장 구조의 근본적 재설계 (Privacy & Speed Focus)\n\n**목표:** 민감한 데이터를 서버로 전송하지 않도록 로컬 처리 구조를 확립하고, 데이터 저장 방식을 최적화하여 개인정보 보호를 강화함과 동시에 응답 속도를 높입니다.\n\n*   **실행",
+      "raw_answer": "<think>\n\n</think>\n\n오프라인 모바일 AI 비서를 개발할 때 개인정보 보호, 응답 속도, 배터리 효율을 동시에 최적화하는 것은 매우 중요한 과제입니다. 다음 3 단계 계획은 이 세 가지 요소를 균형 있게 해결하기 위해 설계되었습니다.\n\n### 단계 1: 데이터 처리 및 저장 구조의 근본적 재설계 (Privacy & Speed Focus)\n\n**목표:** 민감한 데이터를 서버로 전송하지 않도록 로컬 처리 구조를 확립하고, 데이터 저장 방식을 최적화하여 개인정보 보호를 강화함과 동시에 응답 속도를 높입니다.\n\n*   **실행",
+      "max_new_tokens": 512,
+      "first_token_ms": 492,
+      "total_ms": 3525,
+      "completion_tokens": 119,
+      "decode_tok_per_s": 38.49,
+      "language_signals": {
+        "hangul_chars": 168,
+        "han_chars": 0,
+        "latin_chars": 19
+      },
+      "completed_at": "2026-08-10T07:13:51.159Z",
+      "usage": {
+        "completion_tokens": 119,
+        "prompt_tokens": 92,
+        "total_tokens": 211,
+        "extra": {
+          "e2e_latency_s": 3.525,
+          "prefill_tokens_per_s": 224.50797371180929,
+          "decode_tokens_per_s": 38.487972514526795,
+          "time_to_first_token_s": 0.4097849999666214,
+          "time_per_output_token_s": 0.025982142853135815
+        }
+      },
+      "id": "ko_general"
+    },
+    {
+      "language": "en",
+      "prompt": "Write a three-step plan for an offline mobile AI assistant that improves privacy, response speed, and battery life. Include one benefit and one limitation per step.",
+      "answer": "Here is a three-step plan to enhance an offline mobile AI assistant, focusing on privacy, speed, and battery efficiency:\n\n### Step 1: Implement Local Vector Database with On-Device Embedding\nInstead of sending user queries to a remote cloud server, the assistant will embed user data and instructions locally using a quantized vector database (e.g., Chroma or FAISS) stored directly on the device. This allows the model to understand context and retrieve relevant information instantly without network latency.\n\n*   **Benefit:** **Enhanced Privacy** – All sensitive data and conversation history remain strictly on the device, eliminating the risk of data leakage during transmission.\n*   **Limitation:** **Increased Initial Size** – Loading a local vector database and embedding model requires significant storage space, which may be a constraint for devices with limited memory.\n\n### Step 2: Adopt Dynamic Model Offloading and Quantization\nThe system will utilize a hybrid architecture where a large language model (LLM) is loaded in a highly compressed (quantized) format for basic tasks. When complex reasoning is required, the system dynamically offloads the larger model to the device's dedicated NPU (Neural Processing Unit) or GPU, while keeping smaller, faster models active for simple queries to maintain speed.\n\n*   **Benefit:** **Improved Response Speed** – By running inference locally on optimized hardware and using quantized models, the assistant eliminates network round-trip times, providing near-instantaneous responses.\n*   **Limitation:** **Higher Computational Complexity** – Managing dynamic model switching and quantization adds software complexity, potentially increasing the risk of bugs or requiring more sophisticated testing.\n\n### Step 3: Introduce Context-Aware Sleep Modes and Event Triggers\nTo maximize battery life, the system will move from continuous listening to an event-triggered architecture. It will only wake the AI processor when specific, high-confidence triggers occur (e.g., a specific wake word, a scheduled time, or a detected user interaction) and enter a deep sleep state otherwise, waking up only when necessary.\n\n*   **Benefit:** **Extended Battery Life** – By drastically reducing the time the AI processor is active, the system minimizes power consumption, significantly extending the device's battery lifespan.\n*   **Limitation:** **Reduced Responsiveness** – The reliance on triggers or scheduled wake-ups may introduce slight delays in responding to unexpected or urgent user commands compared to a fully active listening mode.",
+      "raw_answer": "<think>\n\n</think>\n\nHere is a three-step plan to enhance an offline mobile AI assistant, focusing on privacy, speed, and battery efficiency:\n\n### Step 1: Implement Local Vector Database with On-Device Embedding\nInstead of sending user queries to a remote cloud server, the assistant will embed user data and instructions locally using a quantized vector database (e.g., Chroma or FAISS) stored directly on the device. This allows the model to understand context and retrieve relevant information instantly without network latency.\n\n*   **Benefit:** **Enhanced Privacy** – All sensitive data and conversation history remain strictly on the device, eliminating the risk of data leakage during transmission.\n*   **Limitation:** **Increased Initial Size** – Loading a local vector database and embedding model requires significant storage space, which may be a constraint for devices with limited memory.\n\n### Step 2: Adopt Dynamic Model Offloading and Quantization\nThe system will utilize a hybrid architecture where a large language model (LLM) is loaded in a highly compressed (quantized) format for basic tasks. When complex reasoning is required, the system dynamically offloads the larger model to the device's dedicated NPU (Neural Processing Unit) or GPU, while keeping smaller, faster models active for simple queries to maintain speed.\n\n*   **Benefit:** **Improved Response Speed** – By running inference locally on optimized hardware and using quantized models, the assistant eliminates network round-trip times, providing near-instantaneous responses.\n*   **Limitation:** **Higher Computational Complexity** – Managing dynamic model switching and quantization adds software complexity, potentially increasing the risk of bugs or requiring more sophisticated testing.\n\n### Step 3: Introduce Context-Aware Sleep Modes and Event Triggers\nTo maximize battery life, the system will move from continuous listening to an event-triggered architecture. It will only wake the AI processor when specific, high-confidence triggers occur (e.g., a specific wake word, a scheduled time, or a detected user interaction) and enter a deep sleep state otherwise, waking up only when necessary.\n\n*   **Benefit:** **Extended Battery Life** – By drastically reducing the time the AI processor is active, the system minimizes power consumption, significantly extending the device's battery lifespan.\n*   **Limitation:** **Reduced Responsiveness** – The reliance on triggers or scheduled wake-ups may introduce slight delays in responding to unexpected or urgent user commands compared to a fully active listening mode.",
+      "max_new_tokens": 512,
+      "first_token_ms": 313,
+      "total_ms": 14218,
+      "completion_tokens": 503,
+      "decode_tok_per_s": 36.56,
+      "language_signals": {
+        "hangul_chars": 0,
+        "han_chars": 0,
+        "latin_chars": 2059
+      },
+      "completed_at": "2026-08-10T07:14:05.925Z",
+      "usage": {
+        "completion_tokens": 503,
+        "prompt_tokens": 81,
+        "total_tokens": 584,
+        "extra": {
+          "e2e_latency_s": 14.218,
+          "prefill_tokens_per_s": 258.6950272948783,
+          "decode_tokens_per_s": 36.55931094333588,
+          "time_to_first_token_s": 0.3131100000143051,
+          "time_per_output_token_s": 0.02735281311920575
+        }
+      },
+      "id": "en_general"
+    },
+    {
+      "language": "ko",
+      "prompt": "어떤 기기의 배터리가 시간당 12%씩 줄고 현재 76%다. 최소 25%를 남겨야 한다면 최대 몇 시간 사용할 수 있는지 계산 과정과 결론을 한국어로 간단히 설명해줘.",
+      "answer": "현재 배터리 잔량이 76%이고, 시간당 12%씩 줄어든다고 가정할 때, 최소 25%를 남겨야 하는 조건을 만족하는 최대 사용 시간을 계산해 보겠습니다.\n\n**계산 과정:**\n\n1.  **사용 가능한 배터리 감소량 계산:**\n    현재 76%에서 최소 25%를 남겨야 하므로, 실제로 줄일 수 있는 배터리 양은 다음과 같습니다.\n    $$76\\% - 25\\% = 51\\%$$\n\n2.  **사용 가능 시간 계산:**\n    하루에 12%씩 줄어든다면, 51%를 모두 소모하는 데 걸리는 시간은 다음과 같습니다.\n    $$51 \\div 12 = 4.25 \\text{ 시간}$$\n\n3.  **결론 도출:**\n    4.25 시간 (4 시간 15 분)을 사용하면 배터리가 25%가 되어 버립니다. 따라서 25%를 **남겨야 하는 조건**을 만족하려면 이 시간보다 조금 더 짧아야 합니다. 일반적으로 \"최대 몇 시간\"을 묻는 경우 정수 시간 또는 소수점 첫째 자리까지의 값을 의미하는 경우가 많으나, 엄밀한 수학적 조건을 따지면 4 시간 15 분을 넘으면 조건을 만족하지 않습니다.\n\n**결론:**\n최대 **4 시간 15 분 (또는 4.25 시간)**을 사용할 수 있습니다. (4 시간 16 분을 사용하면 25% 미만으로 떨어집니다.)",
+      "raw_answer": "<think>\n\n</think>\n\n현재 배터리 잔량이 76%이고, 시간당 12%씩 줄어든다고 가정할 때, 최소 25%를 남겨야 하는 조건을 만족하는 최대 사용 시간을 계산해 보겠습니다.\n\n**계산 과정:**\n\n1.  **사용 가능한 배터리 감소량 계산:**\n    현재 76%에서 최소 25%를 남겨야 하므로, 실제로 줄일 수 있는 배터리 양은 다음과 같습니다.\n    $$76\\% - 25\\% = 51\\%$$\n\n2.  **사용 가능 시간 계산:**\n    하루에 12%씩 줄어든다면, 51%를 모두 소모하는 데 걸리는 시간은 다음과 같습니다.\n    $$51 \\div 12 = 4.25 \\text{ 시간}$$\n\n3.  **결론 도출:**\n    4.25 시간 (4 시간 15 분)을 사용하면 배터리가 25%가 되어 버립니다. 따라서 25%를 **남겨야 하는 조건**을 만족하려면 이 시간보다 조금 더 짧아야 합니다. 일반적으로 \"최대 몇 시간\"을 묻는 경우 정수 시간 또는 소수점 첫째 자리까지의 값을 의미하는 경우가 많으나, 엄밀한 수학적 조건을 따지면 4 시간 15 분을 넘으면 조건을 만족하지 않습니다.\n\n**결론:**\n최대 **4 시간 15 분 (또는 4.25 시간)**을 사용할 수 있습니다. (4 시간 16 분을 사용하면 25% 미만으로 떨어집니다.)",
+      "max_new_tokens": 512,
+      "first_token_ms": 381,
+      "total_ms": 9544,
+      "completion_tokens": 343,
+      "decode_tok_per_s": 37.74,
+      "language_signals": {
+        "hangul_chars": 309,
+        "han_chars": 0,
+        "latin_chars": 7
+      },
+      "completed_at": "2026-08-10T07:14:16.399Z",
+      "usage": {
+        "completion_tokens": 343,
+        "prompt_tokens": 101,
+        "total_tokens": 444,
+        "extra": {
+          "e2e_latency_s": 9.545,
+          "prefill_tokens_per_s": 265.45416314901405,
+          "decode_tokens_per_s": 37.73794572643232,
+          "time_to_first_token_s": 0.3804800000190735,
+          "time_per_output_token_s": 0.02649852769541672
+        }
+      },
+      "id": "ko_reasoning"
+    },
+    {
+      "language": "ko",
+      "prompt": "정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.",
+      "answer": "1. 온디바이스 AI 는 네트워크 연결이 끊겨도 즉시 작동하여 데이터 프라이버시를 보장합니다.\n2. 하지만 이 방식은 모델 크기가 커져 기기 성능과 배터리 수명에 부담을 줍니다.\n3. 따라서 최신 하드웨어와 최적화된 알고리즘이 필수적이라는 단점이 존재합니다.",
+      "raw_answer": "<think>\n\n</think>\n\n1. 온디바이스 AI 는 네트워크 연결이 끊겨도 즉시 작동하여 데이터 프라이버시를 보장합니다.\n2. 하지만 이 방식은 모델 크기가 커져 기기 성능과 배터리 수명에 부담을 줍니다.\n3. 따라서 최신 하드웨어와 최적화된 알고리즘이 필수적이라는 단점이 존재합니다.",
+      "max_new_tokens": 512,
+      "first_token_ms": 328,
+      "total_ms": 2107,
+      "completion_tokens": 69,
+      "decode_tok_per_s": 38.98,
+      "language_signals": {
+        "hangul_chars": 100,
+        "han_chars": 0,
+        "latin_chars": 2
+      },
+      "completed_at": "2026-08-10T07:14:19.108Z",
+      "usage": {
+        "completion_tokens": 69,
+        "prompt_tokens": 94,
+        "total_tokens": 163,
+        "extra": {
+          "e2e_latency_s": 2.108,
+          "prefill_tokens_per_s": 287.06672770289083,
+          "decode_tokens_per_s": 38.97710520351248,
+          "time_to_first_token_s": 0.3274500000476837,
+          "time_per_output_token_s": 0.025656086945879283
+        }
+      },
+      "id": "ko_instruction"
+    }
+  ],
+  "oom_events": 0,
+  "worker_crashes": 0,
+  "environment": {
+    "secure_context": true,
+    "cross_origin_isolated": true,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "webgpu": true,
+    "adapter": {
+      "vendor": "amd",
+      "architecture": "rdna-3",
+      "device": null,
+      "description": null,
+      "max_buffer_size": 2147483648,
+      "max_storage_buffer_binding_size": 2147483644
+    }
+  },
+  "status_message": "Qwen3.5-4B 응답 완료",
+  "model_load_ms": 6156,
+  "generation_settings": {
+    "temperature": 0,
+    "enable_thinking": false,
+    "enable_thinking_transport": "extra_body"
+  },
+  "loaded_at": "2026-08-10T07:13:45.828Z",
+  "requests_completed": 4,
+  "last_request": {
+    "language": "ko",
+    "prompt": "정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.",
+    "answer": "1. 온디바이스 AI 는 네트워크 연결이 끊겨도 즉시 작동하여 데이터 프라이버시를 보장합니다.\n2. 하지만 이 방식은 모델 크기가 커져 기기 성능과 배터리 수명에 부담을 줍니다.\n3. 따라서 최신 하드웨어와 최적화된 알고리즘이 필수적이라는 단점이 존재합니다.",
+    "raw_answer": "<think>\n\n</think>\n\n1. 온디바이스 AI 는 네트워크 연결이 끊겨도 즉시 작동하여 데이터 프라이버시를 보장합니다.\n2. 하지만 이 방식은 모델 크기가 커져 기기 성능과 배터리 수명에 부담을 줍니다.\n3. 따라서 최신 하드웨어와 최적화된 알고리즘이 필수적이라는 단점이 존재합니다.",
+    "max_new_tokens": 512,
+    "first_token_ms": 328,
+    "total_ms": 2107,
+    "completion_tokens": 69,
+    "decode_tok_per_s": 38.98,
+    "language_signals": {
+      "hangul_chars": 100,
+      "han_chars": 0,
+      "latin_chars": 2
+    },
+    "completed_at": "2026-08-10T07:14:19.108Z",
+    "usage": {
+      "completion_tokens": 69,
+      "prompt_tokens": 94,
+      "total_tokens": 163,
+      "extra": {
+        "e2e_latency_s": 2.108,
+        "prefill_tokens_per_s": 287.06672770289083,
+        "decode_tokens_per_s": 38.97710520351248,
+        "time_to_first_token_s": 0.3274500000476837,
+        "time_per_output_token_s": 0.025656086945879283
+      }
+    }
+  }
+}

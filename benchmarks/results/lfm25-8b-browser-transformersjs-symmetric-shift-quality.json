@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-10T08:01:44.922Z",
+  "model": {
+    "key": "lfm25-8b-symmetric",
+    "label": "LFM2.5-8B-A1B Symmetric Q4F16",
+    "upstream": "LiquidAI/LFM2.5-8B-A1B-ONNX",
+    "revision": "9151c307c5fb0e70fbddec06b77609db4fdd58ff",
+    "quantization": "q4f16-symmetric-qmoe",
+    "artifact_size_bytes": 4924174336,
+    "runtime": "Transformers.js 4.2.0",
+    "backend": "transformersjs-webgpu-qmoe",
+    "external_data_shards": 10,
+    "local_model_id": "lfm25-8b/transformersjs-onnx-symmetric-shift",
+    "tensor_bytes_unchanged": true
+  },
+  "platform": "browser-webgpu-direct",
+  "status": "ready",
+  "download_verified": false,
+  "requests": [
+    {
+      "language": "ko",
+      "prompt": "오프라인 모바일 AI 비서를 만들 때 개인정보 보호, 응답 속도, 배터리를 함께 개선하는 3단계 계획을 작성해줘. 각 단계에 장점과 한계를 하나씩 포함해.",
+      "answer": "1. 로컬 AI 모델 최적화  \n   - 장점: 개인정보가 기기 내부에서 처리되어 외부 전송이 감소하고 프라이버시가 강화된다.  \n   - 한계: 모델 압축 과정에서 인식 정확도가 약간 저하될 수 있다.  \n\n2. 에ッ지 기반 실시간 음성 인식 도입  \n   - 장점: 클라우드 연결 없이 즉시 응답을 제공해 응답 속도가 향상된다.  \n   - 한계: 고성능 에ッ지 하드웨어가 필요해 초기 장비 비용이 증가하고 배터리 소모가 확대된다.  \n\n3. 전력 효율적인 OS·배터리 관리 기술 적용  \n   - 장점: CPU·GPU 절전 모드와 DVFS를 통해 배터리 수명을 연장할 수 있다.  \n   - 한계: 복잡한 전력 관리 구현으로 개발 시간이 늘어나고 일부 기능이 제한될 수 있다.",
+      "raw_answer": "<think>\nThe user wants a 3-step plan for offline mobile AI voice assistant, improving privacy, response speed, battery life. Each step should include a pro and a con (한계). Must answer in Korean or English? The user said \"사용자가 사용한 언어로 직접 답하고, 내부 사고 과정은 출력하지 마세요.\" The user didn't specify language, but they wrote in Korean. So answer in Korean. Provide 3 steps, each with advantage and limitation. No extra commentary. No markdown unless requested. So plain Korean text. Probably something like:\n\n1. 단계 1: 로컬 AI 모델 최적화 (예: 양자화, 압축) -> 장점: 개인정보 보호 강화, 단점: 성능 저하 가능성\n\n2. 단계 2: 실시간 음성 인식 및 처리 경로 변경 (예: 에ッ지 컴퓨팅) -> 장점: 응답 속도 향상, 단점: 하드웨어 요구 증가, 배터리 소모\n\n3. 단계 3: 전력 효율적인 운영 체계 및 배터리 관리 (예: DVFS, 절전 모드) -> 장점: 배터리 수명 연장, 단점: 복잡한 구현, 개발 시간 증가\n\nMake sure each step includes a pro and a con. Provide concise. No extra formatting. Provide maybe bullet points or numbered list. Use plain text. Let's do:\n\n1. 로컬 AI 모델 최적화\n   - 장점: 개인정보가 기기 내에서 처리되어 외부 전송이 감소\n   - 한계: 모델 압축으로 인한 인식 정확도 저하 가능\n\n2. 에ッ지 기반 실시간 음성 인식 도입\n   - 장점: 클라우드 연결 없이 빠른 응답, 네트워크 부하 감소\n   - 한계: 고성능 에ッ지 하드웨어가 필요해 초기 비용 증가, 배터리 소모 확대\n\n3. 전력 효율적인 OS 및 배터리 관리 기술 적용\n   - 장점: CPU·GPU 절전 모드와 DVFS를 통해 배터리 수명 연장\n   - 한계: 복잡한 전력 관리 구현으로 개발 시간 증가, 기능 제한 가능\n\nThat satisfies. Ensure no internal thought. Provide answer.\n</think>\n1. 로컬 AI 모델 최적화  \n   - 장점: 개인정보가 기기 내부에서 처리되어 외부 전송이 감소하고 프라이버시가 강화된다.  \n   - 한계: 모델 압축 과정에서 인식 정확도가 약간 저하될 수 있다.  \n\n2. 에ッ지 기반 실시간 음성 인식 도입  \n   - 장점: 클라우드 연결 없이 즉시 응답을 제공해 응답 속도가 향상된다.  \n   - 한계: 고성능 에ッ지 하드웨어가 필요해 초기 장비 비용이 증가하고 배터리 소모가 확대된다.  \n\n3. 전력 효율적인 OS·배터리 관리 기술 적용  \n   - 장점: CPU·GPU 절전 모드와 DVFS를 통해 배터리 수명을 연장할 수 있다.  \n   - 한계: 복잡한 전력 관리 구현으로 개발 시간이 늘어나고 일부 기능이 제한될 수 있다.",
+      "max_new_tokens": 1536,
+      "first_token_ms": 2324,
+      "total_ms": 13366,
+      "completion_tokens": 686,
+      "decode_tok_per_s": 62.04,
+      "language_signals": {
+        "hangul_chars": 213,
+        "han_chars": 0,
+        "latin_chars": 14
+      },
+      "completed_at": "2026-08-10T08:02:04.526Z",
+      "id": "ko_general"
+    },
+    {
+      "language": "en",
+      "prompt": "Write a three-step plan for an offline mobile AI assistant that improves privacy, response speed, and battery life. Include one benefit and one limitation per step.",
+      "answer": "1. Implement on‑device model compression and quantization.  \n   Benefit: Faster inference and reduced data transfer, enhancing response speed.  \n   Limitation: May introduce some loss in model accuracy compared to full‑precision versions.\n\n2. Use a local knowledge base with hierarchical retrieval algorithms.  \n   Benefit: Immediate access to relevant information without network calls, improving privacy.  \n   Limitation: Managing and updating the hierarchical index can consume additional storage and processing resources.\n\n3. Optimize power‑aware scheduling and adaptive sleep modes.  \n   Benefit: Prioritizes low‑energy tasks and reduces CPU/GPU load, extending battery life.  \n   Limitation: Complex scheduling logic can increase development time and may cause occasional latency spikes.",
+      "raw_answer": "<think>\nThe user wants a three-step plan for an offline mobile AI assistant that improves privacy, response speed, and battery life. Include one benefit and one limitation per step. Must answer in the language the user used. The user wrote in English, but they didn't specify language. The instruction: \"Write a three-step plan ... Include one benefit and one limitation per step.\" It doesn't specify language, but they said \"You are an accurate and useful Korean-English universal assistant.\" So presumably respond in English? Or maybe Korean-English? The phrase \"Korean-English universal assistant\" suggests they want answer in both languages? But they didn't explicitly request a language. Usually they'd want answer in English. However, they said \"Write a three-step plan ... Include one benefit and one limitation per step.\" Could be in English. Let's do English. Provide three steps, each with benefit and limitation. Ensure each step includes a benefit and a limitation. Provide concise bullet points. No internal thought. No extra commentary. No markdown? The instruction says avoid formatting unless explicitly asked. So we should not use markdown? It says \"Include one benefit and one limitation per step.\" Could be plain text with numbered steps. Use numbers and periods. No bold. Provide plain text.\n\nThus:\n\n1. Step 1: ... Benefit: ... Limitation: ...\n\n2. Step 2: ... Benefit: ... Limitation: ...\n\n3. Step 3: ... Benefit: ... Limitation: ...\n\nThat would satisfy. Ensure no extra commentary. Provide answer.\n</think>\n1. Implement on‑device model compression and quantization.  \n   Benefit: Faster inference and reduced data transfer, enhancing response speed.  \n   Limitation: May introduce some loss in model accuracy compared to full‑precision versions.\n\n2. Use a local knowledge base with hierarchical retrieval algorithms.  \n   Benefit: Immediate access to relevant information without network calls, improving privacy.  \n   Limitation: Managing and updating the hierarchical index can consume additional storage and processing resources.\n\n3. Optimize power‑aware scheduling and adaptive sleep modes.  \n   Benefit: Prioritizes low‑energy tasks and reduces CPU/GPU load, extending battery life.  \n   Limitation: Complex scheduling logic can increase development time and may cause occasional latency spikes.",
+      "max_new_tokens": 1536,
+      "first_token_ms": 288,
+      "total_ms": 8019,
+      "completion_tokens": 468,
+      "decode_tok_per_s": 60.4,
+      "language_signals": {
+        "hangul_chars": 0,
+        "han_chars": 0,
+        "latin_chars": 636
+      },
+      "completed_at": "2026-08-10T08:02:13.282Z",
+      "id": "en_general"
+    },
+    {
+      "language": "ko",
+      "prompt": "어떤 기기의 배터리가 시간당 12%씩 줄고 현재 76%다. 최소 25%를 남겨야 한다면 최대 몇 시간 사용할 수 있는지 계산 과정과 결론을 한국어로 간단히 설명해줘.",
+      "answer": "초기 배터리 76%에서 매시간 12%씩 감소한다고 가정하면, t시간 후 남은 배터리는  \n\n\\[\n\\text{남은 비율}=76\\% - 12\\% \\times t\n\\]\n\n이 됩니다. 최소 25%를 남겨야 하므로  \n\n\\[\n76 - 12t \\ge 25\n\\]\n\n을 풀면  \n\n\\[\n12t \\le 51 \\quad\\Rightarrow\\quad t \\le \\frac{51}{12}=4.25\\text{시간}\n\\]\n\n따라서 **최소 25%를 유지하면서 사용할 수 있는 최대 시간은 4시간** (정수시간 기준)입니다.",
+      "raw_answer": "<think>\nThe user asks: \"어떤 기기의 배터리가 시간당 12%씩 줄고 현재 76%다. 최소 25%를 남겨야 한다면 최대 몇 시간 사용할 수 있는지 계산 과정과 결론을 한국어로 간단히 설명해줘.\"\n\nWe need to compute time until battery reaches 25% given initial 76% and discharge rate 12% per hour. So it's linear? Usually battery discharge is exponential, but they say \"time당 12%씩 줄고\" which could be interpreted as linear (i.e., 12% of original capacity per hour). If it's linear, then each hour reduces by 12% of original capacity, so after t hours, remaining = 76% - 12%*t. Set remaining >= 25% => 76 - 12t >= 25 => 12t <= 51 => t <= 51/12 = 4.25 hours. So maximum whole hours? If you can use until just below 25%, you could use 4.25 hours, but practically maybe 4 hours (since after 4 hours remaining = 76 - 48 = 28% > 25). So maximum hours used = 4 hours (if you need to stay above 25%). Or if you can go to exactly 25% after 4.25 hours, but you can't use fractional hour? The question: \"최소 25%를 남겨야 한다면 최대 몇 시간 사용할 수 있는지\" So you can use up to the point where you have exactly 25% left, which is 4.25 hours. But they ask \"몇 시간\" maybe integer. So answer: 4시간 (since after 4 hours you still have 28% > 25%). Provide calculation steps and conclusion in Korean, simple.\n\nThus answer: 4시간.\n\nWe must not show internal reasoning, just give answer. Provide Korean explanation: \"초기 76%, 매시간 12%씩 감소 => t시간 후 남은 = 76 - 12t. 이를 25% 이상으로 설정 => 76 - 12t ≥ 25 => 12t ≤ 51 => t ≤ 4.25시간. 따라서 최소 25%를 남기려면 최대 4시간 (정수시간 기준)까지 사용할 수 있다.\"\n\nThat's it.\n</think>\n초기 배터리 76%에서 매시간 12%씩 감소한다고 가정하면, t시간 후 남은 배터리는  \n\n\\[\n\\text{남은 비율}=76\\% - 12\\% \\times t\n\\]\n\n이 됩니다. 최소 25%를 남겨야 하므로  \n\n\\[\n76 - 12t \\ge 25\n\\]\n\n을 풀면  \n\n\\[\n12t \\le 51 \\quad\\Rightarrow\\quad t \\le \\frac{51}{12}=4.25\\text{시간}\n\\]\n\n따라서 **최소 25%를 유지하면서 사용할 수 있는 최대 시간은 4시간** (정수시간 기준)입니다.",
+      "max_new_tokens": 1536,
+      "first_token_ms": 381,
+      "total_ms": 10898,
+      "completion_tokens": 638,
+      "decode_tok_per_s": 60.56,
+      "language_signals": {
+        "hangul_chars": 84,
+        "han_chars": 0,
+        "latin_chars": 46
+      },
+      "completed_at": "2026-08-10T08:02:24.219Z",
+      "id": "ko_reasoning"
+    },
+    {
+      "language": "ko",
+      "prompt": "정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.",
+      "answer": "1. On-device AI offers privacy by processing data locally, but it can be limited by hardware constraints. 2. It reduces reliance on internet connectivity, yet it may consume more power. 3. On-device AI improves response times, however it can increase development complexity.",
+      "raw_answer": "<think>\nThe user asks: \"정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.\"\n\nWe need to produce exactly three sentences. Each sentence must start with \"1.\", \"2.\", \"3.\" respectively. And each sentence must contain one advantage and one disadvantage of on-device AI. So each sentence should include both an advantage and a disadvantage. Possibly phrase like \"1. On-device AI offers privacy by processing data locally, but it can be limited by hardware constraints.\" That includes advantage (privacy) and disadvantage (hardware constraints). Then sentence 2: \"2. It reduces reliance on internet connectivity, yet it may consume more power.\" That includes advantage (reduced reliance) and disadvantage (power consumption). Sentence 3: \"3. On-device AI improves response times, however it can increase development complexity.\" That includes advantage (improved response times) and disadvantage (increased development complexity). That would be three sentences, each starting with 1., 2., 3. That satisfies requirement.\n\nWe must not output any internal reasoning. Just the answer. Ensure each sentence ends with a period. Provide exactly three sentences. No extra text. Let's produce:\n\n1. On-device AI offers privacy by processing data locally, but it can be limited by hardware constraints. 2. It reduces reliance on internet connectivity, yet it may consume more power. 3. On-device AI improves response times, however it can increase development complexity.\n\nCheck: each sentence starts with 1., 2., 3. Yes. Contains advantage and disadvantage. Good.\n</think>\n1. On-device AI offers privacy by processing data locally, but it can be limited by hardware constraints. 2. It reduces reliance on internet connectivity, yet it may consume more power. 3. On-device AI improves response times, however it can increase development complexity.",
+      "max_new_tokens": 1536,
+      "first_token_ms": 334,
+      "total_ms": 7176,
+      "completion_tokens": 421,
+      "decode_tok_per_s": 61.38,
+      "language_signals": {
+        "hangul_chars": 0,
+        "han_chars": 0,
+        "latin_chars": 219
+      },
+      "completed_at": "2026-08-10T08:02:31.568Z",
+      "id": "ko_instruction"
+    }
+  ],
+  "oom_events": 0,
+  "worker_crashes": 0,
+  "environment": {
+    "secure_context": true,
+    "cross_origin_isolated": true,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "webgpu": true,
+    "adapter": {
+      "vendor": "amd",
+      "architecture": "rdna-3",
+      "device": null,
+      "description": null,
+      "max_buffer_size": 2147483648,
+      "max_storage_buffer_binding_size": 2147483644
+    }
+  },
+  "status_message": "LFM2.5-8B-A1B Symmetric Q4F16 응답 완료",
+  "last_worker_message_at": "2026-08-10T08:02:31.568Z",
+  "worker": {
+    "status": "ready",
+    "transformers_js": "4.2.0",
+    "model_id": "LiquidAI/LFM2.5-8B-A1B-ONNX",
+    "revision": "9151c307c5fb0e70fbddec06b77609db4fdd58ff"
+  },
+  "load_stage": "generating",
+  "load_stage_message": "LFM2.5-8B-A1B Symmetric Q4F16 (shift-only) 생성 중",
+  "last_load_event": {
+    "status": "ready",
+    "file": null,
+    "loaded": 0,
+    "total": 0,
+    "progress": 0,
+    "elapsed_ms": 5569
+  },
+  "model_load_ms": 5569,
+  "loaded_at": "2026-08-10T08:01:50.960Z",
+  "requests_completed": 4,
+  "last_request": {
+    "language": "ko",
+    "prompt": "정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.",
+    "answer": "1. On-device AI offers privacy by processing data locally, but it can be limited by hardware constraints. 2. It reduces reliance on internet connectivity, yet it may consume more power. 3. On-device AI improves response times, however it can increase development complexity.",
+    "raw_answer": "<think>\nThe user asks: \"정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.\"\n\nWe need to produce exactly three sentences. Each sentence must start with \"1.\", \"2.\", \"3.\" respectively. And each sentence must contain one advantage and one disadvantage of on-device AI. So each sentence should include both an advantage and a disadvantage. Possibly phrase like \"1. On-device AI offers privacy by processing data locally, but it can be limited by hardware constraints.\" That includes advantage (privacy) and disadvantage (hardware constraints). Then sentence 2: \"2. It reduces reliance on internet connectivity, yet it may consume more power.\" That includes advantage (reduced reliance) and disadvantage (power consumption). Sentence 3: \"3. On-device AI improves response times, however it can increase development complexity.\" That includes advantage (improved response times) and disadvantage (increased development complexity). That would be three sentences, each starting with 1., 2., 3. That satisfies requirement.\n\nWe must not output any internal reasoning. Just the answer. Ensure each sentence ends with a period. Provide exactly three sentences. No extra text. Let's produce:\n\n1. On-device AI offers privacy by processing data locally, but it can be limited by hardware constraints. 2. It reduces reliance on internet connectivity, yet it may consume more power. 3. On-device AI improves response times, however it can increase development complexity.\n\nCheck: each sentence starts with 1., 2., 3. Yes. Contains advantage and disadvantage. Good.\n</think>\n1. On-device AI offers privacy by processing data locally, but it can be limited by hardware constraints. 2. It reduces reliance on internet connectivity, yet it may consume more power. 3. On-device AI improves response times, however it can increase development complexity.",
+    "max_new_tokens": 1536,
+    "first_token_ms": 334,
+    "total_ms": 7176,
+    "completion_tokens": 421,
+    "decode_tok_per_s": 61.38,
+    "language_signals": {
+      "hangul_chars": 0,
+      "han_chars": 0,
+      "latin_chars": 219
+    },
+    "completed_at": "2026-08-10T08:02:31.568Z"
+  }
+}
