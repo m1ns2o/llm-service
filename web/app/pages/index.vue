@@ -16,6 +16,7 @@ interface LocalMessage {
   metrics?: {
     decodeTokensPerSecond?: number
     timeToFirstTokenSeconds?: number
+    timeToFirstVisibleTokenSeconds?: number
   }
 }
 
@@ -328,7 +329,8 @@ async function submitPrompt(value = prompt.value) {
       replaceAssistant({
         metrics: {
           decodeTokensPerSecond: metrics.decodeTokensPerSecond,
-          timeToFirstTokenSeconds: metrics.timeToFirstTokenSeconds
+          timeToFirstTokenSeconds: metrics.timeToFirstTokenSeconds,
+          timeToFirstVisibleTokenSeconds: metrics.timeToFirstVisibleTokenSeconds
         }
       })
     } else {
@@ -632,7 +634,9 @@ onBeforeUnmount(stopOperationTimer)
               </p>
               <div v-if="messageById(message.id)?.metrics" class="flex flex-wrap gap-2 text-xs text-muted">
                 <span v-if="messageById(message.id)?.metrics?.decodeTokensPerSecond">{{ messageById(message.id)!.metrics!.decodeTokensPerSecond!.toFixed(1) }} tok/s</span>
-                <span v-if="messageById(message.id)?.metrics?.timeToFirstTokenSeconds">첫 토큰 {{ messageById(message.id)!.metrics!.timeToFirstTokenSeconds!.toFixed(1) }}초</span>
+                <span v-if="messageById(message.id)?.metrics?.timeToFirstVisibleTokenSeconds">연산 시작 {{ messageById(message.id)!.metrics!.timeToFirstTokenSeconds?.toFixed(1) }}초</span>
+                <span v-if="messageById(message.id)?.metrics?.timeToFirstVisibleTokenSeconds">답변 시작 {{ messageById(message.id)!.metrics!.timeToFirstVisibleTokenSeconds!.toFixed(1) }}초</span>
+                <span v-else-if="messageById(message.id)?.metrics?.timeToFirstTokenSeconds">첫 토큰 {{ messageById(message.id)!.metrics!.timeToFirstTokenSeconds!.toFixed(1) }}초</span>
               </div>
             </div>
           </template>

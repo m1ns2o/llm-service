@@ -12,6 +12,7 @@ export interface LfmGenerationMetrics {
   completionTokens?: number
   decodeTokensPerSecond?: number
   timeToFirstTokenSeconds?: number
+  timeToFirstVisibleTokenSeconds?: number
   reasoningChunks: number
 }
 
@@ -148,6 +149,7 @@ export function useLocalLfm() {
     beginGeneration()
     const started = performance.now()
     let firstTokenAt: number | null = null
+    let firstVisibleTokenAt: number | null = null
     let content = ''
     let reasoningChunks = 0
     let completionTokens: number | undefined
@@ -175,6 +177,7 @@ export function useLocalLfm() {
       const piece = delta?.content || ''
       if (piece) {
         if (firstTokenAt === null) firstTokenAt = performance.now()
+        if (firstVisibleTokenAt === null) firstVisibleTokenAt = performance.now()
         content += piece
         await onContent(content)
       }
@@ -193,6 +196,7 @@ export function useLocalLfm() {
       completionTokens,
       decodeTokensPerSecond,
       timeToFirstTokenSeconds: firstTokenAt === null ? undefined : (firstTokenAt - started) / 1000,
+      timeToFirstVisibleTokenSeconds: firstVisibleTokenAt === null ? undefined : (firstVisibleTokenAt - started) / 1000,
       reasoningChunks
     }
   }
