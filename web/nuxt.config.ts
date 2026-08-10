@@ -3,14 +3,23 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
   ssr: true,
+  routeRules: {
+    '/**': {
+      headers: {
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Embedder-Policy': 'require-corp',
+        'Cross-Origin-Resource-Policy': 'same-origin'
+      }
+    }
+  },
   app: {
     head: {
       htmlAttrs: { lang: 'ko' },
-      title: 'Qwen Local — 기기 안에서 답하는 AI',
+      title: 'Local AI — 기기 안에서 답하는 AI',
       meta: [
         {
           name: 'description',
-          content: '학생, 교사, 일반 사용자를 위한 Qwen3.5-4B WebGPU 로컬 AI 채팅'
+          content: 'Qwen3.5-4B와 LFM2.5-8B를 선택할 수 있는 WebGPU 로컬 AI 채팅'
         }
       ]
     }

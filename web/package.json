@@ -13,6 +13,7 @@
     "@iconify-json/lucide": "^1.2.121",
     "@mlc-ai/web-llm": "0.2.84",
     "@nuxt/ui": "4.10.0",
+    "@wllama/wllama": "3.5.1",
     "ai": "^7.0.48",
     "nuxt": "4.5.2"
   },
