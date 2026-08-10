@@ -36,6 +36,7 @@ const SYSTEM_PROMPT = '당신은 학생, 교사, 일반 사용자를 돕는 친�
 const MAX_CONTEXT_MESSAGES = 6
 const MAX_CONTEXT_CHARACTERS = 1200
 const QWEN_MAX_OUTPUT_TOKENS = 160
+const STREAM_RENDER_INTERVAL_MS = 50
 
 const toast = useToast()
 const colorMode = useColorMode()
@@ -59,6 +60,7 @@ const {
   modelStatusText,
   modelError,
   webgpuAvailable,
+  webgpuAdapterLabel,
   activeModel,
   loadModel: loadQwenModel,
   unloadModel: unloadQwenModel,
@@ -79,6 +81,11 @@ const modelDefinition = computed(() => QWEN_MODELS[selectedModel.value])
 const modelLabel = computed(() => modelDefinition.value.label)
 const modelDescription = computed(() => modelDefinition.value.description)
 const modelStorageHint = computed(() => modelDefinition.value.storageHint)
+const runtimeLabel = computed(() => [
+  'WebGPU',
+  webgpuAdapterLabel.value,
+  `MLC ${modelDefinition.value.quantization}`
+].filter(Boolean).join(' · '))
 const operationStatusText = computed(() => {
   if (modelState.value === 'loading') return `모델 로딩·WebGPU 컴파일 중 · ${operationElapsedSeconds.value}초`
   if (chatStatus.value === 'submitted') return `요청 준비 중 · ${operationElapsedSeconds.value}초`
@@ -170,17 +177,6 @@ function parseOutput(raw: string) {
 
 function textOf(message: LocalMessage) {
   return message.parts.filter(part => part.type === 'text').map(part => part.text).join('')
-}
-
-async function allowBrowserPaint() {
-  await nextTick()
-  await new Promise<void>((resolve) => {
-    const timeout = window.setTimeout(resolve, 50)
-    window.requestAnimationFrame(() => {
-      window.clearTimeout(timeout)
-      resolve()
-    })
-  })
 }
 
 function recentRequestMessages(conversation: Conversation, excludedId: string) {
@@ -277,26 +273,43 @@ async function submitPrompt(value = prompt.value) {
       stream_options: { include_usage: true }
     })
 
+    const generationStartedAt = performance.now()
     let raw = ''
+    let lastRenderedAt = 0
+    let timeToFirstVisibleTokenSeconds: number | undefined
     let usageExtra: { decode_tokens_per_s?: number, time_to_first_token_s?: number } | undefined
-    for await (const chunk of chunks) {
-      if (wasQwenInterrupted()) break
-      const delta = chunk.choices[0]?.delta.content || ''
-      raw += delta
+
+    function renderAssistantOutput() {
       const parsed = parseOutput(raw)
       replaceAssistant({
         reasoning: parsed.reasoning,
         parts: [{ type: 'text', text: parsed.answer }]
       })
-      if (chunk.usage?.extra) usageExtra = chunk.usage.extra
-      if (delta) await allowBrowserPaint()
+      if (timeToFirstVisibleTokenSeconds === undefined && (parsed.answer || parsed.reasoning)) {
+        timeToFirstVisibleTokenSeconds = (performance.now() - generationStartedAt) / 1000
+      }
+      lastRenderedAt = performance.now()
     }
 
-    if (usageExtra) {
+    for await (const chunk of chunks) {
+      if (wasQwenInterrupted()) break
+      const delta = chunk.choices[0]?.delta.content || ''
+      raw += delta
+      if (chunk.usage?.extra) usageExtra = chunk.usage.extra
+      if (delta && performance.now() - lastRenderedAt >= STREAM_RENDER_INTERVAL_MS) {
+        renderAssistantOutput()
+        await nextTick()
+      }
+    }
+    renderAssistantOutput()
+    await nextTick()
+
+    if (usageExtra || timeToFirstVisibleTokenSeconds !== undefined) {
       replaceAssistant({
         metrics: {
-          decodeTokensPerSecond: usageExtra.decode_tokens_per_s,
-          timeToFirstTokenSeconds: usageExtra.time_to_first_token_s
+          decodeTokensPerSecond: usageExtra?.decode_tokens_per_s,
+          timeToFirstTokenSeconds: usageExtra?.time_to_first_token_s,
+          timeToFirstVisibleTokenSeconds
         }
       })
     }
@@ -602,7 +615,7 @@ onBeforeUnmount(() => {
             <template #footer>
               <div class="flex min-w-0 items-center gap-2 text-xs text-muted">
                 <UIcon :name="modelReady ? 'i-lucide-shield-check' : 'i-lucide-download'" />
-                <span class="truncate">{{ modelStatusText }}</span>
+                <span class="truncate">{{ modelReady ? runtimeLabel : modelStatusText }}</span>
               </div>
               <UChatPromptSubmit
                 :status="chatStatus"

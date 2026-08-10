@@ -9,6 +9,7 @@ export interface QwenModelDefinition {
   description: string
   storageHint: string
   estimatedVramMb: number
+  quantization: 'q4f16_1'
 }
 
 export const QWEN_MODELS: Record<QwenModelChoice, QwenModelDefinition> = {
@@ -18,7 +19,8 @@ export const QWEN_MODELS: Record<QwenModelChoice, QwenModelDefinition> = {
     source: 'https://huggingface.co/mlc-ai/Qwen3.5-2B-q4f16_1-MLC',
     description: '빠른 기본 모델입니다. 약 2.25GB VRAM으로 WebGPU에서 실행됩니다.',
     storageHint: '최초 1회 모델을 받은 뒤 브라우저 캐시에서 다시 사용합니다.',
-    estimatedVramMb: 2245.44
+    estimatedVramMb: 2245.44,
+    quantization: 'q4f16_1'
   },
   'qwen35-4b': {
     id: 'Qwen3.5-4B-q4f16_1-MLC',
@@ -26,7 +28,8 @@ export const QWEN_MODELS: Record<QwenModelChoice, QwenModelDefinition> = {
     source: 'https://huggingface.co/mlc-ai/Qwen3.5-4B-q4f16_1-MLC',
     description: '품질 우선 모델입니다. 약 3.87GB VRAM으로 WebGPU에서 실행됩니다.',
     storageHint: '최초 1회 모델을 받은 뒤 브라우저 캐시에서 다시 사용합니다.',
-    estimatedVramMb: 3867.82
+    estimatedVramMb: 3867.82,
+    quantization: 'q4f16_1'
   }
 }
 
@@ -68,6 +71,7 @@ export function useLocalQwen() {
   const modelStatusText = useState<string>('qwen-model-status-text', () => 'WebGPU 확인 전')
   const modelError = useState<string | null>('qwen-model-error', () => null)
   const webgpuAvailable = useState<boolean | null>('qwen-webgpu', () => null)
+  const webgpuAdapterLabel = useState<string>('qwen-webgpu-adapter', () => '')
   const activeModel = useState<QwenModelChoice | null>('qwen-active-model', () => null)
 
   async function checkWebGPU() {
@@ -77,6 +81,10 @@ export function useLocalQwen() {
     const gpu = navigator.gpu
     const adapter = gpu ? await gpu.requestAdapter({ powerPreference: 'high-performance' }) : null
     webgpuAvailable.value = Boolean(adapter)
+    const adapterInfo = adapter?.info
+    webgpuAdapterLabel.value = adapterInfo
+      ? [adapterInfo.vendor, adapterInfo.architecture].filter(Boolean).join(' · ')
+      : ''
 
     if (!adapter) {
       modelState.value = 'error'
@@ -183,6 +191,7 @@ export function useLocalQwen() {
     modelStatusText,
     modelError,
     webgpuAvailable,
+    webgpuAdapterLabel,
     activeModel,
     checkWebGPU,
     loadModel,

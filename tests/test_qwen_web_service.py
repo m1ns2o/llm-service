@@ -19,6 +19,7 @@ class QwenWebServiceTests(unittest.TestCase):
         self.assertIn("Qwen3.5-2B-q4f16_1-MLC", runtime)
         self.assertIn("Qwen3.5-4B-q4f16_1-MLC", runtime)
         self.assertIn("QWEN_CONTEXT_WINDOW_SIZE = 4096", runtime)
+        self.assertEqual(runtime.count("quantization: 'q4f16_1'"), 3)
 
     def test_model_switch_releases_previous_gpu_runtime(self):
         runtime = (ROOT / "web/app/composables/useLocalQwen.ts").read_text(
@@ -42,9 +43,29 @@ class QwenWebServiceTests(unittest.TestCase):
         self.assertIn("stream: true", page)
         self.assertIn("extra_body: { enable_thinking: false }", page)
         self.assertIn("for await (const chunk of chunks)", page)
+        self.assertIn("STREAM_RENDER_INTERVAL_MS = 50", page)
+        self.assertIn("performance.now() - lastRenderedAt", page)
+        self.assertNotIn("await allowBrowserPaint()", page)
+        self.assertIn("webgpuAdapterLabel", page)
+        self.assertIn("MLC ${modelDefinition.value.quantization}", page)
         self.assertIn("model: selectedModel.value", page)
         self.assertIn("modelLabelByMessageId", page)
         self.assertNotIn("selectedModel.value === 'lfm25-8b'", page)
+
+    def test_runtime_diagnostic_records_webgpu_and_warm_runs(self):
+        result = json.loads(
+            (ROOT / "benchmarks/results/qwen35-2b-4b-webllm-runtime-diagnostic.json")
+            .read_text(encoding="utf-8")
+        )
+
+        self.assertTrue(result["environment"]["webgpu"])
+        self.assertEqual(result["environment"]["adapter"]["architecture"], "rdna-3")
+        self.assertEqual(result["runtime"]["backend"], "WebGPU")
+        self.assertEqual(result["runtime"]["quantization"], "q4f16_1")
+        self.assertGreater(
+            result["models"]["qwen35-2b"]["warm_decode_tokens_per_s"],
+            result["models"]["qwen35-4b"]["warm_decode_tokens_per_s"],
+        )
 
 
 if __name__ == "__main__":
