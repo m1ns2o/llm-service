@@ -1,0 +1,157 @@
+{
+  "run_id": "browser-webgpu-windows-intel-arc-20260810",
+  "started_at": "2026-08-10T09:29:37Z",
+  "completed_at": "2026-08-10T09:55:13Z",
+  "platform": "browser-webgpu-direct",
+  "endpoint": "none; browser-local WebGPU",
+  "runtime": "@mlc-ai/web-llm@0.2.84",
+  "cache": "Chrome Cache Storage/IndexedDB",
+  "download_verified": false,
+  "storage": {
+    "system_drive_free_gb_before": 34.2,
+    "system_drive_free_gb_after": 16.5,
+    "observed_free_space_delta_gb": 17.7,
+    "note": "세 모델 다운로드·캐시·런타임 적재 전후의 시스템 드라이브 차이이며 순수 가중치 크기와 같지 않음."
+  },
+  "host": {
+    "manufacturer": "LENOVO",
+    "model": "83CV",
+    "os": "Windows",
+    "cpu": "Intel(R) Core(TM) Ultra 7 155H",
+    "cpu_cores": 16,
+    "cpu_logical_processors": 22,
+    "ram_gb": 31.4,
+    "gpu": "Intel(R) Arc(TM) Graphics",
+    "gpu_driver": "32.0.101.8132"
+  },
+  "webgpu": {
+    "navigator_gpu": true,
+    "adapter_available": true,
+    "vendor": "intel",
+    "architecture": "xe-lpg",
+    "max_buffer_size": 2147483648,
+    "max_storage_buffer_binding_size": 2147483644
+  },
+  "benchmark": {
+    "prompt": "중학교 2학년 학생에게 일차함수의 기울기를 한 문단으로 설명해줘.",
+    "temperature": 0,
+    "comparison_max_tokens": 96,
+    "comparison_completion_tokens": 95,
+    "note": "각 모델 cold/warm 1회. 장시간 열 안정성 및 품질 평가는 포함하지 않음. Qwen3.5-4B 최초 cold는 256토큰이고 이후 비교 실행은 96토큰. 96토큰에서는 내부 <think> 출력 때문에 학생용 최종 답변이 완료되지 않음."
+  },
+  "models": [
+    {
+      "model_id": "qwen35-4b",
+      "artifact_id": "Qwen3.5-4B-q4f16_1-MLC",
+      "quantization": "q4f16_1-MLC",
+      "model_source_url": "https://huggingface.co/mlc-ai/Qwen3.5-4B-q4f16_1-MLC",
+      "expected_vram_mb": 3867.82,
+      "status": "completed",
+      "requests_completed": 2,
+      "oom_events": 0,
+      "crashes": 0,
+      "cache_network_errors": 1,
+      "download_note": "초기 다운로드가 약 80%에서 한 번 중단됐고 캐시를 재사용한 재시도로 완료함.",
+      "cold": {
+        "max_tokens": 256,
+        "completion_tokens": 255,
+        "prompt_tokens": 40,
+        "load_seconds": 89.649,
+        "inference_seconds": 84.98,
+        "ttft_seconds": 28.95445,
+        "prefill_tokens_per_s": 1.38148,
+        "decode_tokens_per_s": 4.576912
+      },
+      "warm": {
+        "max_tokens": 96,
+        "completion_tokens": 95,
+        "prompt_tokens": 40,
+        "load_seconds": 37.788,
+        "inference_seconds": 16.766,
+        "ttft_seconds": 1.679655,
+        "prefill_tokens_per_s": 23.814414,
+        "decode_tokens_per_s": 6.325711
+      }
+    },
+    {
+      "model_id": "qwen3-8b",
+      "artifact_id": "Qwen3-8B-q4f16_1-MLC",
+      "quantization": "q4f16_1-MLC",
+      "model_source_url": "https://huggingface.co/mlc-ai/Qwen3-8B-q4f16_1-MLC",
+      "expected_vram_mb": 5695.78,
+      "status": "completed",
+      "requests_completed": 2,
+      "oom_events": 0,
+      "crashes": 0,
+      "cache_network_errors": 2,
+      "download_note": "초기 다운로드 중 캐시 쓰기 오류 두 번 발생; 누락 조각을 재시도해 완료함.",
+      "cold": {
+        "max_tokens": 96,
+        "completion_tokens": 95,
+        "prompt_tokens": 45,
+        "load_seconds": 54.483,
+        "inference_seconds": 37.336,
+        "ttft_seconds": 17.34547,
+        "prefill_tokens_per_s": 2.594337,
+        "decode_tokens_per_s": 4.764934
+      },
+      "warm": {
+        "max_tokens": 96,
+        "completion_tokens": 95,
+        "prompt_tokens": 45,
+        "load_seconds": 72.446,
+        "inference_seconds": 31.386,
+        "ttft_seconds": 3.23151,
+        "prefill_tokens_per_s": 13.925379,
+        "decode_tokens_per_s": 3.469599
+      }
+    },
+    {
+      "model_id": "qwen35-9b",
+      "artifact_id": "Qwen3.5-9B-q4f16_1-MLC",
+      "quantization": "q4f16_1-MLC",
+      "model_source_url": "https://huggingface.co/mlc-ai/Qwen3.5-9B-q4f16_1-MLC",
+      "expected_vram_mb": 6433.01,
+      "status": "completed",
+      "requests_completed": 2,
+      "oom_events": 0,
+      "crashes": 0,
+      "cache_network_errors": 0,
+      "download_note": "127개 파라미터 파일 약 4.8GB를 브라우저 캐시에 다운로드함.",
+      "cold": {
+        "max_tokens": 96,
+        "completion_tokens": 95,
+        "prompt_tokens": 40,
+        "load_seconds": 148.629,
+        "inference_seconds": 29.033,
+        "ttft_seconds": 7.26013,
+        "prefill_tokens_per_s": 5.509543,
+        "decode_tokens_per_s": 4.370759
+      },
+      "warm": {
+        "max_tokens": 96,
+        "completion_tokens": 95,
+        "prompt_tokens": 40,
+        "load_seconds": 59.137,
+        "inference_seconds": 24.654,
+        "ttft_seconds": 3.281345,
+        "prefill_tokens_per_s": 12.190123,
+        "decode_tokens_per_s": 4.573845
+      }
+    },
+    {
+      "model_id": "qwen36-14b-a3b-fablevibes",
+      "artifact_id": "Qwen3.6-14B-A3B-FableVibes-q4f16_1-MLC",
+      "status": "compile_blocked",
+      "blocked_reason": "mlc_unknown_model_type_qwen3_5_moe_text",
+      "downloaded": false,
+      "speed_metrics_valid": false
+    }
+  ],
+  "limitations": [
+    "WebLLM 레지스트리 파일의 개별 SHA-256은 검증하지 않음.",
+    "각 모델 cold/warm 1회만 측정해 통계적 반복성과 20분 열 안정성을 확인하지 않음.",
+    "Qwen3-8B warm decode가 cold보다 낮아 열 또는 공유 메모리 대역폭 영향을 추가 확인해야 함.",
+    "브라우저 모델은 Chrome 캐시에 저장되며 저장소 작업 트리에는 가중치 파일이 없음."
+  ]
+}

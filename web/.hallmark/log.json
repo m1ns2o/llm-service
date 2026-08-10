@@ -1,0 +1,21 @@
+[
+  {
+    "date": "2026-08-10",
+    "macrostructure": "Workbench",
+    "theme": "Nuxt UI defaults",
+    "enrichment": "none",
+    "nav": "Nuxt UI DashboardSidebar",
+    "footer": "Nuxt UI DashboardPanel footer",
+    "brief": "Pure Nuxt UI ChatGPT-style local Qwen chat"
+  },
+  {
+    "date": "2026-08-10",
+    "macrostructure": "Workbench",
+    "theme": "Lumen",
+    "drop": "day",
+    "enrichment": "Tier A CSS prism and model-status apparatus",
+    "nav": "N3 side-rail",
+    "footer": "Ft2 inline rule",
+    "brief": "Local Qwen chat for students, teachers, and general users"
+  }
+]

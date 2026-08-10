@@ -1,0 +1,4 @@
+
+[43m[30m WARN [39m[49m [1m[31m[NUXT_B8014][39m[22m Module [36m@nuxt/devtools[39m was slow to set up, taking [36m5196.9ms[39m.
+[2m╰▶[22m [2mfix:[22m Defer expensive operations to a later hook (e.g. [36mbuild:before[39m) to reduce startup time.
+

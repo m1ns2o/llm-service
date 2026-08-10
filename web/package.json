@@ -1,0 +1,23 @@
+{
+  "name": "local-qwen-chat",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.121",
+    "@mlc-ai/web-llm": "0.2.84",
+    "@nuxt/ui": "4.10.0",
+    "ai": "^7.0.48",
+    "nuxt": "4.5.2"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vue-tsc": "^3.3.9"
+  }
+}
