@@ -1,6 +1,6 @@
 # Qwen Local Chat
 
-Nuxt UI와 WebLLM을 사용해 Qwen3.5-4B를 브라우저 WebGPU에서 직접 실행하는 채팅 앱입니다.
+Nuxt UI와 WebLLM을 사용해 Qwen3.5-2B를 브라우저 WebGPU에서 직접 실행하는 채팅 앱입니다.
 
 ```bash
 npm install

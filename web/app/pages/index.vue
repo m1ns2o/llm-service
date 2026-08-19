@@ -30,7 +30,18 @@ const STORAGE_KEY = 'qwen-local-chat-v1'
 const SYSTEM_PROMPT = '당신은 학생, 교사, 일반 사용자를 돕는 친절하고 정확한 한국어 AI입니다. 결론부터 간결하게 답하고, 학습 질문에는 이해 수준에 맞는 예시와 확인 질문을 사용하세요. 모르는 내용은 추측하지 말고 불확실성을 분명히 밝히세요.'
 const MAX_CONTEXT_MESSAGES = 6
 const MAX_CONTEXT_CHARACTERS = 1200
-const MAX_OUTPUT_TOKENS = 160
+const DEFAULT_OUTPUT_TOKENS = 1536
+const OUTPUT_TOKENS_STORAGE_KEY = 'qwen-output-tokens-v1'
+const OUTPUT_TOKEN_OPTIONS = [
+  { label: '보통 · 1,024 토큰', value: 1024 },
+  { label: '길게 · 1,536 토큰', value: 1536 },
+  { label: '최대 · 2,048 토큰', value: 2048 }
+]
+const APPEARANCE_OPTIONS = [
+  { label: '시스템 설정', value: 'system' },
+  { label: '라이트', value: 'light' },
+  { label: '다크', value: 'dark' }
+]
 
 const toast = useToast()
 const colorMode = useColorMode()
@@ -40,13 +51,22 @@ const activeId = ref('')
 const chatStatus = ref<ChatStatus>('ready')
 const lastError = ref<string | null>(null)
 const copiedMessageId = ref<string | null>(null)
+const settingsOpen = ref(false)
+const maxOutputTokens = ref(DEFAULT_OUTPUT_TOKENS)
 
 const {
+  modelOptions,
+  selectedModelId,
+  selectedModelLabel,
   modelState,
   modelProgress,
   modelStatusText,
   modelError,
   webgpuAvailable,
+  nativeRuntime,
+  setNativeColorScheme,
+  restoreModelSelection,
+  selectModel,
   loadModel,
   beginGeneration,
   wasInterrupted,
@@ -67,13 +87,21 @@ const modelBadgeColor = computed(() => {
   if (modelState.value === 'loading' || modelState.value === 'checking') return 'warning'
   return 'neutral'
 })
-const starterPrompts = [
-  { icon: 'i-lucide-graduation-cap', label: '개념을 쉽게 설명해줘' },
-  { icon: 'i-lucide-notebook-tabs', label: '수업 활동을 만들어줘' },
-  { icon: 'i-lucide-file-text', label: '글의 핵심을 요약해줘' },
-  { icon: 'i-lucide-code-2', label: '코드를 예제로 알려줘' }
-]
 
+function changeAppearance(value: unknown) {
+  if (typeof value === 'string' && APPEARANCE_OPTIONS.some(option => option.value === value)) {
+    colorMode.preference = value
+  }
+}
+
+watch(() => colorMode.value, value => setNativeColorScheme(value === 'dark' ? 'dark' : 'light'), { immediate: true })
+
+function changeOutputLength(value: unknown) {
+  const parsed = Number(value)
+  if (!OUTPUT_TOKEN_OPTIONS.some(option => option.value === parsed)) return
+  maxOutputTokens.value = parsed
+  if (import.meta.client) localStorage.setItem(OUTPUT_TOKENS_STORAGE_KEY, String(parsed))
+}
 function makeId() {
   return crypto.randomUUID()
 }
@@ -170,6 +198,17 @@ async function prepareModel(notify = true) {
   }
 }
 
+async function changeModel(value: unknown) {
+  if (typeof value !== 'string' || isBusy.value || value === selectedModelId.value) return
+  lastError.value = null
+  try {
+    await selectModel(value)
+    toast.add({ title: `${selectedModelLabel.value}로 변경했습니다` })
+  } catch {
+    toast.add({ title: '모델 변경 실패', description: modelError.value || '모델을 불러오지 못했습니다.', color: 'error' })
+  }
+}
+
 async function submitPrompt(value = prompt.value) {
   const content = value.trim()
   if (!content || isBusy.value || !modelReady.value || !activeConversation.value) return
@@ -216,8 +255,10 @@ async function submitPrompt(value = prompt.value) {
 
     const chunks = await engine.chat.completions.create({
       messages: requestMessages,
-      temperature: 0.2,
-      max_tokens: MAX_OUTPUT_TOKENS,
+      temperature: 1,
+      top_p: 1,
+      presence_penalty: 2,
+      max_tokens: maxOutputTokens.value,
       extra_body: { enable_thinking: false },
       stream: true,
       stream_options: { include_usage: true }
@@ -278,10 +319,6 @@ function messageById(id: string) {
   return messages.value.find(message => message.id === id)
 }
 
-function textPartsById(id: string) {
-  return messageById(id)?.parts || []
-}
-
 function textById(id: string) {
   const message = messageById(id)
   return message ? textOf(message) : ''
@@ -314,12 +351,18 @@ onMounted(() => {
     newConversation()
   }
 
+  const savedOutputTokens = Number(localStorage.getItem(OUTPUT_TOKENS_STORAGE_KEY))
+  if (OUTPUT_TOKEN_OPTIONS.some(option => option.value === savedOutputTokens)) {
+    maxOutputTokens.value = savedOutputTokens
+  }
+
+  restoreModelSelection()
   void prepareModel(false)
 })
 </script>
 
 <template>
-  <UDashboardGroup class="h-dvh">
+  <UDashboardGroup class="app-shell">
     <UDashboardSidebar
       id="chat-sidebar"
       resizable
@@ -330,9 +373,13 @@ onMounted(() => {
       :collapsed-size="4"
     >
       <template #header="{ collapsed }">
-        <div class="flex items-center gap-2">
-          <UAvatar icon="i-lucide-bot" color="neutral" size="sm" />
+        <div
+          class="flex w-full min-w-0 items-center"
+          :class="collapsed ? 'justify-center' : 'gap-2'"
+        >
+          <UAvatar v-if="!collapsed" icon="i-lucide-bot" color="neutral" size="sm" />
           <span v-if="!collapsed" class="font-semibold">Qwen Local</span>
+          <UDashboardSidebarCollapse :class="collapsed ? undefined : 'ms-auto'" />
         </div>
       </template>
 
@@ -352,39 +399,67 @@ onMounted(() => {
       <template #header>
         <UDashboardNavbar :title="activeConversation?.title || '새 채팅'">
           <template #right>
-            <UBadge :color="modelBadgeColor" variant="subtle">
+            <UBadge :color="modelBadgeColor" variant="subtle" class="max-w-32 truncate sm:max-w-none">
               {{ modelReady ? '모델 준비됨' : modelState === 'loading' ? `다운로드 ${modelPercent}%` : modelState === 'checking' ? '확인 중' : '점검 필요' }}
             </UBadge>
-            <UButton
-              :icon="colorMode.value === 'dark' ? 'i-lucide-sun' : 'i-lucide-moon'"
-              color="neutral"
-              variant="ghost"
-              aria-label="색상 모드 전환"
-              @click="colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'"
-            />
+            <UModal v-model:open="settingsOpen" title="설정" description="화면과 답변 생성 방식을 조정합니다.">
+              <UButton
+                icon="i-lucide-settings-2"
+                color="neutral"
+                variant="ghost"
+                class="mobile-touch-target"
+                aria-label="설정 열기"
+              />
+
+              <template #body>
+                <div class="space-y-5">
+                  <UFormField label="화면 모드" description="기본값은 기기의 시스템 설정을 따릅니다.">
+                    <USelect
+                      :model-value="colorMode.preference"
+                      :items="APPEARANCE_OPTIONS"
+                      class="mt-2 w-full"
+                      aria-label="화면 모드"
+                      @update:model-value="changeAppearance"
+                    />
+                  </UFormField>
+
+                  <UFormField label="답변 길이" description="긴 답변일수록 생성 시간과 배터리 사용량이 늘어납니다.">
+                    <USelect
+                      :model-value="maxOutputTokens"
+                      :items="OUTPUT_TOKEN_OPTIONS"
+                      class="mt-2 w-full"
+                      aria-label="최대 출력 토큰"
+                      @update:model-value="changeOutputLength"
+                    />
+                  </UFormField>
+
+                  <div class="rounded-lg bg-elevated/60 p-3 text-sm text-muted">
+                    현재 {{ selectedModelLabel }} · 최대 {{ maxOutputTokens.toLocaleString() }}토큰
+                  </div>
+                </div>
+              </template>
+            </UModal>
           </template>
         </UDashboardNavbar>
       </template>
 
       <template #body>
-        <div v-if="messages.length === 0" class="mx-auto flex min-h-full w-full max-w-2xl flex-col items-center justify-center gap-6 py-8 text-center">
-          <UAvatar icon="i-lucide-bot" color="neutral" size="xl" />
-
-          <div class="space-y-2">
-            <h2 class="text-3xl font-semibold tracking-tight text-highlighted">
+        <div v-if="messages.length === 0" class="chat-empty-state mx-auto flex min-h-full w-full max-w-3xl flex-col justify-center py-6 sm:py-12">
+          <div class="mb-8 space-y-2 text-center sm:mb-10">
+            <h1 class="text-3xl font-semibold tracking-tight text-highlighted sm:text-4xl">
               무엇을 도와드릴까요?
-            </h2>
-            <p class="text-muted">
-              Qwen3.5-4B가 브라우저에서 실행됩니다. 대화 내용은 서버로 전송되지 않습니다.
+            </h1>
+            <p class="text-pretty text-muted">
+              {{ selectedModelLabel }}가 {{ nativeRuntime ? '기기의 네이티브 GPU' : '이 브라우저' }}에서 직접 답합니다.
             </p>
           </div>
 
-          <UCard v-if="!modelReady" class="w-full text-left">
+          <UCard v-if="!modelReady" class="mb-4 w-full">
             <div class="space-y-3">
               <div class="flex items-center justify-between gap-4">
                 <div class="min-w-0">
-                  <p class="font-medium text-highlighted">{{ modelStatusText }}</p>
-                  <p class="text-sm text-muted">최초 1회 약 2.3GB를 받고 이후 브라우저 캐시를 사용합니다.</p>
+                  <p class="font-medium text-highlighted">초기 설정 진행 중</p>
+                  <p class="text-sm text-muted">모델을 이 기기에 준비하고 있습니다. 다음 실행부터는 저장된 파일을 사용합니다.</p>
                 </div>
                 <UBadge :color="modelBadgeColor" variant="subtle">{{ modelPercent }}%</UBadge>
               </div>
@@ -394,7 +469,7 @@ onMounted(() => {
               <UAlert
                 v-if="modelState === 'error'"
                 title="모델을 준비하지 못했습니다"
-                :description="modelError || 'WebGPU 상태를 확인해 주세요.'"
+                :description="modelError || '기기 가속 상태를 확인해 주세요.'"
                 icon="i-lucide-circle-alert"
                 color="error"
                 variant="subtle"
@@ -413,21 +488,41 @@ onMounted(() => {
             </div>
           </UCard>
 
-          <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
-            <UButton
-              v-for="item in starterPrompts"
-              :key="item.label"
-              :label="item.label"
-              :icon="item.icon"
-              color="neutral"
-              variant="outline"
-              size="lg"
-              block
-              class="justify-start"
-              :disabled="!modelReady"
-              @click="submitPrompt(item.label)"
-            />
-          </div>
+          <UChatPrompt
+            v-model="prompt"
+            :disabled="!modelReady"
+            :error="chatStatus === 'error' ? new Error(lastError || '응답 생성 실패') : undefined"
+            :placeholder="modelReady ? '무엇이든 물어보세요' : modelState === 'error' ? '기기 가속 상태를 확인해 주세요' : `모델 준비 중 · ${modelPercent}%`"
+            :rows="2"
+            :maxrows="6"
+            @submit="submitPrompt()"
+          >
+            <template #footer>
+              <div class="flex min-w-0 items-center gap-1">
+                <USelect
+                  :model-value="selectedModelId"
+                  :items="modelOptions"
+                  variant="ghost"
+                  size="sm"
+                  class="w-28 shrink-0"
+                  aria-label="모델 선택"
+                  :disabled="isBusy"
+                  @update:model-value="changeModel"
+                />
+                <div class="hidden min-w-0 items-center gap-1.5 text-xs text-muted sm:flex">
+                  <UIcon :name="modelReady ? 'i-lucide-shield-check' : 'i-lucide-download'" />
+                  <span class="truncate">{{ modelStatusText }}</span>
+                </div>
+              </div>
+              <UChatPromptSubmit
+                :status="chatStatus"
+                :disabled="!prompt.trim() || !modelReady"
+                class="chat-submit-button justify-center"
+                @stop="stop"
+                @reload="retryLast"
+              />
+            </template>
+          </UChatPrompt>
         </div>
 
         <UChatMessages
@@ -438,7 +533,7 @@ onMounted(() => {
           :spacing-offset="24"
           :user="{ avatar: { icon: 'i-lucide-user-round' } }"
           :assistant="{ avatar: { icon: 'i-lucide-bot' } }"
-          class="mx-auto w-full max-w-3xl"
+          class="chat-message-list mx-auto w-full max-w-3xl"
         >
           <template #indicator>
             <UChatShimmer :text="modelState === 'loading' ? '모델을 준비하고 있습니다' : '답변을 정리하고 있습니다'" />
@@ -455,13 +550,12 @@ onMounted(() => {
                 :text="messageById(message.id)?.reasoning"
                 :streaming="chatStatus === 'streaming' && message.id === messages.at(-1)?.id && !textById(message.id)"
               />
-              <p
-                v-for="(part, index) in textPartsById(message.id)"
-                :key="`${message.id}-${index}`"
-                class="whitespace-pre-wrap"
-              >
-                {{ part.text }}
-              </p>
+              <MDC
+                v-if="textById(message.id)"
+                :value="textById(message.id)"
+                tag="div"
+                class="max-w-none"
+              />
               <div v-if="messageById(message.id)?.metrics" class="flex flex-wrap gap-2 text-xs text-muted">
                 <span v-if="messageById(message.id)?.metrics?.decodeTokensPerSecond">{{ messageById(message.id)!.metrics!.decodeTokensPerSecond!.toFixed(1) }} tok/s</span>
                 <span v-if="messageById(message.id)?.metrics?.timeToFirstTokenSeconds">첫 토큰 {{ messageById(message.id)!.metrics!.timeToFirstTokenSeconds!.toFixed(1) }}초</span>
@@ -483,8 +577,8 @@ onMounted(() => {
         </UChatMessages>
       </template>
 
-      <template #footer>
-        <div class="mx-auto w-full max-w-3xl space-y-2">
+      <template v-if="messages.length > 0" #footer>
+        <div class="chat-composer mx-auto w-full max-w-3xl space-y-2">
           <UAlert
             v-if="lastError"
             color="error"
@@ -500,31 +594,38 @@ onMounted(() => {
             v-model="prompt"
             :disabled="!modelReady"
             :error="chatStatus === 'error' ? new Error(lastError || '응답 생성 실패') : undefined"
-            :placeholder="modelReady ? '메시지를 입력하세요' : modelState === 'error' ? 'WebGPU 상태를 확인해 주세요' : `모델 준비 중 · ${modelPercent}%`"
-            color="neutral"
-            variant="subtle"
+            :placeholder="modelReady ? '메시지를 입력하세요' : modelState === 'error' ? '기기 가속 상태를 확인해 주세요' : `모델 준비 중 · ${modelPercent}%`"
             :rows="1"
             :maxrows="6"
             @submit="submitPrompt()"
           >
             <template #footer>
-              <div class="flex min-w-0 items-center gap-2 text-xs text-muted">
-                <UIcon :name="modelReady ? 'i-lucide-shield-check' : 'i-lucide-download'" />
-                <span class="truncate">{{ modelStatusText }}</span>
+              <div class="flex min-w-0 items-center gap-1">
+                <USelect
+                  :model-value="selectedModelId"
+                  :items="modelOptions"
+                  variant="ghost"
+                  size="sm"
+                  class="w-28 shrink-0"
+                  aria-label="모델 선택"
+                  :disabled="isBusy"
+                  @update:model-value="changeModel"
+                />
+                <div class="hidden min-w-0 items-center gap-1.5 text-xs text-muted sm:flex">
+                  <UIcon :name="modelReady ? 'i-lucide-shield-check' : 'i-lucide-download'" />
+                  <span class="truncate">{{ modelStatusText }}</span>
+                </div>
               </div>
               <UChatPromptSubmit
                 :status="chatStatus"
                 :disabled="!prompt.trim() || !modelReady"
-                color="neutral"
+                class="chat-submit-button justify-center"
                 @stop="stop"
                 @reload="retryLast"
               />
             </template>
           </UChatPrompt>
 
-          <p class="text-center text-xs text-muted">
-            AI는 실수할 수 있습니다. 중요한 정보는 다시 확인하세요.
-          </p>
         </div>
       </template>
     </UDashboardPanel>

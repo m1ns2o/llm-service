@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 
-BACKENDS = {"vulkan", "opencl-experimental", "cpu-arm64"}
+BACKENDS = {"opencl", "vulkan", "cpu-arm64"}
 BLOCKED_STATUSES = {"compile_blocked", "memory_blocked", "runtime_blocked"}
 
 
@@ -24,8 +24,8 @@ def validate_runtime_config(config: dict[str, Any]) -> None:
     if not isinstance(benchmark, dict) or benchmark.get("student_input_allowed") is not False:
         raise ValueError("fixed_benchmark must explicitly disallow student input")
     priority = android.get("backend_priority")
-    if priority != ["vulkan", "opencl-experimental", "cpu-arm64"]:
-        raise ValueError("android backend priority must be Vulkan, OpenCL, ARM CPU")
+    if priority != ["opencl", "vulkan", "cpu-arm64"]:
+        raise ValueError("android backend priority must be OpenCL, Vulkan, ARM CPU")
     if set(priority) - BACKENDS:
         raise ValueError("android backend priority contains an unknown backend")
     if browser.get("wasm_cpu_fallback") is not True or browser.get("webgpu_priority") is not True:

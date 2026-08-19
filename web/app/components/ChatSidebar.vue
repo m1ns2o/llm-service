@@ -19,18 +19,21 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="flex h-full min-h-0 flex-col gap-4">
+  <div class="flex h-full min-h-0 flex-col gap-3">
     <UButton
       :label="collapsed ? undefined : '새 채팅'"
       icon="i-lucide-square-pen"
       color="neutral"
-      variant="outline"
+      variant="ghost"
       block
       :square="collapsed"
+      class="justify-start"
       @click="$emit('create')"
     />
 
-    <USeparator v-if="!collapsed" label="최근 대화" />
+    <p v-if="!collapsed" class="px-2 pt-2 text-xs font-medium text-muted">
+      최근 대화
+    </p>
 
     <div class="min-h-0 flex-1 space-y-1 overflow-y-auto">
       <div
@@ -67,13 +70,9 @@ defineEmits<{
       </div>
     </div>
 
-    <UAlert
-      v-if="!collapsed"
-      title="기기 안에서 실행"
-      description="대화가 서버로 전송되지 않습니다."
-      icon="i-lucide-shield-check"
-      color="neutral"
-      variant="subtle"
-    />
+    <div v-if="!collapsed" class="flex items-center gap-2 px-2 py-1 text-xs text-muted">
+      <UIcon name="i-lucide-shield-check" class="size-4 shrink-0" />
+      <span>기기 안에서 안전하게 실행</span>
+    </div>
   </div>
 </template>

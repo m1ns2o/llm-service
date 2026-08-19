@@ -1,3 +1,47 @@
-/* Hallmark · macrostructure: Workbench · tone: neutral · implementation: Nuxt UI defaults only · pre-emit: P5 H5 E5 S5 R5 V3 */
+/* Hallmark · genre: modern-minimal · tone: utilitarian · anchor: Nuxt UI primary/neutral · macrostructure: Workbench · implementation: Nuxt UI defaults + responsive placement refinement · pre-emit: P5 H5 E5 S5 R5 V4 · contrast: pass (40–41) · mobile: pass (34, 49, 50–57) */
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+html,
+body {
+  overflow-x: clip;
+}
+
+.app-shell {
+  box-sizing: border-box;
+  height: 100dvh;
+  padding-block-start: max(env(safe-area-inset-top, 0px), 0.5rem);
+  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+  padding-block-end: env(safe-area-inset-bottom, 0px);
+}
+
+.chat-empty-state,
+.chat-message-list,
+.chat-composer {
+  padding-inline: clamp(0.25rem, 2vw, 1rem);
+}
+
+@media (min-width: 60rem) {
+  .app-shell {
+    padding-block-start: env(safe-area-inset-top, 0px);
+  }
+}
+
+@media (pointer: coarse) {
+  .mobile-touch-target,
+  .chat-submit-button {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

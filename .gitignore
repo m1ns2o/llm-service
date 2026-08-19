@@ -4,6 +4,7 @@ __pycache__/
 .DS_Store
 dist/
 build/
+third_party/
 *.egg-info/
 results/
 
@@ -28,6 +29,11 @@ artifacts/compat-runtime/**/*.log
 android/.gradle/
 android/app/.cxx/
 android/app/build/
+android/app/src/main/assets/web/
+android/build-run*.log
+android/llm-screen*.png
+android/nuxt-android*.log
+android/s25-build*.log
 android/local.properties
 android/**/local.properties
 *.jks
@@ -35,4 +41,5 @@ android/**/local.properties
 
 web/node_modules/
 web/.nuxt/
+web/.nuxt-android/
 web/.output/

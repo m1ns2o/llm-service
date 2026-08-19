@@ -19,7 +19,7 @@ ROOT = Path(__file__).parents[1]
 class BenchmarkTests(unittest.TestCase):
     def test_manifest_contains_all_requested_combinations(self):
         models, combinations = load_manifest(ROOT / "configs/models.json")
-        self.assertEqual(len(models), 15)
+        self.assertEqual(len(models), 18)
         self.assertEqual(
             models["qwen36-14b-a3b-fablevibes-q4km"].artifacts[0]["quantization"],
             "Q4_K_M",
@@ -32,7 +32,7 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_runtime_config_enforces_platform_order_and_fallback(self):
         config = load_runtime_config(ROOT / "configs/runtime.json")
-        self.assertEqual(config["android"]["backend_priority"], ["vulkan", "opencl-experimental", "cpu-arm64"])
+        self.assertEqual(config["android"]["backend_priority"], ["opencl", "vulkan", "cpu-arm64"])
         self.assertFalse(config["fixed_benchmark"]["student_input_allowed"])
         self.assertEqual(config["browser"]["native_build_script"], "scripts/build_wllama_webgpu.sh")
         self.assertTrue(config["browser"]["wasm_memory64_required"])
@@ -47,13 +47,13 @@ class BenchmarkTests(unittest.TestCase):
         )
         model_artifact = model.artifacts[0]
         shard_manifest = json.loads(
-            (ROOT / "browser/model-shards/qwen36-14b-a3b-fablevibes-q4km.json").read_text()
+            (ROOT / "browser/model-shards/qwen36-14b-a3b-fablevibes-q4km.json").read_text(encoding="utf-8")
         )
         self.assertEqual(shard_manifest["source"]["size_bytes"], model_artifact["size_bytes"])
         self.assertEqual(shard_manifest["source"]["sha256"], model_artifact["sha256"])
         self.assertIn(shard_manifest["status"], {"pending_split", "ready"})
 
-        metadata = json.loads((ROOT / "browser/vendor/wllama/build-metadata.json").read_text())
+        metadata = json.loads((ROOT / "browser/vendor/wllama/build-metadata.json").read_text(encoding="utf-8"))
         self.assertEqual(metadata["status"], "built")
         self.assertIn("qwen35moe", metadata["features"])
         for artifact in metadata["artifacts"]:
@@ -62,7 +62,7 @@ class BenchmarkTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), artifact["sha256"])
 
     def test_browser_14b_page_uses_shards_without_free_ram_gate(self):
-        source = (ROOT / "browser/llama-webgpu-experimental.js").read_text()
+        source = (ROOT / "browser/llama-webgpu-experimental.js").read_text(encoding="utf-8")
         self.assertIn("import { Wllama }", source)
         self.assertIn("model_shards_not_published", source)
         self.assertNotIn("window.LlamaCppWebRuntime", source)
@@ -70,7 +70,7 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_browser_14b_result_is_run_evidence_compatible(self):
         value = json.loads(
-            (ROOT / "benchmarks/results/qwen36-14b-a3b-browser-webgpu-port.json").read_text()
+            (ROOT / "benchmarks/results/qwen36-14b-a3b-browser-webgpu-port.json").read_text(encoding="utf-8")
         )
         evidence = RunEvidence.from_dict(value)
         self.assertEqual(evidence.status, "runtime_blocked")

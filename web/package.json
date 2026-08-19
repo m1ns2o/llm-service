@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
+    "generate:android": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck"
@@ -13,6 +14,7 @@
     "@iconify-json/lucide": "^1.2.121",
     "@mlc-ai/web-llm": "0.2.84",
     "@nuxt/ui": "4.10.0",
+    "@nuxtjs/mdc": "^0.23.1",
     "ai": "^7.0.48",
     "nuxt": "4.5.2"
   },
