@@ -18,23 +18,14 @@
 28B는 브라우저 목록에서 제외하고, 14B 브라우저 경로는 `browser/llama-webgpu-experimental.html`의
 실험 경로로만 취급합니다. 기존 `browser/llm-webgpu-test.html`의 WebLLM/MLC 기준선은 유지합니다.
 
-Android 테스트 앱은 `android/`에 있습니다. 모델 가중치는 APK에 포함하지 않으며, 앱은 다운로드 재개·용량/RAM 사전 검사·SHA-256 검증·Vulkan → OpenCL 실험 → ARM CPU 선택·JSON 저장 UI를 제공합니다.
-현재 Android JNI 경계는 아직 smoke용 stub이지만, Qwen3.6 MoE GGUF를 읽을 수 있는 llama.cpp 런타임 라이브러리는
-`build/llama-cpp/android/bin/`에 실제로 컴파일했습니다. `libllama.so`, `libggml.so`,
-`libggml-cpu.so`, `libggml-vulkan.so` 모두 arm64-v8a이며 ELF LOAD 정렬은 16KB(`0x4000`)입니다.
-현재 빌드에는 Android 제조사 OpenCL ICD가 없어 OpenCL backend는 포함하지 않았습니다.
-재현 시에는 Vulkan 개발 패키지와 연결 기기용 API 29 이상을 지정하고 런타임 라이브러리 타깃만 빌드합니다.
+Android 앱은 `android/`에 있습니다. 모델 가중치는 APK에 포함하지 않으며, 앱은 다운로드 재개·용량/RAM 사전 검사·SHA-256 검증을 제공합니다. JNI는 실제 llama.cpp 모델 로딩과 생성을 수행하며 Qwen3.5 0.8B/2B/4B Q4_K_M 중 2B가 기본입니다. 빌드는 arm64-v8a 전용이고 Snapdragon/Adreno에서는 최적화 OpenCL, 그 외 지원 GPU에서는 Vulkan, 마지막으로 KleidiAI ARM CPU 경로를 선택합니다. NDK의 16KB 비호환 `libomp.so`는 포함하지 않고 ggml ARM 스레드 풀과 Q4 런타임 재패킹, 16KB ELF 정렬을 사용합니다.
 
-```bash
-cd android
-gradle --no-daemon assembleDebug
-cd ..
-LLAMA_CPP_REF=<immutable-llama.cpp-commit> \
-ANDROID_NDK_HOME="$ANDROID_SDK_ROOT/ndk/26.1.10909125" \
-LLAMA_BUILD_TARGETS="ggml-vulkan llama" \
-LLAMA_CMAKE_EXTRA_FLAGS="-DANDROID_PLATFORM=android-29 -DVulkan_LIBRARY=<ndk>/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/29/libvulkan.so -DSPIRV-Headers_DIR=<homebrew>/Cellar/spirv-headers/<version>/share/cmake/SPIRV-Headers -DVulkan_INCLUDE_DIR=<homebrew>/include -DGGML_OPENCL=OFF -DLLAMA_BUILD_SERVER=OFF -DBUILD_SHARED_LIBS=ON" \
-scripts/build_llama_runtime.sh android
+```powershell
+.\scripts\prepare_android_runtime.ps1
+.\scripts\build_android.ps1
 ```
+
+Windows 빌드 스크립트는 저장소 전용 JDK/SDK 경로와 Visual Studio C++ 호스트 환경을 설정한 뒤 Nuxt 정적 UI, Vulkan 셰이더, ARM64 JNI 런타임을 함께 빌드합니다. Vulkan 1.1 코어 심볼을 사용하는 네이티브 경로이므로 최소 Android API는 28입니다. 결과 APK는 `android/app/build/outputs/apk/debug/app-debug.apk`에 생성됩니다.
 
 Qwen3.6 FableVibes를 WebLLM/MLC로 변환하는 작업은 `qwen3_5_moe_text` 모델 타입이 현재 MLC에 없어
 `artifacts/compat-runtime/qwen36-14b-a3b-fablevibes-webllm/`에 `compile_blocked` 로그를 남겼습니다.
@@ -82,13 +73,13 @@ Chrome에서 `http://127.0.0.1:8000/llama-webgpu-experimental.html`을 열고 �
 `ready`인 checkout에서만 본체 다운로드·실행이 활성화됩니다. 브라우저 런타임을 다시 만들려면 Docker를 실행한 뒤
 `scripts/build_wllama_webgpu.sh`를 사용합니다.
 
-Android debug 빌드는 JDK 17과 Android SDK 35, NDK `26.1.10909125`를 설치한 환경에서 다음처럼 검증합니다.
+Android debug 빌드는 JDK 17과 Android SDK 35, NDK `26.1.10909125`, CMake `3.22.1`, Visual Studio C++ 빌드 도구를 설치한 환경에서 다음처럼 검증합니다.
 
-```bash
-cd android
-./gradlew --no-daemon assembleDebug
+```powershell
+.\scripts\prepare_android_runtime.ps1
+.\scripts\build_android.ps1
 # 또는 저장소 루트에서 Android까지 포함한 전체 검증
-VERIFY_ANDROID=1 ./scripts/verify_portable_checkout.sh
+$env:VERIFY_ANDROID=1; bash ./scripts/verify_portable_checkout.sh
 ```
 
 ## 실제 로컬 실행 기록 (2026-08-07)
@@ -120,6 +111,7 @@ A.X 4.0 VL Light는 공식 4-shard Transformers 체크포인트를 직접 다운
 | P8 Qwen3 + A.X VL Light | 공식 A.X VL 시각 사실을 Qwen3-8B에 handoff, LLM 10.57 tok/s |
 | X3 Ternary → EXAONE Deep | 두 런타임을 순차 로드, 각 응답과 전환 wall time 기록 |
 | Android Pixel_9_API_35 API 35 | Prism Android arm64 런타임으로 Qwen3.5-4B IQ2 텍스트 smoke 성공, 5.5 tok/s |
+| Galaxy S25 SM-S931N / Adreno 830 | Qwen3.5-0.8B Q4_K_M 네이티브 OpenCL smoke 성공. warm 생성 17.39 tok/s, 동일 CPU 1.05 tok/s. Vulkan 1.3은 노출되지만 llama.cpp 셰이더 파이프라인 생성은 드라이버 오류로 실패 |
 | Android Ternary Bonsai 8B | 로드·응답 성공, generation 0.2 tok/s; 에뮬레이터 성능상 실사용 부적합 |
 | Android EXAONE Deep 7.8B | adb 전송·모델 로드 성공, 180초 내 완성 응답 없이 중단 |
 | 로컬 브라우저 | Headless Chrome에서 `llama-ui`를 열고 localhost 서버로 한국어 문항을 전송·응답 확인, 172 tokens/5.5 s |
@@ -128,7 +120,7 @@ A.X 4.0 VL Light는 공식 4-shard Transformers 체크포인트를 직접 다운
 | 브라우저 WebGPU 직접 | Qwen3.5-9B MLC를 선택 가능한 모델 목록에 추가했으며, 실제 cold/warm 측정 결과는 `benchmarks/results/qwen35-9b-browser-webgpu.json`에 기록합니다 |
 | 브라우저 llama.cpp WebGPU 실험 | Qwen3.6-14B-A3B용 wllama/llama.cpp WASM 빌드와 실제 WebGPU 소형 모델 생성 통과. 14B 원본 shard 미완성으로 `runtime_blocked`; 속도 수치 미보고 |
 
-상세 원본과 23개 조합의 측정/미측정 범위는 `benchmarks/results/coverage.json`과 `benchmarks/results/`에 있습니다. Android 기록은 에뮬레이터 CLI smoke이며 APK UI·20분 열 안정성은 아직 측정하지 않았습니다. EXAONE Deep Android는 모델 로드까지 확인했지만 180초 내 완성 응답이 없어 성능 성공으로 판정하지 않았습니다. 브라우저 결과는 `qwen35-4b-browser-local.json`(localhost 서버 경로)과 `qwen35-4b-browser-webgpu.json`(서버 없이 WebGPU 직접 경로)로 분리했습니다. 직접 경로의 상세 실행 페이지는 `browser/llm-webgpu-test.html`입니다.
+상세 원본과 23개 조합의 측정/미측정 범위는 `benchmarks/results/coverage.json`과 `benchmarks/results/`에 있습니다. Android는 에뮬레이터 기록 외에 Galaxy S25 APK/JNI 실기기 smoke를 완료했지만 20분 열 안정성은 아직 측정하지 않았습니다. EXAONE Deep Android는 모델 로드까지 확인했지만 180초 내 완성 응답이 없어 성능 성공으로 판정하지 않았습니다. 브라우저 결과는 `qwen35-4b-browser-local.json`(localhost 서버 경로)과 `qwen35-4b-browser-webgpu.json`(서버 없이 WebGPU 직접 경로)로 분리했습니다. 직접 경로의 상세 실행 페이지는 `browser/llm-webgpu-test.html`입니다.
 
 Qwen3.5-4B의 GGUF는 공식 Qwen GGUF가 아니라 `unsloth/Qwen3.5-4B-GGUF` 커뮤니티 변환본을 사용했습니다. A.X, Kanana, EXAONE 계열도 GGUF 커뮤니티 변환본/공식 GGUF의 저비트 파일을 사용했습니다. 호스트 저장공간 제약 때문에 A.X·Kanana·EXAONE 3.5의 원본 GGUF는 해시와 결과 JSON을 보존한 뒤 순차 실험 후 제거했으며, 결과 재현에는 같은 upstream 파일을 다시 받아야 합니다. Ternary Bonsai는 일반 Homebrew `llama.cpp`에서 로드 오류가 발생해 Prism fork로만 측정했습니다.
 

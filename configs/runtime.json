@@ -10,14 +10,16 @@
   "android": {
     "runtime": "llama.cpp JNI",
     "abi": "arm64-v8a",
-    "backend_priority": ["vulkan", "opencl-experimental", "cpu-arm64"],
-    "forced_backend_values": ["auto", "vulkan", "opencl-experimental", "cpu-arm64"],
-    "minimum_android_api": 26,
+    "backend_priority": ["opencl", "vulkan", "cpu-arm64"],
+    "forced_backend_values": ["auto", "opencl", "vulkan", "cpu-arm64"],
+    "minimum_android_api": 28,
     "gpu_measurement_requires_physical_device": true,
     "emulator_policy": "cpu-smoke-only",
     "model_weights_bundled": false,
     "native_source": "llama.cpp",
-    "native_build_script": "scripts/build_llama_runtime.sh"
+    "native_prepare_script": "scripts/prepare_android_runtime.ps1",
+    "native_build_command": "android\\gradlew.bat -p android assembleDebug",
+    "native_optimizations": ["arm64-v8a", "OpenCL", "Vulkan", "KleidiAI", "ggml thread pool", "Q4 runtime repack", "16KB pages"]
   },
   "browser": {
     "baseline_runtime": "WebLLM/MLC",

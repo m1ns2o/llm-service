@@ -11,6 +11,7 @@ PLATFORMS = {"browser-windows", "android"}
 MODEL_KINDS = {"llm", "vlm"}
 MODEL_BACKENDS = {
     "vulkan",
+    "opencl",
     "opencl-experimental",
     "cpu-arm64",
     "webgpu-wllama",

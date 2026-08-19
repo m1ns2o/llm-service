@@ -1,39 +1,10 @@
-# Local Qwen Chat
+# Qwen Local Chat
 
-Qwen3.5-2B와 Qwen3.5-4B를 WebLLM WebGPU로 브라우저 안에서 직접 실행하는 Nuxt 채팅 서비스입니다. 대화와 추론은 별도 추론 서버로 전송되지 않습니다.
-
-공식 Qwen3.6에는 현재 2B·4B 모델이 없습니다. 작은 공식 멀티모달 계열인 Qwen3.5-2B와 Qwen3.5-4B를 정확한 이름으로 제공합니다.
-
-## 실행
+Nuxt UI와 WebLLM을 사용해 Qwen3.5-2B를 브라우저 WebGPU에서 직접 실행하는 채팅 앱입니다.
 
 ```bash
 npm install
-npm run build
-npm run preview -- --port=3001 --host=127.0.0.1
+npm run dev
 ```
 
-Chrome 또는 Edge에서 `http://127.0.0.1:3001`을 엽니다. 첫 실행에는 선택한 MLC 모델을 내려받으며 이후에는 브라우저 캐시를 재사용합니다. UI 개발에는 `npm run dev`를 사용할 수 있고, 실제 모델 검증에는 Worker가 빌드된 위 프로덕션 미리보기 명령을 사용합니다.
-
-## 모델
-
-| 서비스 모드 | WebLLM 모델 | 예상 VRAM | 용도 |
-|---|---|---:|---|
-| 빠른 기본 | `Qwen3.5-2B-q4f16_1-MLC` | 약 2.25GB | 일반 채팅, 저사양 내장 GPU |
-| 품질 우선 | `Qwen3.5-4B-q4f16_1-MLC` | 약 3.87GB | 더 높은 답변 품질 |
-
-모델을 바꾸면 현재 엔진을 언로드하고 Web Worker를 종료한 뒤 새 모델을 로드합니다. 두 모델이 GPU 메모리에 동시에 남지 않으며, 생성 중에는 모델 선택이 잠깁니다.
-
-## 성능 확인
-
-입력창 아래에는 실제 실행 경로를 `WebGPU · <GPU vendor/architecture> · MLC q4f16_1` 형식으로 표시합니다. 토큰 스트림은 모델 Worker에서 계속 소비하고 화면은 최대 초당 20회만 갱신하므로, Vue 렌더링이 WebGPU 디코드를 토큰마다 기다리게 하지 않습니다.
-
-짧은 한 문장 답변의 `tok/s`는 shader 준비와 표본 수 영향을 크게 받습니다. 성능을 비교할 때는 모델을 한 번 예열한 뒤 100토큰 이상의 동일한 출력을 사용하세요. 이 프로젝트의 측정 환경과 반복 결과는 `benchmarks/results/qwen35-2b-4b-webllm-runtime-diagnostic.json`에 기록합니다.
-
-## 검증
-
-```bash
-npm run typecheck
-npm run build
-```
-
-WebGPU가 없으면 입력창을 활성화하지 않고 지원 브라우저 안내를 표시합니다. 생성 결과는 스트리밍되며 로딩률, 경과 시간, 연산 시작·화면 답변 시작과 디코드 속도를 화면에 표시합니다.
+최초 모델 준비 시 약 2.3GB의 파라미터가 브라우저 캐시에 저장됩니다. 모델과 대화는 서버로 전송되지 않습니다.
