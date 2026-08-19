@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-10T13:33:39.0195726Z",
+  "status": "passed",
+  "application": "web Nuxt local chat",
+  "model": {
+    "key": "lfm25-8b",
+    "label": "LFM2.5-8B-A1B",
+    "upstream": "LiquidAI/LFM2.5-8B-A1B-GGUF",
+    "quantization": "Q4_K_M",
+    "artifact_size_bytes": 5155564768,
+    "sha256": "4923ec14f06b968b74d663e5949867d2d9c3bf13a20b8be1a9f9af39989b2bb0"
+  },
+  "runtime": {
+    "name": "wllama",
+    "version": "3.5.1",
+    "backend": "WebGPU",
+    "context_window": 4096,
+    "cross_origin_isolated": true
+  },
+  "environment": {
+    "browser": "HeadlessChrome/151.0.0.0",
+    "gpu_vendor": "amd",
+    "gpu_architecture": "rdna-3",
+    "webgpu": true
+  },
+  "checks": {
+    "production_page_loaded": true,
+    "error_overlay_absent": true,
+    "model_ready": true,
+    "loading_elapsed_visible": true,
+    "reasoning_elapsed_visible": true,
+    "streaming_metrics_visible": true,
+    "answer_correct": true
+  },
+  "request": {
+    "language": "ko",
+    "prompt": "배터리 잔량이 현재 76%이고 매시간 12퍼센트포인트씩 감소합니다. 잔량을 최소 25%로 유지하려면 연속으로 사용할 수 있는 최대 시간을 소수와 분 단위로 계산해 주세요.",
+    "answer": "최대 사용 시간 = (76% - 25%) / 12%/시간 = 51 / 12 = 4.25시간 = 4시간 15분.",
+    "decode_tok_per_s": 19.6,
+    "time_to_first_compute_token_seconds": 2.3,
+    "time_to_first_visible_token_seconds": 19.8
+  },
+  "evidence": "web/lfm25-nuxt-webgpu-test.png"
+}

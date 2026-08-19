@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-10T08:02:53.875Z",
+  "model": {
+    "key": "lfm2-8b",
+    "label": "LFM2-8B-A1B",
+    "upstream": "LiquidAI/LFM2-8B-A1B-ONNX",
+    "revision": "ae708d11dfe46fc80a99d3396f65d890a35061d0",
+    "quantization": "q4f16",
+    "artifact_size_bytes": 4784501794,
+    "runtime": "Transformers.js 4.2.0",
+    "backend": "transformersjs-webgpu-qmoe",
+    "external_data_shards": 10,
+    "local_model_id": "lfm2-8b/transformersjs-onnx",
+    "tensor_bytes_unchanged": true
+  },
+  "platform": "browser-webgpu-direct",
+  "status": "ready",
+  "download_verified": false,
+  "requests": [
+    {
+      "language": "ko",
+      "prompt": "오프라인 모바일 AI 비서를 만들 때 개인정보 보호, 응답 속도, 배터리를 함께 개선하는 3단계 계획을 작성해줘. 각 단계에 장점과 한계를 하나씩 포함해.",
+      "answer": "**1. 데이터 최소화 및 로컬 처리 기반 구축**  \n- 장점: 사용자 데이터를 클라우드로 전송하지 않고 기기 내에서 처리함으로써 개인정보 보호를 강화하고, 네트워크 지연을 줄여 응답 속도를 향상시킴. 배터리 소모도 네트워크 통신 감소로 줄일 수 있음.  \n- 한계: 기기의 연산 능력에 따라 복잡한 AI 기능 구현이 제한될 수 있으며, 로컬 처리만으로는 정확도와 학습 능력이 클라우드 기반보다 낮을 수 있음.\n\n**2. 엣지 컴퓨팅 및 경량 모델 최적화**  \n- 장점: 경량화된 AI 모델(예: TinyML, 양자화된 모델)을 사용해 기기에서 빠르고 효율적으로 추론 수행함으로써 응답 속도를 크게 개선하고, 배터리 사용량을 최적화할 수 있음.  \n- 한계: 모델 크기 축소로 인해 일부 고급 기능이나 자연어 이해의 정밀도가 떨어질 수 있으며, 업데이트 주기가 길어질 수 있음.\n\n**3. 개인정보 보호 강화 및 오프라인 학습 통합**  \n- 장점: 사용자 데이터를 기기 내에서만 활용하고, 익명화된 집계 학습을 통해 개인정보를 보호하면서도 점진적으로 성능을 개선할 수 있음. 오프라인에서도 사용자 행동에 맞춘 맞춤 응답 제공 가능.  \n- 한계: 오프라인 학습은 데이터 양과 질에 제약을 받아 학습 속도가 느리고, 초기 성능이 클라우드 기반보다 낮을 수 있음.",
+      "raw_answer": "**1. 데이터 최소화 및 로컬 처리 기반 구축**  \n- 장점: 사용자 데이터를 클라우드로 전송하지 않고 기기 내에서 처리함으로써 개인정보 보호를 강화하고, 네트워크 지연을 줄여 응답 속도를 향상시킴. 배터리 소모도 네트워크 통신 감소로 줄일 수 있음.  \n- 한계: 기기의 연산 능력에 따라 복잡한 AI 기능 구현이 제한될 수 있으며, 로컬 처리만으로는 정확도와 학습 능력이 클라우드 기반보다 낮을 수 있음.\n\n**2. 엣지 컴퓨팅 및 경량 모델 최적화**  \n- 장점: 경량화된 AI 모델(예: TinyML, 양자화된 모델)을 사용해 기기에서 빠르고 효율적으로 추론 수행함으로써 응답 속도를 크게 개선하고, 배터리 사용량을 최적화할 수 있음.  \n- 한계: 모델 크기 축소로 인해 일부 고급 기능이나 자연어 이해의 정밀도가 떨어질 수 있으며, 업데이트 주기가 길어질 수 있음.\n\n**3. 개인정보 보호 강화 및 오프라인 학습 통합**  \n- 장점: 사용자 데이터를 기기 내에서만 활용하고, 익명화된 집계 학습을 통해 개인정보를 보호하면서도 점진적으로 성능을 개선할 수 있음. 오프라인에서도 사용자 행동에 맞춘 맞춤 응답 제공 가능.  \n- 한계: 오프라인 학습은 데이터 양과 질에 제약을 받아 학습 속도가 느리고, 초기 성능이 클라우드 기반보다 낮을 수 있음.",
+      "max_new_tokens": 512,
+      "first_token_ms": 2196,
+      "total_ms": 9167,
+      "completion_tokens": 444,
+      "decode_tok_per_s": 63.54,
+      "language_signals": {
+        "hangul_chars": 420,
+        "han_chars": 0,
+        "latin_chars": 10
+      },
+      "completed_at": "2026-08-10T08:03:09.283Z",
+      "id": "ko_general"
+    },
+    {
+      "language": "en",
+      "prompt": "Write a three-step plan for an offline mobile AI assistant that improves privacy, response speed, and battery life. Include one benefit and one limitation per step.",
+      "answer": "**Step 1: On-Device Model Deployment**  \nDeploy lightweight, optimized AI models directly on the device to eliminate cloud dependency.  \n*Benefit:* Enhances privacy by keeping user data local and reduces latency for faster responses.  \n*Limitation:* Limited model size due to device storage and processing constraints may restrict advanced AI capabilities.\n\n**Step 2: Adaptive Processing with Context Awareness**  \nImplement context-aware processing that activates AI only when relevant, using local sensors and event triggers.  \n*Benefit:* Significantly improves battery life by minimizing unnecessary computation.  \n*Limitation:* May introduce slight delays in detecting rare or complex user intents requiring broader context.\n\n**Step 3: Incremental Model Updates via Secure Local Sync**  \nEnable periodic, secure local updates using encrypted, version-controlled model patches downloaded from trusted sources.  \n*Benefit:* Improves response accuracy and speed over time without compromising privacy.  \n*Limitation:* Requires reliable connectivity for updates, which may reduce offline effectiveness in low-connectivity areas.",
+      "raw_answer": "**Step 1: On-Device Model Deployment**  \nDeploy lightweight, optimized AI models directly on the device to eliminate cloud dependency.  \n*Benefit:* Enhances privacy by keeping user data local and reduces latency for faster responses.  \n*Limitation:* Limited model size due to device storage and processing constraints may restrict advanced AI capabilities.\n\n**Step 2: Adaptive Processing with Context Awareness**  \nImplement context-aware processing that activates AI only when relevant, using local sensors and event triggers.  \n*Benefit:* Significantly improves battery life by minimizing unnecessary computation.  \n*Limitation:* May introduce slight delays in detecting rare or complex user intents requiring broader context.\n\n**Step 3: Incremental Model Updates via Secure Local Sync**  \nEnable periodic, secure local updates using encrypted, version-controlled model patches downloaded from trusted sources.  \n*Benefit:* Improves response accuracy and speed over time without compromising privacy.  \n*Limitation:* Requires reliable connectivity for updates, which may reduce offline effectiveness in low-connectivity areas.",
+      "max_new_tokens": 512,
+      "first_token_ms": 262,
+      "total_ms": 3528,
+      "completion_tokens": 225,
+      "decode_tok_per_s": 68.57,
+      "language_signals": {
+        "hangul_chars": 0,
+        "han_chars": 0,
+        "latin_chars": 913
+      },
+      "completed_at": "2026-08-10T08:03:13.734Z",
+      "id": "en_general"
+    },
+    {
+      "language": "ko",
+      "prompt": "어떤 기기의 배터리가 시간당 12%씩 줄고 현재 76%다. 최소 25%를 남겨야 한다면 최대 몇 시간 사용할 수 있는지 계산 과정과 결론을 한국어로 간단히 설명해줘.",
+      "answer": "배터리가 시간당 12%씩 감소하고 현재 76% 남아 있으며, 최소 25%를 유지해야 하므로 사용 가능한 최대 시간은 다음과 같이 계산됩니다.\n\n남길 수 있는 최대 배터리 감소량 = 76% – 25% = 51%  \n시간당 감소량 12%를 기준으로 사용 가능한 시간 = 51 ÷ 12 = 4.25시간\n\n따라서 최대 4.25시간(4시간 15분) 사용할 수 있습니다.",
+      "raw_answer": "배터리가 시간당 12%씩 감소하고 현재 76% 남아 있으며, 최소 25%를 유지해야 하므로 사용 가능한 최대 시간은 다음과 같이 계산됩니다.\n\n남길 수 있는 최대 배터리 감소량 = 76% – 25% = 51%  \n시간당 감소량 12%를 기준으로 사용 가능한 시간 = 51 ÷ 12 = 4.25시간\n\n따라서 최대 4.25시간(4시간 15분) 사용할 수 있습니다.",
+      "max_new_tokens": 512,
+      "first_token_ms": 287,
+      "total_ms": 2258,
+      "completion_tokens": 128,
+      "decode_tok_per_s": 64.46,
+      "language_signals": {
+        "hangul_chars": 100,
+        "han_chars": 0,
+        "latin_chars": 0
+      },
+      "completed_at": "2026-08-10T08:03:16.499Z",
+      "id": "ko_reasoning"
+    },
+    {
+      "language": "ko",
+      "prompt": "정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.",
+      "answer": "1. 온디바이스 AI는 데이터를 로컬에서 처리하여 빠른 응답 속도를 제공하지만, 기기의 하드웨어 성능에 따라 정확도가 제한될 수 있습니다.  \n2. 개인 정보 보호 측면에서 강점은 데이터가 외부 서버로 전송되지 않아 안전하다는 점입니다.  \n3. 그러나 기기의 저장 용량과 연산 능력이 제한적이어서 복잡한 작업에는 성능이 떨어질 수 있습니다.",
+      "raw_answer": "1. 온디바이스 AI는 데이터를 로컬에서 처리하여 빠른 응답 속도를 제공하지만, 기기의 하드웨어 성능에 따라 정확도가 제한될 수 있습니다.  \n2. 개인 정보 보호 측면에서 강점은 데이터가 외부 서버로 전송되지 않아 안전하다는 점입니다.  \n3. 그러나 기기의 저장 용량과 연산 능력이 제한적이어서 복잡한 작업에는 성능이 떨어질 수 있습니다.",
+      "max_new_tokens": 512,
+      "first_token_ms": 277,
+      "total_ms": 2115,
+      "completion_tokens": 125,
+      "decode_tok_per_s": 67.46,
+      "language_signals": {
+        "hangul_chars": 131,
+        "han_chars": 0,
+        "latin_chars": 2
+      },
+      "completed_at": "2026-08-10T08:03:19.390Z",
+      "id": "ko_instruction"
+    }
+  ],
+  "oom_events": 0,
+  "worker_crashes": 0,
+  "environment": {
+    "secure_context": true,
+    "cross_origin_isolated": true,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "webgpu": true,
+    "adapter": {
+      "vendor": "amd",
+      "architecture": "rdna-3",
+      "device": null,
+      "description": null,
+      "max_buffer_size": 2147483648,
+      "max_storage_buffer_binding_size": 2147483644
+    }
+  },
+  "status_message": "LFM2-8B-A1B 응답 완료",
+  "last_worker_message_at": "2026-08-10T08:03:19.390Z",
+  "worker": {
+    "status": "ready",
+    "transformers_js": "4.2.0",
+    "model_id": "LiquidAI/LFM2-8B-A1B-ONNX",
+    "revision": "ae708d11dfe46fc80a99d3396f65d890a35061d0"
+  },
+  "load_stage": "generating",
+  "load_stage_message": "LFM2-8B-A1B 생성 중",
+  "last_load_event": {
+    "status": "ready",
+    "file": null,
+    "loaded": 0,
+    "total": 0,
+    "progress": 0,
+    "elapsed_ms": 5182
+  },
+  "model_load_ms": 5182,
+  "loaded_at": "2026-08-10T08:02:59.443Z",
+  "requests_completed": 4,
+  "last_request": {
+    "language": "ko",
+    "prompt": "정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.",
+    "answer": "1. 온디바이스 AI는 데이터를 로컬에서 처리하여 빠른 응답 속도를 제공하지만, 기기의 하드웨어 성능에 따라 정확도가 제한될 수 있습니다.  \n2. 개인 정보 보호 측면에서 강점은 데이터가 외부 서버로 전송되지 않아 안전하다는 점입니다.  \n3. 그러나 기기의 저장 용량과 연산 능력이 제한적이어서 복잡한 작업에는 성능이 떨어질 수 있습니다.",
+    "raw_answer": "1. 온디바이스 AI는 데이터를 로컬에서 처리하여 빠른 응답 속도를 제공하지만, 기기의 하드웨어 성능에 따라 정확도가 제한될 수 있습니다.  \n2. 개인 정보 보호 측면에서 강점은 데이터가 외부 서버로 전송되지 않아 안전하다는 점입니다.  \n3. 그러나 기기의 저장 용량과 연산 능력이 제한적이어서 복잡한 작업에는 성능이 떨어질 수 있습니다.",
+    "max_new_tokens": 512,
+    "first_token_ms": 277,
+    "total_ms": 2115,
+    "completion_tokens": 125,
+    "decode_tok_per_s": 67.46,
+    "language_signals": {
+      "hangul_chars": 131,
+      "han_chars": 0,
+      "latin_chars": 2
+    },
+    "completed_at": "2026-08-10T08:03:19.390Z"
+  }
+}

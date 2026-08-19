@@ -1,0 +1,891 @@
+{
+  "schema_version": 1,
+  "benchmark": "browser-vlm-synthetic-v1",
+  "observed_at": "2026-08-10T15:31:32.082Z",
+  "environment": {
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+    "webgpu": {
+      "vendor": "amd",
+      "architecture": "rdna-3",
+      "device": null
+    },
+    "runtime": "wllama 3.5.1 / llama.cpp WebGPU",
+    "common_generation_settings": {
+      "temperature": 0,
+      "top_k": 1,
+      "max_tokens": 96,
+      "n_ctx": 4096
+    },
+    "vision_token_budget": {
+      "lfm25-vl16b": {
+        "image_min_tokens": 64,
+        "image_max_tokens": 256
+      },
+      "qwen35-2b": {
+        "image_min_tokens": 1024,
+        "image_max_tokens": 1024
+      },
+      "qwen35-4b": {
+        "image_min_tokens": 1024,
+        "image_max_tokens": 1024
+      }
+    }
+  },
+  "models": {
+    "lfm25-vl16b": {
+      "model": {
+        "id": "lfm25-vl16b",
+        "label": "LFM2.5-VL-1.6B",
+        "upstream": "LiquidAI/LFM2.5-VL-1.6B-GGUF",
+        "revision": "0df8719db7180cedababc2bc589abfe5e8ebcd1f",
+        "modelFile": "LFM2.5-VL-1.6B-Q4_K_M.gguf",
+        "modelBytes": 730896256,
+        "mmprojFile": "mmproj-LFM2.5-VL-1.6b-Q8_0.gguf",
+        "mmprojBytes": 583109888,
+        "parameters": "1.6B (1.2B LM + 0.4B vision)",
+        "imageMinTokens": 64,
+        "imageMaxTokens": 256
+      },
+      "generation_settings": {
+        "temperature": 0,
+        "top_k": 1,
+        "max_tokens": 96,
+        "n_ctx": 4096,
+        "image_min_tokens": 64,
+        "image_max_tokens": 256
+      },
+      "artifact_size_bytes": 1314006144,
+      "model_load_ms": 6191,
+      "median_first_visible_token_ms": 1411.0,
+      "median_decode_tok_per_s": 30.27,
+      "mean_prompt_tok_per_s": 222.68,
+      "mean_end_to_end_ms": 1860.25,
+      "quality_assertions_passed": 13,
+      "quality_assertions_total": 19,
+      "quality_percent": 68.42,
+      "tasks_passed": 3,
+      "tasks_total": 8,
+      "requests": [
+        {
+          "answer": "2026년 8월 17일 오후 3시에 장소는 벨뷰도서관 2층입니다.",
+          "reasoning_chars": 0,
+          "first_token_ms": 1414,
+          "first_visible_token_ms": 1414,
+          "total_ms": 2566,
+          "completion_tokens": 31,
+          "prompt_tokens": 303,
+          "prompt_tok_per_s": 227.40645564148133,
+          "decode_tok_per_s": 26.907503287489313,
+          "id": "ko_ocr_schedule",
+          "prompt": "이미지에서 회의 날짜, 시간, 장소를 읽어 한 문장으로만 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "date",
+                "passed": true
+              },
+              {
+                "id": "time",
+                "passed": true
+              },
+              {
+                "id": "place",
+                "passed": false
+              },
+              {
+                "id": "floor",
+                "passed": true
+              }
+            ],
+            "passed": false,
+            "score": 0.75
+          }
+        },
+        {
+          "answer": "$40\nLamp",
+          "reasoning_chars": 0,
+          "first_token_ms": 1449,
+          "first_visible_token_ms": 1449,
+          "total_ms": 1638,
+          "completion_tokens": 6,
+          "prompt_tokens": 291,
+          "prompt_tok_per_s": 213.09252169735882,
+          "decode_tok_per_s": 31.69387938365969,
+          "id": "en_ocr_receipt",
+          "prompt": "Read the receipt. Reply with only the total and the most expensive item.",
+          "quality": {
+            "checks": [
+              {
+                "id": "total",
+                "passed": true
+              },
+              {
+                "id": "item",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "33",
+          "reasoning_chars": 0,
+          "first_token_ms": 1400,
+          "first_visible_token_ms": 1400,
+          "total_ms": 1437,
+          "completion_tokens": 2,
+          "prompt_tokens": 307,
+          "prompt_tok_per_s": 232.28979476023832,
+          "decode_tok_per_s": 53.64087434625185,
+          "id": "ko_chart_reasoning",
+          "prompt": "막대그래프에서 값이 가장 큰 항목과 Atlas보다 얼마나 큰지 한국어로 짧게 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "highest",
+                "passed": false
+              },
+              {
+                "id": "difference",
+                "passed": true
+              }
+            ],
+            "passed": false,
+            "score": 0.5
+          }
+        },
+        {
+          "answer": "Three shapes, blue circle in the bottom right, yellow triangle in the center, red square in the top left.",
+          "reasoning_chars": 0,
+          "first_token_ms": 1403,
+          "first_visible_token_ms": 1403,
+          "total_ms": 2248,
+          "completion_tokens": 24,
+          "prompt_tokens": 301,
+          "prompt_tok_per_s": 227.02160476368257,
+          "decode_tok_per_s": 28.377347782132908,
+          "id": "en_spatial",
+          "prompt": "How many shapes are shown, where is the blue circle, and what color is the center shape? Answer in one short sentence.",
+          "quality": {
+            "checks": [
+              {
+                "id": "count",
+                "passed": true
+              },
+              {
+                "id": "position",
+                "passed": true
+              },
+              {
+                "id": "center",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "8개",
+          "reasoning_chars": 0,
+          "first_token_ms": 1473,
+          "first_visible_token_ms": 1473,
+          "total_ms": 1549,
+          "completion_tokens": 3,
+          "prompt_tokens": 304,
+          "prompt_tok_per_s": 218.12441701944465,
+          "decode_tok_per_s": 39.31796437792427,
+          "id": "ko_table_reasoning",
+          "prompt": "표에서 재고가 가장 많은 항목과 물결보다 몇 개 많은지 한국어로 짧게 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "highest",
+                "passed": false
+              },
+              {
+                "id": "difference",
+                "passed": false
+              }
+            ],
+            "passed": false,
+            "score": 0
+          }
+        },
+        {
+          "answer": "AX204, C7, 18:40",
+          "reasoning_chars": 0,
+          "first_token_ms": 1395,
+          "first_visible_token_ms": 1395,
+          "total_ms": 1776,
+          "completion_tokens": 11,
+          "prompt_tokens": 292,
+          "prompt_tok_per_s": 221.665527973886,
+          "decode_tok_per_s": 28.836272885514752,
+          "id": "en_boarding_pass",
+          "prompt": "Read the card. Reply with only the flight, gate, and boarding time.",
+          "quality": {
+            "checks": [
+              {
+                "id": "flight",
+                "passed": true
+              },
+              {
+                "id": "gate",
+                "passed": true
+              },
+              {
+                "id": "time",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "빨간 사각형은 4개, 파란 원은 2개입니다.",
+          "reasoning_chars": 0,
+          "first_token_ms": 1478,
+          "first_visible_token_ms": 1478,
+          "total_ms": 2222,
+          "completion_tokens": 21,
+          "prompt_tokens": 304,
+          "prompt_tok_per_s": 224.04009138477412,
+          "decode_tok_per_s": 26.87535593849383,
+          "id": "ko_shape_count",
+          "prompt": "빨간 사각형과 파란 원은 각각 몇 개인지 한국어로 한 문장으로 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "red_squares",
+                "passed": false
+              },
+              {
+                "id": "blue_circles",
+                "passed": true
+              }
+            ],
+            "passed": false,
+            "score": 0.5
+          }
+        },
+        {
+          "answer": "20",
+          "reasoning_chars": 0,
+          "first_token_ms": 1408,
+          "first_visible_token_ms": 1408,
+          "total_ms": 1446,
+          "completion_tokens": 2,
+          "prompt_tokens": 290,
+          "prompt_tok_per_s": 217.76594666236142,
+          "decode_tok_per_s": 51.75313753396299,
+          "id": "en_number_grid",
+          "prompt": "What number should replace the question mark? Reply with only the number.",
+          "quality": {
+            "checks": [
+              {
+                "id": "next_number",
+                "passed": false
+              }
+            ],
+            "passed": false,
+            "score": 0
+          }
+        }
+      ]
+    },
+    "qwen35-2b": {
+      "model": {
+        "id": "qwen35-2b",
+        "label": "Qwen3.5-2B",
+        "upstream": "mradermacher/Qwen3.5-2B-GGUF",
+        "sourceModel": "Qwen/Qwen3.5-2B",
+        "revision": "33cc6944e40cb93e38332cd46b2a6e3c6acf081e",
+        "modelFile": "Qwen3.5-2B.Q4_K_M.gguf",
+        "modelBytes": 1270808896,
+        "mmprojFile": "Qwen3.5-2B.mmproj-Q8_0.gguf",
+        "mmprojBytes": 364664384,
+        "parameters": "2B LM + vision encoder",
+        "imageMinTokens": 1024,
+        "imageMaxTokens": 1024
+      },
+      "generation_settings": {
+        "temperature": 0,
+        "top_k": 1,
+        "max_tokens": 96,
+        "n_ctx": 4096,
+        "image_min_tokens": 1024,
+        "image_max_tokens": 1024
+      },
+      "artifact_size_bytes": 1635473280,
+      "model_load_ms": 5955,
+      "median_first_visible_token_ms": 6981.5,
+      "median_decode_tok_per_s": 18.02,
+      "mean_prompt_tok_per_s": 165.91,
+      "mean_end_to_end_ms": 8113,
+      "quality_assertions_passed": 17,
+      "quality_assertions_total": 19,
+      "quality_percent": 89.47,
+      "tasks_passed": 6,
+      "tasks_total": 8,
+      "requests": [
+        {
+          "answer": "2026년 8월 17일 오후 3시에 별빛도서관 2층에서 회의가 열립니다.",
+          "reasoning_chars": 0,
+          "first_token_ms": 6959,
+          "first_visible_token_ms": 6959,
+          "total_ms": 8723,
+          "completion_tokens": 31,
+          "prompt_tokens": 1120,
+          "prompt_tok_per_s": 167.2825002639927,
+          "decode_tok_per_s": 17.573247847985737,
+          "id": "ko_ocr_schedule",
+          "prompt": "이미지에서 회의 날짜, 시간, 장소를 읽어 한 문장으로만 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "date",
+                "passed": true
+              },
+              {
+                "id": "time",
+                "passed": true
+              },
+              {
+                "id": "place",
+                "passed": true
+              },
+              {
+                "id": "floor",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "The total is $40. The most expensive item is the Lamp at $25.",
+          "reasoning_chars": 0,
+          "first_token_ms": 7041,
+          "first_visible_token_ms": 7041,
+          "total_ms": 8149,
+          "completion_tokens": 20,
+          "prompt_tokens": 1118,
+          "prompt_tok_per_s": 163.36622089217244,
+          "decode_tok_per_s": 18.061136948570915,
+          "id": "en_ocr_receipt",
+          "prompt": "Read the receipt. Reply with only the total and the most expensive item.",
+          "quality": {
+            "checks": [
+              {
+                "id": "total",
+                "passed": true
+              },
+              {
+                "id": "item",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "75 - 42 = 33",
+          "reasoning_chars": 0,
+          "first_token_ms": 6912,
+          "first_visible_token_ms": 6912,
+          "total_ms": 7495,
+          "completion_tokens": 11,
+          "prompt_tokens": 1126,
+          "prompt_tok_per_s": 167.81549238049107,
+          "decode_tok_per_s": 18.892715140793666,
+          "id": "ko_chart_reasoning",
+          "prompt": "막대그래프에서 값이 가장 큰 항목과 Atlas보다 얼마나 큰지 한국어로 짧게 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "highest",
+                "passed": false
+              },
+              {
+                "id": "difference",
+                "passed": true
+              }
+            ],
+            "passed": false,
+            "score": 0.5
+          }
+        },
+        {
+          "answer": "There are three shapes shown: a red square, a yellow triangle, and a blue circle. The blue circle is located on the right side of the image, and the center shape is the yellow triangle.",
+          "reasoning_chars": 0,
+          "first_token_ms": 6982,
+          "first_visible_token_ms": 6982,
+          "total_ms": 9394,
+          "completion_tokens": 42,
+          "prompt_tokens": 1129,
+          "prompt_tok_per_s": 166.7223884687767,
+          "decode_tok_per_s": 17.41492085540433,
+          "id": "en_spatial",
+          "prompt": "How many shapes are shown, where is the blue circle, and what color is the center shape? Answer in one short sentence.",
+          "quality": {
+            "checks": [
+              {
+                "id": "count",
+                "passed": true
+              },
+              {
+                "id": "position",
+                "passed": false
+              },
+              {
+                "id": "center",
+                "passed": true
+              }
+            ],
+            "passed": false,
+            "score": 0.6666666666666666
+          }
+        },
+        {
+          "answer": "소나무가 가장 많고, 소나무는 물결보다 12개 더 많습니다.",
+          "reasoning_chars": 0,
+          "first_token_ms": 6981,
+          "first_visible_token_ms": 6981,
+          "total_ms": 8205,
+          "completion_tokens": 21,
+          "prompt_tokens": 1125,
+          "prompt_tok_per_s": 166.0466362272433,
+          "decode_tok_per_s": 17.145040511281437,
+          "id": "ko_table_reasoning",
+          "prompt": "표에서 재고가 가장 많은 항목과 물결보다 몇 개 많은지 한국어로 짧게 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "highest",
+                "passed": true
+              },
+              {
+                "id": "difference",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "AX204 C7 18:40",
+          "reasoning_chars": 0,
+          "first_token_ms": 6981,
+          "first_visible_token_ms": 6981,
+          "total_ms": 7676,
+          "completion_tokens": 13,
+          "prompt_tokens": 1119,
+          "prompt_tok_per_s": 165.47134935304993,
+          "decode_tok_per_s": 18.701295712080608,
+          "id": "en_boarding_pass",
+          "prompt": "Read the card. Reply with only the flight, gate, and boarding time.",
+          "quality": {
+            "checks": [
+              {
+                "id": "flight",
+                "passed": true
+              },
+              {
+                "id": "gate",
+                "passed": true
+              },
+              {
+                "id": "time",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "빨간 사각형은 5개, 파란 원은 2개입니다.",
+          "reasoning_chars": 0,
+          "first_token_ms": 7042,
+          "first_visible_token_ms": 7042,
+          "total_ms": 8155,
+          "completion_tokens": 20,
+          "prompt_tokens": 1125,
+          "prompt_tok_per_s": 165.05126712425235,
+          "decode_tok_per_s": 17.972584619421536,
+          "id": "ko_shape_count",
+          "prompt": "빨간 사각형과 파란 원은 각각 몇 개인지 한국어로 한 문장으로 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "red_squares",
+                "passed": true
+              },
+              {
+                "id": "blue_circles",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "18",
+          "reasoning_chars": 0,
+          "first_token_ms": 6986,
+          "first_visible_token_ms": 6986,
+          "total_ms": 7107,
+          "completion_tokens": 3,
+          "prompt_tokens": 1117,
+          "prompt_tok_per_s": 165.51505038577454,
+          "decode_tok_per_s": 24.838549428713364,
+          "id": "en_number_grid",
+          "prompt": "What number should replace the question mark? Reply with only the number.",
+          "quality": {
+            "checks": [
+              {
+                "id": "next_number",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        }
+      ]
+    },
+    "qwen35-4b": {
+      "model": {
+        "id": "qwen35-4b",
+        "label": "Qwen3.5-4B",
+        "upstream": "mradermacher/Qwen3.5-4B-GGUF",
+        "sourceModel": "Qwen/Qwen3.5-4B",
+        "revision": "1a5df2c0cba51dae8ac5888420360d8703707171",
+        "modelFile": "Qwen3.5-4B.Q4_K_M.gguf",
+        "modelBytes": 2708804800,
+        "mmprojFile": "Qwen3.5-4B.mmproj-Q8_0.gguf",
+        "mmprojBytes": 366894656,
+        "parameters": "4B LM + vision encoder",
+        "imageMinTokens": 1024,
+        "imageMaxTokens": 1024
+      },
+      "generation_settings": {
+        "temperature": 0,
+        "top_k": 1,
+        "max_tokens": 96,
+        "n_ctx": 4096,
+        "image_min_tokens": 1024,
+        "image_max_tokens": 1024
+      },
+      "artifact_size_bytes": 3075699456,
+      "model_load_ms": 18099,
+      "median_first_visible_token_ms": 11640.0,
+      "median_decode_tok_per_s": 9.35,
+      "mean_prompt_tok_per_s": 98.6,
+      "mean_end_to_end_ms": 13524.5,
+      "quality_assertions_passed": 18,
+      "quality_assertions_total": 19,
+      "quality_percent": 94.74,
+      "tasks_passed": 7,
+      "tasks_total": 8,
+      "requests": [
+        {
+          "answer": "2026년 8월 17일 오후 3시 별빛도서관 2층에서 회의가 열립니다.",
+          "reasoning_chars": 0,
+          "first_token_ms": 11628,
+          "first_visible_token_ms": 11628,
+          "total_ms": 15052,
+          "completion_tokens": 31,
+          "prompt_tokens": 1120,
+          "prompt_tok_per_s": 98.74701499676208,
+          "decode_tok_per_s": 9.054478754103725,
+          "id": "ko_ocr_schedule",
+          "prompt": "이미지에서 회의 날짜, 시간, 장소를 읽어 한 문장으로만 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "date",
+                "passed": true
+              },
+              {
+                "id": "time",
+                "passed": true
+              },
+              {
+                "id": "place",
+                "passed": true
+              },
+              {
+                "id": "floor",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "$40, Lamp",
+          "reasoning_chars": 0,
+          "first_token_ms": 11610,
+          "first_visible_token_ms": 11610,
+          "total_ms": 12182,
+          "completion_tokens": 6,
+          "prompt_tokens": 1118,
+          "prompt_tok_per_s": 98.70348818833544,
+          "decode_tok_per_s": 10.489143736233,
+          "id": "en_ocr_receipt",
+          "prompt": "Read the receipt. Reply with only the total and the most expensive item.",
+          "quality": {
+            "checks": [
+              {
+                "id": "total",
+                "passed": true
+              },
+              {
+                "id": "item",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "Boreal의 점수는 75, Atlas의 점수는 42이므로, Boreal은 Atlas보다 33만큼 큽니다.",
+          "reasoning_chars": 0,
+          "first_token_ms": 11652,
+          "first_visible_token_ms": 11652,
+          "total_ms": 15359,
+          "completion_tokens": 33,
+          "prompt_tokens": 1126,
+          "prompt_tok_per_s": 99.06103162475047,
+          "decode_tok_per_s": 8.90402032706895,
+          "id": "ko_chart_reasoning",
+          "prompt": "막대그래프에서 값이 가장 큰 항목과 Atlas보다 얼마나 큰지 한국어로 짧게 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "highest",
+                "passed": true
+              },
+              {
+                "id": "difference",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "There are three shapes: the blue circle is on the right, and the center shape is yellow.",
+          "reasoning_chars": 0,
+          "first_token_ms": 11666,
+          "first_visible_token_ms": 11666,
+          "total_ms": 13946,
+          "completion_tokens": 21,
+          "prompt_tokens": 1129,
+          "prompt_tok_per_s": 99.31543602907153,
+          "decode_tok_per_s": 9.209613433054441,
+          "id": "en_spatial",
+          "prompt": "How many shapes are shown, where is the blue circle, and what color is the center shape? Answer in one short sentence.",
+          "quality": {
+            "checks": [
+              {
+                "id": "count",
+                "passed": true
+              },
+              {
+                "id": "position",
+                "passed": false
+              },
+              {
+                "id": "center",
+                "passed": true
+              }
+            ],
+            "passed": false,
+            "score": 0.6666666666666666
+          }
+        },
+        {
+          "answer": "소나무, 12개",
+          "reasoning_chars": 0,
+          "first_token_ms": 11751,
+          "first_visible_token_ms": 11751,
+          "total_ms": 12550,
+          "completion_tokens": 8,
+          "prompt_tokens": 1125,
+          "prompt_tok_per_s": 98.14852620173056,
+          "decode_tok_per_s": 10.015085222115813,
+          "id": "ko_table_reasoning",
+          "prompt": "표에서 재고가 가장 많은 항목과 물결보다 몇 개 많은지 한국어로 짧게 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "highest",
+                "passed": true
+              },
+              {
+                "id": "difference",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "AX204, C7, 18:40",
+          "reasoning_chars": 0,
+          "first_token_ms": 11927,
+          "first_visible_token_ms": 11927,
+          "total_ms": 13506,
+          "completion_tokens": 15,
+          "prompt_tokens": 1119,
+          "prompt_tok_per_s": 96.37571335468527,
+          "decode_tok_per_s": 9.499015585351504,
+          "id": "en_boarding_pass",
+          "prompt": "Read the card. Reply with only the flight, gate, and boarding time.",
+          "quality": {
+            "checks": [
+              {
+                "id": "flight",
+                "passed": true
+              },
+              {
+                "id": "gate",
+                "passed": true
+              },
+              {
+                "id": "time",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "빨간 사각형은 5개이고 파란 원은 2개입니다.",
+          "reasoning_chars": 0,
+          "first_token_ms": 11588,
+          "first_visible_token_ms": 11588,
+          "total_ms": 13765,
+          "completion_tokens": 20,
+          "prompt_tokens": 1125,
+          "prompt_tok_per_s": 99.53832796312993,
+          "decode_tok_per_s": 9.187667761071024,
+          "id": "ko_shape_count",
+          "prompt": "빨간 사각형과 파란 원은 각각 몇 개인지 한국어로 한 문장으로 답하세요.",
+          "quality": {
+            "checks": [
+              {
+                "id": "red_squares",
+                "passed": true
+              },
+              {
+                "id": "blue_circles",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        },
+        {
+          "answer": "18",
+          "reasoning_chars": 0,
+          "first_token_ms": 11610,
+          "first_visible_token_ms": 11610,
+          "total_ms": 11836,
+          "completion_tokens": 3,
+          "prompt_tokens": 1117,
+          "prompt_tok_per_s": 98.87357592618739,
+          "decode_tok_per_s": 13.29139160870143,
+          "id": "en_number_grid",
+          "prompt": "What number should replace the question mark? Reply with only the number.",
+          "quality": {
+            "checks": [
+              {
+                "id": "next_number",
+                "passed": true
+              }
+            ],
+            "passed": true,
+            "score": 1
+          }
+        }
+      ]
+    }
+  },
+  "ratios": {
+    "qwen2_over_lfm": {
+      "artifact_size": 1.24,
+      "load_time": 0.96,
+      "first_visible": 4.95,
+      "decode_speed": 0.6,
+      "end_to_end": 4.36
+    },
+    "qwen4_over_lfm": {
+      "artifact_size": 2.34,
+      "load_time": 2.92,
+      "first_visible": 8.25,
+      "decode_speed": 0.31,
+      "end_to_end": 7.27
+    }
+  },
+  "official_reference": {
+    "lfm25-vl16b": {
+      "source": "https://huggingface.co/LiquidAI/LFM2.5-VL-1.6B",
+      "scores": {
+        "MMMU": 40.56,
+        "RealWorldQA": 64.84,
+        "MMBench_variant": 76.96,
+        "OCRBench_variant": 41.44
+      },
+      "notes": "MMMU Val; MMBench average; OCRBench v2; full-precision vendor evaluation."
+    },
+    "qwen35-2b": {
+      "source": "https://huggingface.co/Qwen/Qwen3.5-2B",
+      "scores": {
+        "MMMU": 64.2,
+        "RealWorldQA": 74.5,
+        "MMBench_variant": 83.3,
+        "OCRBench_variant": 84.5
+      },
+      "notes": "First value from the model card's paired Qwen3.5-2B vision scores; full-precision vendor evaluation."
+    },
+    "qwen35-4b": {
+      "source": "https://huggingface.co/Qwen/Qwen3.5-4B",
+      "scores": {
+        "MMMU": 77.6,
+        "RealWorldQA": 79.5,
+        "MMBench_variant": 89.4,
+        "OCRBench_variant": 85.0
+      },
+      "notes": "MMBench EN-DEV-v1.1 and unspecified OCRBench version; full-precision vendor evaluation."
+    }
+  },
+  "decision": {
+    "speed_and_footprint_winner": "lfm25-vl16b",
+    "multimodal_quality_winner": "qwen35-4b",
+    "balanced_candidate": "qwen35-2b",
+    "recommendation_ko": "Qwen3.5-2B가 현재 조건의 균형형 1순위입니다. LFM보다 0.32GB 큰 대신 정답 필드가 13/19에서 17/19로 늘었고, Qwen 4B보다 1.44GB 작으면서 디코드는 약 1.9배 빠른데 정답 필드 차이는 17/19 대 18/19였습니다. 최저 지연시간이 절대 기준이면 LFM, 최대 정확도가 기준이면 Qwen 4B를 선택할 수 있습니다."
+  },
+  "limitations": [
+    "The local quality set has eight synthetic tasks and is not a replacement for MMMU or RealWorldQA.",
+    "Vendor benchmark scores are full-precision and were not produced by the browser quantizations.",
+    "Qwen GGUF files are pinned third-party conversions; the LFM GGUF is an official LiquidAI artifact.",
+    "Model-size and architecture effects are intentionally combined because this is a deployment comparison.",
+    "Vision token budgets follow each model's supported quality setting, so latency is not a fixed-compute comparison."
+  ]
+}

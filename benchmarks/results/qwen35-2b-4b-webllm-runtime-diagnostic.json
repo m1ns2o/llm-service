@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-11T01:51:12.8720552+09:00",
+  "scope": "production Nuxt service, cached-model Chrome WebGPU long-output diagnostic",
+  "environment": {
+    "browser": "Chrome 151",
+    "secure_context": true,
+    "cross_origin_isolated": true,
+    "webgpu": true,
+    "adapter": {
+      "vendor": "amd",
+      "architecture": "rdna-3",
+      "shader_f16": true,
+      "subgroups": true,
+      "max_buffer_size": 2147483648,
+      "max_storage_buffer_binding_size": 2147483644
+    },
+    "cache_names": [
+      "webllm/config",
+      "webllm/wasm",
+      "webllm/model"
+    ]
+  },
+  "runtime": {
+    "name": "WebLLM",
+    "version": "0.2.84",
+    "backend": "WebGPU",
+    "worker": true,
+    "quantization": "q4f16_1",
+    "context_window_size": 4096,
+    "stream_render_interval_ms": 50
+  },
+  "request": {
+    "prompt": "Write the integers from 1 through 100 separated by a single space. Output only the numbers.",
+    "temperature": 0.2,
+    "enable_thinking": false,
+    "max_output_tokens": 160
+  },
+  "models": {
+    "qwen35-2b": {
+      "model_id": "Qwen3.5-2B-q4f16_1-MLC",
+      "trials": [
+        {
+          "condition": "first generation after cached model reload",
+          "decode_tokens_per_s": 49.2,
+          "time_to_first_token_s": 1.8,
+          "time_to_first_visible_token_s": 1.8
+        },
+        {
+          "condition": "warm repeat",
+          "decode_tokens_per_s": 53.2,
+          "time_to_first_token_s": 0.3,
+          "time_to_first_visible_token_s": 0.3
+        }
+      ],
+      "median_decode_tokens_per_s": 51.2,
+      "warm_decode_tokens_per_s": 53.2
+    },
+    "qwen35-4b": {
+      "model_id": "Qwen3.5-4B-q4f16_1-MLC",
+      "trials": [
+        {
+          "condition": "first generation after cached model reload",
+          "decode_tokens_per_s": 33.7,
+          "time_to_first_token_s": 3.1,
+          "time_to_first_visible_token_s": 3.1
+        },
+        {
+          "condition": "warm repeat",
+          "decode_tokens_per_s": 35.0,
+          "time_to_first_token_s": 0.5,
+          "time_to_first_visible_token_s": 0.5
+        }
+      ],
+      "median_decode_tokens_per_s": 34.35,
+      "warm_decode_tokens_per_s": 35.0
+    }
+  },
+  "prior_lfm_references": {
+    "lfm2-8b-transformersjs-onnx": {
+      "result": "benchmarks/results/browser-8b-9b-comparison.json",
+      "median_decode_tokens_per_s": 61.77,
+      "note": "Different LFM2 generation and Transformers.js ONNX runtime; this is the fast result users may remember."
+    },
+    "lfm25-8b-wllama-webgpu": {
+      "result": "benchmarks/results/lfm25-8b-browser-webgpu-gguf-final.json",
+      "median_decode_tokens_per_s": 19.875,
+      "note": "LFM2.5-8B-A1B Q4_K_M on wllama WebGPU; median of four recorded requests."
+    }
+  },
+  "conclusion": "The Qwen service is using MLC WebGPU q4f16_1. Warm long-output throughput is materially higher than the earlier short-answer smoke number. LFM2-8B ONNX remains faster because it activates fewer parameters per token and uses a different runtime; the runnable LFM2.5 wllama path is slower than both Qwen service modes on this GPU.",
+  "limitations": [
+    "Two trials per Qwen model are a runtime diagnostic, not a statistically complete benchmark.",
+    "The LFM reference measurements use different prompts, output lengths, model generations, and runtimes.",
+    "The first cached generation still includes model-specific WebGPU shader preparation."
+  ]
+}

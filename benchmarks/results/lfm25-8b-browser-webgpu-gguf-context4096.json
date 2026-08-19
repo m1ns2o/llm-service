@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-10T08:07:59.296Z",
+  "model": {
+    "key": "lfm25-8b",
+    "label": "LFM2.5-8B-A1B",
+    "upstream": "LiquidAI/LFM2.5-8B-A1B-GGUF",
+    "revision": "dfd5fdcad7a1c0d31473fb4ca443b8befbacddf0",
+    "quantization": "Q4_K_M",
+    "artifact_size_bytes": 5155564768,
+    "gguf_artifact_size_bytes": 5155564768,
+    "gguf_sha256": "4923ec14f06b968b74d663e5949867d2d9c3bf13a20b8be1a9f9af39989b2bb0",
+    "runtime": "wllama 3.5.1 / llama.cpp WebGPU",
+    "backend": "wllama-webgpu-gguf"
+  },
+  "platform": "browser-webgpu-direct",
+  "status": "ready",
+  "download_verified": true,
+  "requests": [
+    {
+      "language": "ko",
+      "prompt": "오프라인 모바일 AI 비서를 만들 때 개인정보 보호, 응답 속도, 배터리를 함께 개선하는 3단계 계획을 작성해줘. 각 단계에 장점과 한계를 하나씩 포함해.",
+      "answer": "1. 모델 압축 및 양자화 도입  \n   - 장점: 클라우드 전송 없이 로컬에서 처리돼 개인정보 유출 위험이 낮아지고, 연산 속도가 빨라져 응답 시간이 단축되며, 연산 부하가 감소해 배터리 소모가 줄어듭니다.  \n   - 한계: 압축·양자화 과정에서 모델 정확도가 약간 떨어질 수 있어, 복잡한 질문에 대한 답변 품질이 저하될 수 있습니다.  \n\n2. 로컬 연산 및 캐싱 전략 수립  \n   - 장점: 모든 연산을 기기 내부에서 처리함으로써 네트워크 연결 없이도 즉시 응답이 가능해져 속도가 향상되며, 전송되지 않는 데이터가 개인 정보가 보호됩니다.  \n   - 한계: 고성능 연산용 하드웨어가 필요하므로 저장 공간이 제한되며, 대규모 모델을 탑재하면 기기의 메모리 사용량이 증가해 배터리 수명을 감소시킬 수 있습니다.  \n\n3. 적응형 전력 관리 및 자원 할당  \n   - 장점: 사용 상황에 따라 연산 강도와 전력 소모를 실시간으로 조절함으로써, 필요한 순간에만 고성능을 제공해 응답 속도를 유지하면서도 배터리 소모를 최소화합니다.  \n   - 한계: 정교한 전력 관리 알고리즘 구현에 복잡성이 따르며, 최적화 과정에서 일부 기능이 제한되거나 초기 설정 오류가 발생할 수 있습니다.",
+      "raw_answer": "\n1. 모델 압축 및 양자화 도입  \n   - 장점: 클라우드 전송 없이 로컬에서 처리돼 개인정보 유출 위험이 낮아지고, 연산 속도가 빨라져 응답 시간이 단축되며, 연산 부하가 감소해 배터리 소모가 줄어듭니다.  \n   - 한계: 압축·양자화 과정에서 모델 정확도가 약간 떨어질 수 있어, 복잡한 질문에 대한 답변 품질이 저하될 수 있습니다.  \n\n2. 로컬 연산 및 캐싱 전략 수립  \n   - 장점: 모든 연산을 기기 내부에서 처리함으로써 네트워크 연결 없이도 즉시 응답이 가능해져 속도가 향상되며, 전송되지 않는 데이터가 개인 정보가 보호됩니다.  \n   - 한계: 고성능 연산용 하드웨어가 필요하므로 저장 공간이 제한되며, 대규모 모델을 탑재하면 기기의 메모리 사용량이 증가해 배터리 수명을 감소시킬 수 있습니다.  \n\n3. 적응형 전력 관리 및 자원 할당  \n   - 장점: 사용 상황에 따라 연산 강도와 전력 소모를 실시간으로 조절함으로써, 필요한 순간에만 고성능을 제공해 응답 속도를 유지하면서도 배터리 소모를 최소화합니다.  \n   - 한계: 정교한 전력 관리 알고리즘 구현에 복잡성이 따르며, 최적화 과정에서 일부 기능이 제한되거나 초기 설정 오류가 발생할 수 있습니다.",
+      "max_new_tokens": 1536,
+      "first_token_ms": 2042,
+      "total_ms": 63948,
+      "completion_tokens": 1226,
+      "decode_tok_per_s": 19.75,
+      "language_signals": {
+        "hangul_chars": 396,
+        "han_chars": 0,
+        "latin_chars": 0
+      },
+      "completed_at": "2026-08-10T08:09:21.543Z",
+      "reasoning_chunks": 886,
+      "id": "ko_general"
+    },
+    {
+      "language": "en",
+      "prompt": "Write a three-step plan for an offline mobile AI assistant that improves privacy, response speed, and battery life. Include one benefit and one limitation per step.",
+      "answer": "**Step 1 – On‑device model compression & quantization**  \n- **Benefit:** Keeps user data local, eliminating the need to send sensitive information to the cloud and thus strengthening privacy.  \n- **Limitation:** Compressed models may achieve lower accuracy than full‑precision versions, potentially reducing response quality.\n\n**Step 2 – Efficient inference engines with hardware acceleration**  \n- **Benefit:** Leverages optimized libraries (e.g., TensorRT, CoreML) to speed up processing, delivering faster response times.  \n- **Limitation:** Requires device‑specific tuning and additional development effort, which can increase complexity and cost.\n\n**Step 3 – Power‑aware task scheduling and low‑power modes**  \n- **Benefit:** Prioritizes energy‑efficient execution, extending battery life during continuous use.  \n- **Limitation:** Deferring non‑critical tasks may introduce slight latency, potentially affecting real‑time interactivity.",
+      "raw_answer": "\n**Step 1 – On‑device model compression & quantization**  \n- **Benefit:** Keeps user data local, eliminating the need to send sensitive information to the cloud and thus strengthening privacy.  \n- **Limitation:** Compressed models may achieve lower accuracy than full‑precision versions, potentially reducing response quality.\n\n**Step 2 – Efficient inference engines with hardware acceleration**  \n- **Benefit:** Leverages optimized libraries (e.g., TensorRT, CoreML) to speed up processing, delivering faster response times.  \n- **Limitation:** Requires device‑specific tuning and additional development effort, which can increase complexity and cost.\n\n**Step 3 – Power‑aware task scheduling and low‑power modes**  \n- **Benefit:** Prioritizes energy‑efficient execution, extending battery life during continuous use.  \n- **Limitation:** Deferring non‑critical tasks may introduce slight latency, potentially affecting real‑time interactivity.",
+      "max_new_tokens": 1536,
+      "first_token_ms": 1960,
+      "total_ms": 39658,
+      "completion_tokens": 749,
+      "decode_tok_per_s": 19.82,
+      "language_signals": {
+        "hangul_chars": 0,
+        "han_chars": 0,
+        "latin_chars": 732
+      },
+      "completed_at": "2026-08-10T08:10:01.733Z",
+      "reasoning_chunks": 550,
+      "id": "en_general"
+    },
+    {
+      "language": "ko",
+      "prompt": "어떤 기기의 배터리가 시간당 12%씩 줄고 현재 76%다. 최소 25%를 남겨야 한다면 최대 몇 시간 사용할 수 있는지 계산 과정과 결론을 한국어로 간단히 설명해줘.",
+      "answer": "현재 배터리 수준은 76%이고, 매 시간 12%씩 소모된다. 최소 25%를 남기려면 남은 배터리 양은 76% - 25% = 51%를 사용해야 한다. 소모 속도가 12%/시간이므로, 사용 가능한 시간은 51% ÷ 12%/시간 = 4.25시간이다. 따라서 최대 4시간 15분 정도 사용할 수 있다.",
+      "raw_answer": "\n현재 배터리 수준은 76%이고, 매 시간 12%씩 소모된다. 최소 25%를 남기려면 남은 배터리 양은 76% - 25% = 51%를 사용해야 한다. 소모 속도가 12%/시간이므로, 사용 가능한 시간은 51% ÷ 12%/시간 = 4.25시간이다. 따라서 최대 4시간 15분 정도 사용할 수 있다.",
+      "max_new_tokens": 1536,
+      "first_token_ms": 1976,
+      "total_ms": 30058,
+      "completion_tokens": 559,
+      "decode_tok_per_s": 19.84,
+      "language_signals": {
+        "hangul_chars": 79,
+        "han_chars": 0,
+        "latin_chars": 0
+      },
+      "completed_at": "2026-08-10T08:10:32.444Z",
+      "reasoning_chunks": 455,
+      "id": "ko_reasoning"
+    },
+    {
+      "language": "ko",
+      "prompt": "정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.",
+      "answer": "1. 온디바이스 AI는 데이터를 로컬에서 처리하여 개인정보 보호를 강화하지만, 연산 자원 소모와 배터리 소모가 크다는 단점이 있습니다.  \n2. 오프라인 환경에서도 작동하여 네트워크 연결 없이도 서비스를 제공하지만, 최신 모델 업데이트가 어려워지는 제약이 있습니다.  \n3. 실시간 응답 속도를 높여 지연 시간을 줄이지만, 추가 하드웨어 비용이 발생한다는 부작용이 있습니다.",
+      "raw_answer": "\n1. 온디바이스 AI는 데이터를 로컬에서 처리하여 개인정보 보호를 강화하지만, 연산 자원 소모와 배터리 소모가 크다는 단점이 있습니다.  \n2. 오프라인 환경에서도 작동하여 네트워크 연결 없이도 서비스를 제공하지만, 최신 모델 업데이트가 어려워지는 제약이 있습니다.  \n3. 실시간 응답 속도를 높여 지연 시간을 줄이지만, 추가 하드웨어 비용이 발생한다는 부작용이 있습니다.",
+      "max_new_tokens": 1536,
+      "first_token_ms": 1907,
+      "total_ms": 35093,
+      "completion_tokens": 661,
+      "decode_tok_per_s": 19.86,
+      "language_signals": {
+        "hangul_chars": 146,
+        "han_chars": 0,
+        "latin_chars": 2
+      },
+      "completed_at": "2026-08-10T08:11:07.759Z",
+      "reasoning_chunks": 551,
+      "id": "ko_instruction"
+    }
+  ],
+  "oom_events": 0,
+  "worker_crashes": 0,
+  "environment": {
+    "secure_context": true,
+    "cross_origin_isolated": true,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "webgpu": true,
+    "adapter": {
+      "vendor": "amd",
+      "architecture": "rdna-3",
+      "device": null,
+      "description": null,
+      "max_buffer_size": 2147483648,
+      "max_storage_buffer_binding_size": 2147483644
+    }
+  },
+  "status_message": "LFM2.5-8B-A1B 응답 완료",
+  "model_load_ms": 16340,
+  "loaded_at": "2026-08-10T08:08:15.927Z",
+  "generation_settings": {
+    "temperature": 0,
+    "top_k": 1
+  },
+  "model_metadata": {
+    "hparams": {
+      "nVocab": 128000,
+      "nCtxTrain": 128000,
+      "nEmbd": 2048,
+      "nLayer": 24
+    },
+    "meta": {
+      "tokenizer.chat_template": "{{- bos_token -}}\n{%- set preserve_thinking = preserve_thinking | default(false) -%}\n\n{%- macro format_arg_value(arg_value) -%}\n    {%- if arg_value is string -%}\n        {{- \"'\" + arg_value + \"'\" -}}\n    {%- elif arg_value is mapping -%}\n        {{- arg_value | tojson -}}\n    {%- else -%}\n        {{- arg_value | string -}}\n    {%- endif -%}\n{%- endmacro -%}\n\n{%- macro parse_content(content) -%}\n    {%- if content is string -%}\n        {{- content -}}\n    {%- else -%}\n        {%- set _ns = namespace(result=\"\") -%}\n        {%- for item in content -%}\n            {%- if item[\"type\"] == \"image\" -%}\n                {%- set _ns.result = _ns.result + \"<image>\" -%}\n            {%- elif item[\"type\"] == \"text\" -%}\n                {%- set _ns.result = _ns.result + item[\"text\"] -%}\n            {%- else -%}\n                {%- set _ns.result = _ns.result + item | tojson -%}\n            {%- endif -%}\n        {%- endfor -%}\n        {{- _ns.result -}}\n    {%- endif -%}\n{%- endmacro -%}\n\n{%- macro render_tool_calls(tool_calls) -%}\n    {%- set tool_calls_ns = namespace(tool_calls=[]) -%}\n    {%- for tool_call in tool_calls -%}\n        {%- set func_name = tool_call[\"function\"][\"name\"] -%}\n        {%- set func_args = tool_call[\"function\"][\"arguments\"] -%}\n        {%- set args_ns = namespace(arg_strings=[]) -%}\n        {%- for arg_name, arg_value in func_args.items() -%}\n            {%- set args_ns.arg_strings = args_ns.arg_strings + [arg_name + \"=\" + format_arg_value(arg_value)] -%}\n        {%- endfor -%}\n        {%- set tool_calls_ns.tool_calls = tool_calls_ns.tool_calls + [func_name + \"(\" + (args_ns.arg_strings | join(\", \")) + \")\"] -%}\n    {%- endfor -%}\n    {{- \"<|tool_call_start|>[\" + (tool_calls_ns.tool_calls | join(\", \")) + \"]<|tool_call_end|>\" -}}\n{%- endmacro -%}\n\n{%- set ns = namespace(system_prompt=\"\", last_user_index=-1) -%}\n{%- if messages[0][\"role\"] == \"system\" -%}\n    {%- if messages[0].get(\"content\") -%}\n        {%- set ns.system_prompt = parse_content(messages[0][\"content\"]) -%}\n    {%- endif -%}\n    {%- set messages = messages[1:] -%}\n{%- endif -%}\n{%- if tools -%}\n    {%- set ns.system_prompt = ns.system_prompt + (\"\\n\" if ns.system_prompt else \"\") + \"List of tools: [\" -%}\n    {%- for tool in tools -%}\n        {%- if tool is not string -%}\n            {%- set tool = tool | tojson -%}\n        {%- endif -%}\n        {%- set ns.system_prompt = ns.system_prompt + tool -%}\n        {%- if not loop.last -%}\n            {%- set ns.system_prompt = ns.system_prompt + \", \" -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {%- set ns.system_prompt = ns.system_prompt + \"]\" -%}\n{%- endif -%}\n{%- if ns.system_prompt -%}\n    {{- \"<|im_start|>system\\n\" + ns.system_prompt + \"<|im_end|>\\n\" -}}\n{%- endif -%}\n{%- for message in messages -%}\n    {%- if message[\"role\"] == \"user\" -%}\n        {%- set ns.last_user_index = loop.index0 -%}\n    {%- endif -%}\n{%- endfor -%}\n{%- for message in messages -%}\n    {{- \"<|im_start|>\" + message.role + \"\\n\" -}}\n    {%- if message.role == \"assistant\" -%}\n        {%- generation -%}\n        {%- if message.thinking is defined and (preserve_thinking or loop.index0 > ns.last_user_index) -%}\n            {{- \"<think>\" + message.thinking + \"</think>\" -}}\n        {%- endif -%}\n        {%- set _cfm_tag = \"CONTINUE_FINAL_MESSAGE_TAG \" -%}\n        {%- set _has_cfm = false -%}\n        {%- if message.content is defined -%}\n            {%- set content = parse_content(message.content) -%}\n            {%- if not (preserve_thinking or loop.index0 > ns.last_user_index) -%}\n                {%- if \"</think>\" in content -%}\n                    {%- set content = content.split(\"</think>\")[-1] | trim -%}\n                {%- endif -%}\n            {%- endif -%}\n            {%- if message.tool_calls is defined and content.endswith(_cfm_tag) -%}\n                {%- set _has_cfm = true -%}\n                {%- set _trunc_len = (content | length) - (_cfm_tag | length) -%}\n                {{- content[:_trunc_len] -}}\n            {%- else -%}\n                {{- content -}}\n            {%- endif -%}\n        {%- endif -%}\n        {%- if message.tool_calls is defined -%}\n            {{- render_tool_calls(message.tool_calls) -}}\n        {%- endif -%}\n        {%- if _has_cfm -%}\n            {{- _cfm_tag -}}\n        {%- endif -%}\n        {{- \"<|im_end|>\\n\" -}}\n        {%- endgeneration -%}\n    {%- else %}\n        {%- if message.get(\"content\") -%}\n            {{- parse_content(message[\"content\"]) -}}\n        {%- endif -%}\n        {{- \"<|im_end|>\\n\" -}}\n    {%- endif %}\n{%- endfor -%}\n{%- if add_generation_prompt -%}\n    {{- \"<|im_start|>assistant\\n\" -}}\n{%- endif -%}",
+      "tokenizer.ggml.padding_token_id": "124893",
+      "tokenizer.ggml.eos_token_id": "124900",
+      "tokenizer.ggml.pre": "lfm2",
+      "tokenizer.ggml.model": "gpt2",
+      "lfm2moe.vocab_size": "128000",
+      "tokenizer.ggml.bos_token_id": "124894",
+      "lfm2moe.shortconv.l_cache": "3",
+      "general.type": "model",
+      "lfm2moe.leading_dense_block_count": "2",
+      "lfm2moe.expert_gating_func": "2",
+      "lfm2moe.expert_feed_forward_length": "1792",
+      "lfm2moe.expert_used_count": "4",
+      "general.architecture": "lfm2moe",
+      "lfm2moe.rope.freq_base": "5000000.000000",
+      "lfm2moe.feed_forward_length": "7168",
+      "general.base_model.0.organization": "LiquidAI",
+      "lfm2moe.embedding_length": "2048",
+      "lfm2moe.block_count": "24",
+      "general.quantization_version": "2",
+      "general.license": "other",
+      "general.base_model.0.repo_url": "https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-Base",
+      "general.base_model.count": "1",
+      "lfm2moe.expert_count": "32",
+      "general.file_type": "15",
+      "general.license.name": "lfm1.0",
+      "lfm2moe.attention.layer_norm_rms_epsilon": "0.000010",
+      "general.base_model.0.name": "LFM2.5 8B A1B Base",
+      "general.size_label": "32x959M",
+      "general.license.link": "LICENSE",
+      "lfm2moe.attention.head_count": "32",
+      "lfm2moe.context_length": "128000",
+      "general.name": "Feb5E04Da4910Dd56D33F0Cd03747Ff298C1E801"
+    }
+  },
+  "local_file": {
+    "name": "LFM2.5-8B-A1B-Q4_K_M.gguf",
+    "size_bytes": 5155564768
+  },
+  "requests_completed": 4,
+  "last_request": {
+    "language": "ko",
+    "prompt": "정확히 세 문장으로 답해줘. 각 문장은 1., 2., 3.으로 시작하고, 온디바이스 AI의 장점 하나와 단점 하나를 모두 포함해야 해.",
+    "answer": "1. 온디바이스 AI는 데이터를 로컬에서 처리하여 개인정보 보호를 강화하지만, 연산 자원 소모와 배터리 소모가 크다는 단점이 있습니다.  \n2. 오프라인 환경에서도 작동하여 네트워크 연결 없이도 서비스를 제공하지만, 최신 모델 업데이트가 어려워지는 제약이 있습니다.  \n3. 실시간 응답 속도를 높여 지연 시간을 줄이지만, 추가 하드웨어 비용이 발생한다는 부작용이 있습니다.",
+    "raw_answer": "\n1. 온디바이스 AI는 데이터를 로컬에서 처리하여 개인정보 보호를 강화하지만, 연산 자원 소모와 배터리 소모가 크다는 단점이 있습니다.  \n2. 오프라인 환경에서도 작동하여 네트워크 연결 없이도 서비스를 제공하지만, 최신 모델 업데이트가 어려워지는 제약이 있습니다.  \n3. 실시간 응답 속도를 높여 지연 시간을 줄이지만, 추가 하드웨어 비용이 발생한다는 부작용이 있습니다.",
+    "max_new_tokens": 1536,
+    "first_token_ms": 1907,
+    "total_ms": 35093,
+    "completion_tokens": 661,
+    "decode_tok_per_s": 19.86,
+    "language_signals": {
+      "hangul_chars": 146,
+      "han_chars": 0,
+      "latin_chars": 2
+    },
+    "completed_at": "2026-08-10T08:11:07.759Z",
+    "reasoning_chunks": 551
+  },
+  "host_source": {
+    "path": "C:\\llm-cache\\downloads\\lfm25-8b\\LFM2.5-8B-A1B-Q4_K_M.gguf",
+    "size_bytes": 5155564768,
+    "sha256": "4923ec14f06b968b74d663e5949867d2d9c3bf13a20b8be1a9f9af39989b2bb0",
+    "verified": true
+  }
+}

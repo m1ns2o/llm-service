@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-10T07:33:15.925Z",
+  "model": {
+    "key": "lfm25-8b",
+    "label": "LFM2.5-8B-A1B",
+    "upstream": "LiquidAI/LFM2.5-8B-A1B-ONNX",
+    "revision": "9151c307c5fb0e70fbddec06b77609db4fdd58ff",
+    "quantization": "q4f16",
+    "artifact_size_bytes": 5045499372,
+    "gguf_artifact_size_bytes": 5155564768,
+    "gguf_sha256": "4923ec14f06b968b74d663e5949867d2d9c3bf13a20b8be1a9f9af39989b2bb0",
+    "runtime": "Transformers.js 4.0.0",
+    "backend": "transformersjs-webgpu-qmoe",
+    "external_data_shards": 12,
+    "local_model_id": "lfm25-8b/transformersjs-onnx",
+    "tensor_bytes_unchanged": true
+  },
+  "platform": "browser-webgpu-direct",
+  "status": "runtime_blocked",
+  "download_verified": false,
+  "requests": [],
+  "oom_events": 0,
+  "worker_crashes": 0,
+  "environment": {
+    "secure_context": true,
+    "cross_origin_isolated": true,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "webgpu": true,
+    "adapter": {
+      "vendor": "amd",
+      "architecture": "rdna-3",
+      "device": null,
+      "description": null,
+      "max_buffer_size": 2147483648,
+      "max_storage_buffer_binding_size": 2147483644
+    }
+  },
+  "status_message": "생성 실패: failed to call OrtRun(). ERROR_CODE: 9, ERROR_MESSAGE: Non-zero status code returned while running QMoE node. Name:'/model/layers.2/moe/QMoE' Status Message: zero_points for QMoE are not yet supported on WebGPU.",
+  "last_worker_message_at": "2026-08-10T07:33:24.236Z",
+  "worker": {
+    "status": "ready",
+    "transformers_js": "4.0.0",
+    "model_id": "LiquidAI/LFM2.5-8B-A1B-ONNX",
+    "revision": "9151c307c5fb0e70fbddec06b77609db4fdd58ff"
+  },
+  "load_stage": "generating",
+  "load_stage_message": "LFM2.5-8B-A1B 생성 중",
+  "last_load_event": {
+    "status": "ready",
+    "file": null,
+    "loaded": 0,
+    "total": 0,
+    "progress": 0,
+    "elapsed_ms": 5734
+  },
+  "model_load_ms": 5734,
+  "loaded_at": "2026-08-10T07:33:22.069Z",
+  "automation_error": {
+    "type": "RuntimeError",
+    "message": "생성 실패: failed to call OrtRun(). ERROR_CODE: 9, ERROR_MESSAGE: Non-zero status code returned while running QMoE node. Name:'/model/layers.2/moe/QMoE' Status Message: zero_points for QMoE are not yet supported on WebGPU."
+  }
+}

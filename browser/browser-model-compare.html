@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LFM 8B · Qwen3.5-9B WebGPU 비교</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, Pretendard, system-ui, sans-serif; background: #09101d; color: #e8edf7; }
+    * { box-sizing: border-box; }
+    body { max-width: 1120px; margin: auto; padding: 24px; line-height: 1.5; }
+    h1 { margin-bottom: 4px; } h2 { font-size: 1.05rem; margin: 0 0 12px; }
+    .muted { color: #9caac2; } .warning { color: #ffd27a; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(310px, .75fr); gap: 16px; }
+    .card { background: #111a2b; border: 1px solid #253552; border-radius: 14px; padding: 16px; margin: 14px 0; }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+    button, input, select, textarea { font: inherit; border-radius: 9px; border: 1px solid #344a6e; padding: 10px 12px; color: inherit; background: #0c1423; }
+    button { background: #264a7e; cursor: pointer; } button.primary { background: #2868d7; } button:disabled { opacity: .45; cursor: wait; }
+    [hidden] { display: none !important; }
+    textarea { width: 100%; resize: vertical; } input { width: 100px; } #model-file { width: min(100%, 620px); }
+    progress { width: 100%; height: 16px; margin-top: 12px; }
+    pre { min-height: 90px; max-height: 380px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; background: #09101d; padding: 13px; border-radius: 10px; }
+    .status { border-left: 4px solid #45bf86; padding: 9px 12px; margin-top: 10px; background: #0c201d; }
+    .status.bad { border-color: #ef6978; background: #291319; }
+    .metricline { min-height: 1.5em; color: #8fd3ff; margin-top: 8px; }
+    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } body { padding: 14px; } }
+  </style>
+</head>
+<body>
+  <h1>LFM 8B · Qwen3.5-9B WebGPU 비교</h1>
+  <p class="muted">동일 Chrome과 GPU에서 모델을 직접 실행합니다. LFM은 Transformers.js ONNX 또는 공식 GGUF wllama WebGPU 경로를, Qwen은 해당 모델 전용 WebLLM 커널을 사용합니다.</p>
+  <p class="warning">모델 파일은 약 4.78~5.16GB입니다. 런타임과 양자화 형식의 차이도 결과에 포함되므로 모델 구조만 분리한 순수 비교는 아닙니다.</p>
+
+  <div class="grid">
+    <main>
+      <section class="card">
+        <h2>1. 모델 준비</h2>
+        <div class="row">
+          <label>모델
+            <select id="model">
+              <option value="lfm2-8b">LFM2-8B-A1B Q4F16</option>
+              <option value="lfm25-8b">LFM2.5-8B-A1B · official GGUF preferred</option>
+              <option value="lfm25-8b-symmetric">LFM2.5-8B Symmetric Q4F16 · experimental</option>
+              <option value="qwen35-4b">Qwen3.5-4B Q4F16</option>
+              <option value="qwen35-9b">Qwen3.5-9B Q4F16</option>
+            </select>
+          </label>
+          <button id="detect">WebGPU 검사</button>
+          <button id="load" class="primary">모델 로드</button>
+          <button id="unload">모델 해제</button>
+          <button id="export">결과 JSON 저장</button>
+        </div>
+        <div id="lfm-gguf" class="row">
+          <label>선택 사항: 공식 LFM GGUF WebGPU 경로
+            <input id="model-file" type="file" accept=".gguf">
+          </label>
+        </div>
+        <p class="warning">LFM2.5 공식 ONNX의 asymmetric QMoE는 현재 WebGPU zero-point 커널이 없어 생성이 차단됩니다. 품질 우선 테스트는 공식 Q4_K_M GGUF를 선택하세요. Symmetric Q4F16은 약 61 tok/s지만 한국어 품질 게이트를 통과하지 못한 실험 빌드입니다.</p>
+        <progress id="progress" max="100" value="0"></progress>
+        <div id="progress-label" class="muted">아직 로드하지 않았습니다.</div>
+        <div id="environment" class="muted"></div>
+        <div id="status" class="status">대기 중</div>
+        <div id="elapsed" class="metricline"></div>
+      </section>
+
+      <section class="card">
+        <h2>2. 스트리밍 생성</h2>
+        <label for="system-prompt">시스템 프롬프트</label>
+        <textarea id="system-prompt" rows="2">당신은 정확하고 유용한 한국어·영어 범용 조수입니다. 사용자가 사용한 언어로 직접 답하고, 내부 사고 과정은 출력하지 마세요.</textarea>
+        <label for="prompt">사용자 프롬프트</label>
+        <textarea id="prompt" rows="4">한국어로 MoE 모델이 dense 모델보다 모바일에서 빠를 수 있는 이유와 한계를 간단히 설명해줘.</textarea>
+        <div class="row">
+          <label>최대 토큰 <input id="max-tokens" type="number" min="1" max="2048" value="128"></label>
+          <button id="send" class="primary">보내기</button>
+        </div>
+        <div id="live-metrics" class="metricline">모델을 먼저 로드하세요.</div>
+        <pre id="answer">응답이 토큰 단위로 표시됩니다.</pre>
+      </section>
+    </main>
+
+    <aside>
+      <section class="card"><h2>측정 JSON</h2><pre id="metrics"></pre></section>
+      <section class="card"><h2>로그</h2><pre id="log"></pre></section>
+    </aside>
+  </div>
+  <script type="module" src="browser-model-compare.js"></script>
+</body>
+</html>
