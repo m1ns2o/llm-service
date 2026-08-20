@@ -10,7 +10,11 @@
   "android": {
     "runtime": "llama.cpp JNI",
     "abi": "arm64-v8a",
-    "backend_priority": ["opencl", "vulkan", "cpu-arm64"],
+    "backend_priority": ["vendor-adaptive", "cpu-arm64"],
+    "backend_priority_by_gpu_vendor": {
+      "qualcomm-adreno": ["opencl", "vulkan", "cpu-arm64"],
+      "default": ["vulkan", "opencl", "cpu-arm64"]
+    },
     "forced_backend_values": ["auto", "opencl", "vulkan", "cpu-arm64"],
     "minimum_android_api": 28,
     "gpu_measurement_requires_physical_device": true,

@@ -2,6 +2,8 @@
 #include <android/log.h>
 #include <algorithm>
 #include <atomic>
+#include <cctype>
+#include <exception>
 #include <mutex>
 #include <string>
 #include <thread>
@@ -16,10 +18,19 @@ std::mutex runtime_mutex;
 llama_model * model = nullptr;
 std::string active_model_path;
 std::string active_backend = "unloaded";
+std::string active_requested_backend = "unloaded";
 int active_threads = 1;
 int active_context_size = 4096;
 bool backend_initialized = false;
 std::atomic<bool> interrupt_requested{false};
+
+void ensure_backends_initialized() {
+    if (!backend_initialized) {
+        llama_backend_init();
+        ggml_backend_load_all();
+        backend_initialized = true;
+    }
+}
 
 std::string from_jstring(JNIEnv * env, jstring value) {
     if (value == nullptr) return {};
@@ -95,6 +106,64 @@ void release_model() {
     }
     active_model_path.clear();
     active_backend = "unloaded";
+    active_requested_backend = "unloaded";
+}
+
+std::string lowercase(std::string value) {
+    std::transform(value.begin(), value.end(), value.begin(), [](unsigned char ch) {
+        return static_cast<char>(std::tolower(ch));
+    });
+    return value;
+}
+
+ggml_backend_dev_t find_backend_device(const std::string & backend) {
+    const std::string needle = lowercase(backend);
+    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
+        ggml_backend_dev_t device = ggml_backend_dev_get(i);
+        const char * device_name = ggml_backend_dev_name(device);
+        ggml_backend_reg_t registry = ggml_backend_dev_backend_reg(device);
+        const char * registry_name = registry == nullptr ? nullptr : ggml_backend_reg_name(registry);
+        const std::string searchable = lowercase(
+            std::string(device_name == nullptr ? "" : device_name) + " " +
+            std::string(registry_name == nullptr ? "" : registry_name));
+        if (searchable.find(needle) != std::string::npos) return device;
+    }
+    return nullptr;
+}
+
+std::vector<std::string> parse_backend_order(const std::string & requested) {
+    std::vector<std::string> result;
+    size_t start = 0;
+    while (start <= requested.size()) {
+        const size_t end = requested.find(',', start);
+        const std::string candidate = lowercase(requested.substr(
+            start, end == std::string::npos ? std::string::npos : end - start));
+        if ((candidate == "opencl" || candidate == "vulkan" || candidate == "cpu-arm64") &&
+            std::find(result.begin(), result.end(), candidate) == result.end()) {
+            result.push_back(candidate);
+        }
+        if (end == std::string::npos) break;
+        start = end + 1;
+    }
+    if (std::find(result.begin(), result.end(), "cpu-arm64") == result.end()) {
+        result.push_back("cpu-arm64");
+    }
+    return result;
+}
+
+std::string available_backends() {
+    ensure_backends_initialized();
+    std::vector<std::string> result;
+    for (const std::string & candidate : {"opencl", "vulkan"}) {
+        if (find_backend_device(candidate) != nullptr) result.push_back(candidate);
+    }
+    result.push_back("cpu-arm64");
+    std::string joined;
+    for (const std::string & candidate : result) {
+        if (!joined.empty()) joined += ',';
+        joined += candidate;
+    }
+    return joined;
 }
 
 std::string apply_chat_template(
@@ -114,6 +183,49 @@ std::string apply_chat_template(
         chat_template, messages.data(), messages.size(), true, buffer.data(), static_cast<int32_t>(buffer.size()));
     return written > 0 ? std::string(buffer.data(), static_cast<size_t>(written))
                        : (contents.empty() ? std::string() : contents.back());
+}
+
+bool probe_model_backend(const std::string & backend) {
+    try {
+        llama_context_params params = llama_context_default_params();
+        params.n_ctx = 512;
+        params.n_batch = 32;
+        params.n_ubatch = 32;
+        params.n_threads = active_threads;
+        params.n_threads_batch = active_threads;
+        params.flash_attn_type = LLAMA_FLASH_ATTN_TYPE_DISABLED;
+        const bool gpu_backend = backend == "vulkan" || backend == "opencl";
+        params.offload_kqv = gpu_backend;
+        params.op_offload = gpu_backend;
+        params.no_perf = false;
+
+        llama_context * context = llama_init_from_model(model, params);
+        if (context == nullptr) return false;
+        const llama_vocab * vocab = llama_model_get_vocab(model);
+        constexpr const char * probe_prompt = "Hello";
+        int count = -llama_tokenize(vocab, probe_prompt, 5, nullptr, 0, true, true);
+        if (count <= 0) {
+            llama_free(context);
+            return false;
+        }
+        std::vector<llama_token> tokens(static_cast<size_t>(count));
+        if (llama_tokenize(vocab, probe_prompt, 5, tokens.data(), tokens.size(), true, true) < 0) {
+            llama_free(context);
+            return false;
+        }
+        llama_batch batch = llama_batch_get_one(tokens.data(), static_cast<int32_t>(tokens.size()));
+        const bool ready = llama_decode(context, batch) == 0;
+        llama_free(context);
+        return ready;
+    } catch (const std::exception & error) {
+        __android_log_print(ANDROID_LOG_WARN, TAG, "%s warmup failed: %s",
+                            backend.c_str(), error.what());
+        return false;
+    } catch (...) {
+        __android_log_print(ANDROID_LOG_WARN, TAG, "%s warmup failed with unknown error",
+                            backend.c_str());
+        return false;
+    }
 }
 
 std::string generate_text(
@@ -178,7 +290,8 @@ std::string generate_text(
     int generated = 0;
     while (generated < max_tokens && !interrupt_requested.load(std::memory_order_acquire)) {
         if (llama_decode(context, batch) != 0) {
-            output += "\n\n[생성 중 llama_decode 오류]";
+            if (generated == 0) output = "실행 실패: 백엔드 첫 디코드 오류";
+            else output += "\n\n[생성 중 llama_decode 오류]";
             break;
         }
         llama_token token = llama_sampler_sample(sampler, context, -1);
@@ -225,39 +338,61 @@ Java_com_example_llmbench_NativeRuntime_statusNative(JNIEnv * env, jclass) {
 }
 
 extern "C" JNIEXPORT jstring JNICALL
+Java_com_example_llmbench_NativeRuntime_availableBackendsNative(JNIEnv * env, jclass) {
+    std::lock_guard<std::mutex> lock(runtime_mutex);
+    return to_jstring(env, available_backends());
+}
+
+extern "C" JNIEXPORT jstring JNICALL
 Java_com_example_llmbench_NativeRuntime_loadModelNative(
     JNIEnv * env, jclass, jstring path_value, jstring backend_value, jint threads, jint context_size) {
     std::lock_guard<std::mutex> lock(runtime_mutex);
-    if (!backend_initialized) {
-        llama_backend_init();
-        ggml_backend_load_all();
-        backend_initialized = true;
-    }
+    ensure_backends_initialized();
 
     const std::string path = from_jstring(env, path_value);
     const std::string requested_backend = from_jstring(env, backend_value);
     if (path.empty()) return to_jstring(env, "blocked: model path is empty");
-    if (path == active_model_path && model != nullptr && requested_backend == active_backend) {
+    if (path == active_model_path && model != nullptr && requested_backend == active_requested_backend) {
         return to_jstring(env, "ready: model already loaded · backend=" + active_backend);
     }
 
     release_model();
-    llama_model_params params = llama_model_default_params();
-    const bool wants_gpu = requested_backend == "vulkan" || requested_backend == "opencl";
-    params.n_gpu_layers = wants_gpu ? -1 : 0;
-    params.split_mode = LLAMA_SPLIT_MODE_NONE;
-    params.main_gpu = 0;
-    params.load_mode = LLAMA_LOAD_MODE_MMAP;
-    params.use_extra_bufts = true;
-    model = llama_model_load_from_file(path.c_str(), params);
-    if (model == nullptr && wants_gpu) {
-        __android_log_print(ANDROID_LOG_WARN, TAG, "%s load failed; retrying on ARM CPU",
-                            requested_backend.c_str());
-        params.n_gpu_layers = 0;
+    active_threads = std::clamp<int>(threads, 1, 8);
+    active_context_size = std::clamp<int>(context_size, 512, 8192);
+    for (const std::string & candidate : parse_backend_order(requested_backend)) {
+        llama_model_params params = llama_model_default_params();
+        const bool wants_gpu = candidate == "vulkan" || candidate == "opencl";
+        std::vector<ggml_backend_dev_t> selected_devices;
+        if (wants_gpu) {
+            ggml_backend_dev_t device = find_backend_device(candidate);
+            if (device == nullptr) {
+                __android_log_print(ANDROID_LOG_WARN, TAG,
+                                    "%s backend is unavailable; trying fallback", candidate.c_str());
+                continue;
+            }
+            selected_devices = {device, nullptr};
+            params.devices = selected_devices.data();
+            __android_log_print(ANDROID_LOG_INFO, TAG, "selecting %s device=%s description=%s",
+                                candidate.c_str(), ggml_backend_dev_name(device),
+                                ggml_backend_dev_description(device));
+        }
+        params.n_gpu_layers = wants_gpu ? -1 : 0;
+        params.split_mode = LLAMA_SPLIT_MODE_NONE;
+        params.main_gpu = 0;
+        params.load_mode = LLAMA_LOAD_MODE_MMAP;
+        params.use_extra_bufts = true;
         model = llama_model_load_from_file(path.c_str(), params);
-        active_backend = "cpu-arm64";
-    } else {
-        active_backend = requested_backend;
+        if (model != nullptr && probe_model_backend(candidate)) {
+            active_backend = candidate;
+            active_requested_backend = requested_backend;
+            break;
+        }
+        if (model != nullptr) {
+            llama_model_free(model);
+            model = nullptr;
+        }
+        __android_log_print(ANDROID_LOG_WARN, TAG,
+                            "%s load or warmup failed; trying fallback", candidate.c_str());
     }
     if (model == nullptr) {
         release_model();
@@ -265,8 +400,6 @@ Java_com_example_llmbench_NativeRuntime_loadModelNative(
     }
 
     active_model_path = path;
-    active_threads = std::clamp<int>(threads, 1, 8);
-    active_context_size = std::clamp<int>(context_size, 512, 8192);
     return to_jstring(env, "ready: model loaded · backend=" + active_backend +
         " · threads=" + std::to_string(active_threads));
 }

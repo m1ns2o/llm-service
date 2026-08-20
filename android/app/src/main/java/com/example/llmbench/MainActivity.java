@@ -50,6 +50,10 @@ public final class MainActivity extends Activity {
     private final ExecutorService nativeExecutor = Executors.newSingleThreadExecutor();
     private final Map<String, ModelSpec> models = new HashMap<>();
     private WebView webView;
+    private String activeModelPath;
+    private String activeBackend = "unloaded";
+    private List<String> activeBackendOrder = new ArrayList<>();
+    private int activeThreads = 1;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -146,13 +150,50 @@ public final class MainActivity extends Activity {
                 && getPackageManager().hasSystemFeature(PackageManager.FEATURE_VULKAN_HARDWARE_LEVEL);
     }
 
-    private String preferredGpuBackend() {
+    private boolean isQualcommDevice() {
         String hardware = Build.HARDWARE == null ? "" : Build.HARDWARE.toLowerCase(Locale.US);
         String board = Build.BOARD == null ? "" : Build.BOARD.toLowerCase(Locale.US);
-        // llama.cpp's optimized OpenCL kernels are the verified path for
-        // Qualcomm Adreno. Other Android GPUs retain the portable Vulkan path.
-        if (hardware.contains("qcom") || board.contains("sun")) return "opencl";
-        return hasVulkan() ? "vulkan" : "cpu-arm64";
+        String socManufacturer = Build.VERSION.SDK_INT >= 31 && Build.SOC_MANUFACTURER != null
+                ? Build.SOC_MANUFACTURER.toLowerCase(Locale.US) : "";
+        String socModel = Build.VERSION.SDK_INT >= 31 && Build.SOC_MODEL != null
+                ? Build.SOC_MODEL.toLowerCase(Locale.US) : "";
+        return hardware.contains("qcom") || board.contains("qcom") || board.contains("sun")
+                || socManufacturer.contains("qualcomm") || socModel.contains("snapdragon")
+                || socModel.startsWith("sm");
+    }
+
+    private List<String> preferredBackendOrder() {
+        List<String> result = new ArrayList<>();
+        if (isQualcommDevice()) {
+            // Adreno's optimized OpenCL kernels are fastest on verified Snapdragon devices.
+            result.add("opencl");
+            if (hasVulkan()) result.add("vulkan");
+        } else {
+            // Mali, Xclipse and PowerVR use portable Vulkan first. The OpenCL
+            // probe is retained for devices exposing a compatible generic backend.
+            if (hasVulkan()) result.add("vulkan");
+            result.add("opencl");
+        }
+        result.add("cpu-arm64");
+        return result;
+    }
+
+    private String backendPolicy(List<String> order) {
+        return String.join(",", order);
+    }
+
+    private List<String> remainingBackends(List<String> order, String usedBackend) {
+        int current = order.indexOf(usedBackend);
+        if (current < 0 || current + 1 >= order.size()) return new ArrayList<>();
+        return new ArrayList<>(order.subList(current + 1, order.size()));
+    }
+
+    private String actualBackend(String status, String fallback) {
+        int marker = status.indexOf("backend=");
+        if (marker < 0) return fallback;
+        int start = marker + "backend=".length();
+        int end = status.indexOf(" ·", start);
+        return (end < 0 ? status.substring(start) : status.substring(start, end)).trim();
     }
 
     private ModelSpec resolveModel(String webModelId) {
@@ -211,9 +252,23 @@ public final class MainActivity extends Activity {
                 JSONObject result = new JSONObject();
                 result.put("native", true);
                 result.put("runtime", "llama.cpp JNI");
-                result.put("backend", preferredGpuBackend());
+                List<String> backendOrder = preferredBackendOrder();
+                result.put("backend", backendOrder.get(0));
+                result.put("backendOrder", new JSONArray(backendOrder));
+                JSONArray nativeBackends = new JSONArray();
+                for (String backend : NativeRuntime.availableBackends().split(",")) {
+                    if (!backend.isEmpty()) nativeBackends.put(backend);
+                }
+                result.put("nativeBackends", nativeBackends);
                 result.put("ramMb", memory.totalMem / (1024 * 1024));
                 result.put("device", Build.MANUFACTURER + " " + Build.MODEL);
+                result.put("hardware", Build.HARDWARE == null ? "" : Build.HARDWARE);
+                result.put("board", Build.BOARD == null ? "" : Build.BOARD);
+                if (Build.VERSION.SDK_INT >= 31) {
+                    result.put("socManufacturer", Build.SOC_MANUFACTURER == null ? "" : Build.SOC_MANUFACTURER);
+                    result.put("socModel", Build.SOC_MODEL == null ? "" : Build.SOC_MODEL);
+                }
+                result.put("vulkan", hasVulkan());
                 JSONArray available = new JSONArray();
                 for (ModelSpec spec : models.values()) available.put(spec.id);
                 result.put("models", available);
@@ -237,13 +292,20 @@ public final class MainActivity extends Activity {
                                     .put("progress", fraction).put("label", spec.name));
                         } catch (Exception ignored) {}
                     });
-                    String backend = preferredGpuBackend();
+                    List<String> backendOrder = preferredBackendOrder();
                     int cores = Runtime.getRuntime().availableProcessors();
                     int threads = Math.max(1, Math.min(8, cores - 2));
-                    String status = NativeRuntime.loadModel(file.getAbsolutePath(), backend, threads, 4096);
+                    String status = NativeRuntime.loadModel(
+                            file.getAbsolutePath(), backendPolicy(backendOrder), threads, 4096);
                     if (!status.startsWith("ready:")) throw new IllegalStateException(status);
+                    String loadedBackend = actualBackend(status, backendOrder.get(0));
+                    activeModelPath = file.getAbsolutePath();
+                    activeBackendOrder = backendOrder;
+                    activeBackend = loadedBackend;
+                    activeThreads = threads;
                     dispatch("model-ready", requestId, new JSONObject()
-                            .put("status", status).put("backend", backend).put("cached", file.exists()));
+                            .put("status", status).put("backend", loadedBackend)
+                            .put("attemptedBackends", new JSONArray(backendOrder)).put("cached", file.exists()));
                 } catch (Throwable error) {
                     dispatchError(requestId, error);
                 }
@@ -266,19 +328,33 @@ public final class MainActivity extends Activity {
                     float temperature = (float) request.optDouble("temperature", 0.7);
                     long started = System.nanoTime();
                     final int[] tokenPieces = {0};
-                    String result = NativeRuntime.generate(
-                            roles.toArray(new String[0]), contents.toArray(new String[0]),
-                            maxTokens, temperature, token -> {
-                                tokenPieces[0]++;
-                                try { dispatch("token", requestId, new JSONObject().put("text", token)); }
-                                catch (Exception ignored) {}
-                            });
+                    String result;
+                    while (true) {
+                        result = NativeRuntime.generate(
+                                roles.toArray(new String[0]), contents.toArray(new String[0]),
+                                maxTokens, temperature, token -> {
+                                    tokenPieces[0]++;
+                                    try { dispatch("token", requestId, new JSONObject().put("text", token)); }
+                                    catch (Exception ignored) {}
+                                });
+                        if (tokenPieces[0] > 0 || !result.startsWith("실행 실패")) break;
+                        List<String> remaining = remainingBackends(activeBackendOrder, activeBackend);
+                        if (activeModelPath == null || remaining.isEmpty()) break;
+                        String status = NativeRuntime.loadModel(
+                                activeModelPath, backendPolicy(remaining), activeThreads, 4096);
+                        if (!status.startsWith("ready:")) break;
+                        String fallbackBackend = actualBackend(status, remaining.get(0));
+                        if (fallbackBackend.equals(activeBackend)) break;
+                        activeBackendOrder = remaining;
+                        activeBackend = fallbackBackend;
+                    }
                     long elapsedMs = (System.nanoTime() - started) / 1_000_000;
                     if (tokenPieces[0] == 0 && result.startsWith("실행")) {
                         throw new IllegalStateException(result);
                     }
                     dispatch("done", requestId, new JSONObject()
-                            .put("elapsedMs", elapsedMs).put("tokenPieces", tokenPieces[0]));
+                            .put("elapsedMs", elapsedMs).put("tokenPieces", tokenPieces[0])
+                            .put("backend", activeBackend));
                 } catch (Throwable error) {
                     dispatchError(requestId, error);
                 }

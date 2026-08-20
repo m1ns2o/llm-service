@@ -24,10 +24,17 @@ def validate_runtime_config(config: dict[str, Any]) -> None:
     if not isinstance(benchmark, dict) or benchmark.get("student_input_allowed") is not False:
         raise ValueError("fixed_benchmark must explicitly disallow student input")
     priority = android.get("backend_priority")
-    if priority != ["opencl", "vulkan", "cpu-arm64"]:
-        raise ValueError("android backend priority must be OpenCL, Vulkan, ARM CPU")
-    if set(priority) - BACKENDS:
-        raise ValueError("android backend priority contains an unknown backend")
+    if priority != ["vendor-adaptive", "cpu-arm64"]:
+        raise ValueError("android backend priority must be vendor-adaptive with ARM CPU fallback")
+    vendor_priority = android.get("backend_priority_by_gpu_vendor")
+    expected_vendor_priority = {
+        "qualcomm-adreno": ["opencl", "vulkan", "cpu-arm64"],
+        "default": ["vulkan", "opencl", "cpu-arm64"],
+    }
+    if vendor_priority != expected_vendor_priority:
+        raise ValueError("android vendor backend priorities are invalid")
+    if any(set(backends) - BACKENDS for backends in vendor_priority.values()):
+        raise ValueError("android vendor backend priority contains an unknown backend")
     if browser.get("wasm_cpu_fallback") is not True or browser.get("webgpu_priority") is not True:
         raise ValueError("browser must enable WebGPU priority and WASM CPU fallback")
     if set(browser.get("blocked_statuses", [])) != BLOCKED_STATUSES:

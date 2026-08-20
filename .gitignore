@@ -26,7 +26,9 @@ artifacts/compat-runtime/**/*.log
 !benchmarks/results/
 !benchmarks/results/**
 
+# Android/Gradle and native build output.
 android/.gradle/
+android/build/
 android/app/.cxx/
 android/app/build/
 android/app/src/main/assets/web/
@@ -39,7 +41,10 @@ android/**/local.properties
 *.jks
 *.keystore
 
+# Nuxt dependencies, generated output, and local deployment state.
 web/node_modules/
 web/.nuxt/
 web/.nuxt-android/
 web/.output/
+web/dist/
+web/.netlify/

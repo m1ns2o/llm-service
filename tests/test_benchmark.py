@@ -32,11 +32,33 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_runtime_config_enforces_platform_order_and_fallback(self):
         config = load_runtime_config(ROOT / "configs/runtime.json")
-        self.assertEqual(config["android"]["backend_priority"], ["opencl", "vulkan", "cpu-arm64"])
+        self.assertEqual(config["android"]["backend_priority"], ["vendor-adaptive", "cpu-arm64"])
+        self.assertEqual(
+            config["android"]["backend_priority_by_gpu_vendor"],
+            {
+                "qualcomm-adreno": ["opencl", "vulkan", "cpu-arm64"],
+                "default": ["vulkan", "opencl", "cpu-arm64"],
+            },
+        )
         self.assertFalse(config["fixed_benchmark"]["student_input_allowed"])
         self.assertEqual(config["browser"]["native_build_script"], "scripts/build_wllama_webgpu.sh")
         self.assertTrue(config["browser"]["wasm_memory64_required"])
         self.assertIn("do not gate on free RAM", config["browser"]["memory_preflight_policy"])
+
+    def test_android_native_runtime_selects_the_requested_gpu_device(self):
+        activity = (ROOT / "android/app/src/main/java/com/example/llmbench/MainActivity.java").read_text(
+            encoding="utf-8"
+        )
+        native = (ROOT / "android/app/src/main/cpp/llama_runtime_jni.cpp").read_text(encoding="utf-8")
+        self.assertIn('private List<String> preferredBackendOrder()', activity)
+        self.assertIn('result.add("opencl");', activity)
+        self.assertIn('if (hasVulkan()) result.add("vulkan");', activity)
+        self.assertIn('parse_backend_order', native)
+        self.assertIn('available_backends()', native)
+        self.assertIn('probe_model_backend(candidate)', native)
+        self.assertIn('params.devices = selected_devices.data();', native)
+        self.assertIn('active_backend = candidate;', native)
+        self.assertIn('remainingBackends(activeBackendOrder, activeBackend)', activity)
 
     def test_browser_14b_runtime_artifact_and_provenance(self):
         models, _ = load_manifest(ROOT / "configs/models.json")
